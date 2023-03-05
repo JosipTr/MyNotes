@@ -15,13 +15,26 @@ class AddModifyNotePage extends StatelessWidget {
       BuildContext context,
       NoteBloc action) {
     {
-      if (titleController.text.isEmpty && contentController.text.isEmpty) {
+      if (titleController.text.isEmpty &&
+          contentController.text.isEmpty &&
+          note != null) {
+        action.add(RemoveNoteEvent(note!));
+        action.add(const GetAllNotesEvent());
+        Navigator.of(context).pop();
+      } else if (titleController.text.isEmpty &&
+          contentController.text.isEmpty &&
+          note == null) {
+        Navigator.of(context).pop();
+      } else if (note != null) {
+        note!.title = titleController.text.trim();
+        note!.content = contentController.text.trim();
+        action.add(UpdateNoteEvent(note!));
+        action.add(const GetAllNotesEvent());
         Navigator.of(context).pop();
       } else {
         final newNote = Note(
             title: titleController.text.trim(),
             content: contentController.text.trim());
-        action.add(RemoveNoteEvent(note!));
         action.add(InsertNoteEvent(newNote));
         action.add(const GetAllNotesEvent());
         Navigator.of(context).pop();
@@ -36,7 +49,7 @@ class AddModifyNotePage extends StatelessWidget {
         : TextEditingController(text: note!.title);
     final contentController = note == null
         ? TextEditingController()
-        : TextEditingController(text: note!.title);
+        : TextEditingController(text: note!.content);
     final action = context.read<NoteBloc>();
 
     return Scaffold(
@@ -48,26 +61,25 @@ class AddModifyNotePage extends StatelessWidget {
           _addNote(titleController, contentController, context, action);
           return true;
         },
-        child: Column(
-          children: [
-            TextFormField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                hintText: 'Title',
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              TextFormField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  hintText: 'Title',
+                ),
               ),
-            ),
-            TextFormField(
-              controller: contentController,
-              decoration: const InputDecoration(
-                hintText: 'Content',
+              TextFormField(
+                controller: contentController,
+                decoration: const InputDecoration(
+                  hintText: 'Content',
+                  border: InputBorder.none,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  _addNote(titleController, contentController, context, action),
-              child: const Text('Save'),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

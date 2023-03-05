@@ -35,8 +35,6 @@ class ListItem extends StatelessWidget {
                     },
                   ),
                 ),
-                leading:
-                    CircleAvatar(child: Text(state.notes[index].id.toString())),
                 title: Text(
                   state.notes[index].title!,
                   maxLines: 1,
@@ -44,7 +42,7 @@ class ListItem extends StatelessWidget {
                 ),
                 subtitle: Text(
                   state.notes[index].content!,
-                  maxLines: 2,
+                  maxLines: 1,
                 ),
                 trailing: IconButton(
                   onPressed: () {

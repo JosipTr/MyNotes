@@ -21,8 +21,10 @@ class MyApp extends StatelessWidget {
     return BlocProvider<NoteBloc>(
       create: (_) => di()..add(const GetAllNotesEvent()),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'NotesApp',
         theme: ThemeData(
+          fontFamily: 'PlayfairDisplay',
           textTheme: const TextTheme(
             labelLarge: TextStyle(
               color: Color.fromRGBO(43, 52, 103, 1),
