@@ -1,16 +1,14 @@
-import 'package:flutter_notes/features/my_notes/data/datasources/local_data_sources/database/database.dart';
-
 import '../../../domain/entities/note.dart';
-import '../../models/note_model.dart';
+import 'database/database.dart';
 
 abstract class NoteLocalDataSource {
-  Future<List<NoteModel>> getAllNotes();
+  Future<List<Note>> getAllNotes();
 
-  Future<void> removeNote(NoteModel note);
+  Future<void> removeNote(Note note);
 
-  Future<void> insertNote(NoteModel note);
+  Future<void> insertNote(Note note);
 
-  Future<void> updateNote(NoteModel note);
+  Future<void> updateNote(Note note);
 }
 
 class NoteLocalDataSourceImpl implements NoteLocalDataSource {
@@ -19,22 +17,22 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   const NoteLocalDataSourceImpl(this._appDatabase);
 
   @override
-  Future<List<NoteModel>> getAllNotes() {
+  Future<List<Note>> getAllNotes() {
     return _appDatabase.noteDao.getAllNotes();
   }
 
   @override
-  Future<void> insertNote(NoteModel note) {
+  Future<void> insertNote(Note note) {
     return _appDatabase.noteDao.insertNote(note);
   }
 
   @override
-  Future<void> removeNote(NoteModel note) {
+  Future<void> removeNote(Note note) {
     return _appDatabase.noteDao.removeNote(note);
   }
 
   @override
-  Future<void> updateNote(NoteModel note) {
+  Future<void> updateNote(Note note) {
     return _appDatabase.noteDao.updateNote(note);
   }
 }

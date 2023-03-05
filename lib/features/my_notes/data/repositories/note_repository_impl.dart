@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_notes/features/my_notes/data/models/note_model.dart';
 
 import '../../../../core/errors/exception.dart';
 import '../../../../core/errors/failure.dart';
@@ -25,8 +24,7 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Either<Failure, void>> insertNote(Note note) async {
     try {
-      final noteModel = _builNoteModel(note);
-      return Right(await _noteLocalDataSource.insertNote(noteModel));
+      return Right(await _noteLocalDataSource.insertNote(note));
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
@@ -35,8 +33,7 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Either<Failure, void>> removeNote(Note note) async {
     try {
-      final noteModel = _builNoteModel(note);
-      return Right(_noteLocalDataSource.insertNote(noteModel));
+      return Right(_noteLocalDataSource.removeNote(note));
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
@@ -45,14 +42,9 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Either<Failure, void>> updateNote(Note note) async {
     try {
-      final noteModel = _builNoteModel(note);
-      return Right(await _noteLocalDataSource.updateNote(noteModel));
+      return Right(await _noteLocalDataSource.updateNote(note));
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
   }
-}
-
-NoteModel _builNoteModel(Note note) {
-  return NoteModel(note.id, note.title, note.content);
 }

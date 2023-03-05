@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'database.dart';
 
 // **************************************************************************
@@ -85,7 +87,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `NoteModel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT, `id` INTEGER, `title` TEXT, `content` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -104,37 +106,28 @@ class _$NoteDao extends NoteDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _noteModelInsertionAdapter = InsertionAdapter(
+        _noteInsertionAdapter = InsertionAdapter(
             database,
-            'NoteModel',
-            (NoteModel item) => <String, Object?>{
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
+            'Note',
+            (Note item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'content': item.content
                 }),
-        _noteModelUpdateAdapter = UpdateAdapter(
+        _noteUpdateAdapter = UpdateAdapter(
             database,
-            'NoteModel',
+            'Note',
             ['id'],
-            (NoteModel item) => <String, Object?>{
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
+            (Note item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'content': item.content
                 }),
-        _noteModelDeletionAdapter = DeletionAdapter(
+        _noteDeletionAdapter = DeletionAdapter(
             database,
-            'NoteModel',
+            'Note',
             ['id'],
-            (NoteModel item) => <String, Object?>{
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
+            (Note item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'content': item.content
@@ -146,31 +139,33 @@ class _$NoteDao extends NoteDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<NoteModel> _noteModelInsertionAdapter;
+  final InsertionAdapter<Note> _noteInsertionAdapter;
 
-  final UpdateAdapter<NoteModel> _noteModelUpdateAdapter;
+  final UpdateAdapter<Note> _noteUpdateAdapter;
 
-  final DeletionAdapter<NoteModel> _noteModelDeletionAdapter;
+  final DeletionAdapter<Note> _noteDeletionAdapter;
 
   @override
-  Future<List<NoteModel>> getAllNotes() async {
+  Future<List<Note>> getAllNotes() async {
     return _queryAdapter.queryList('SELECT * FROM Note',
-        mapper: (Map<String, Object?> row) => NoteModel(row['id'] as int?,
-            row['title'] as String?, row['content'] as String?));
+        mapper: (Map<String, Object?> row) => Note(
+            id: row['id'] as int?,
+            title: row['title'] as String?,
+            content: row['content'] as String?));
   }
 
   @override
-  Future<void> insertNote(NoteModel note) async {
-    await _noteModelInsertionAdapter.insert(note, OnConflictStrategy.abort);
+  Future<void> insertNote(Note note) async {
+    await _noteInsertionAdapter.insert(note, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateNote(NoteModel note) async {
-    await _noteModelUpdateAdapter.update(note, OnConflictStrategy.abort);
+  Future<void> updateNote(Note note) async {
+    await _noteUpdateAdapter.update(note, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> removeNote(NoteModel note) async {
-    await _noteModelDeletionAdapter.delete(note);
+  Future<void> removeNote(Note note) async {
+    await _noteDeletionAdapter.delete(note);
   }
 }

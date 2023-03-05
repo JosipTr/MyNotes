@@ -1,19 +1,18 @@
 import 'package:floor/floor.dart';
 
 import '../../../../domain/entities/note.dart';
-import '../../../models/note_model.dart';
 
 @dao
 abstract class NoteDao {
   @Query('SELECT * FROM Note')
-  Future<List<NoteModel>> getAllNotes();
+  Future<List<Note>> getAllNotes();
 
   @delete
-  Future<void> removeNote(NoteModel note);
+  Future<void> removeNote(Note note);
 
   @insert
-  Future<void> insertNote(NoteModel note);
+  Future<void> insertNote(Note note);
 
   @update
-  Future<void> updateNote(NoteModel note);
+  Future<void> updateNote(Note note);
 }

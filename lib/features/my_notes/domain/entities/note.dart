@@ -1,9 +1,13 @@
-class Note {
-  final int? id;
-  final String? title;
-  final String? content;
+import 'package:floor/floor.dart';
 
-  const Note({
+@entity
+class Note {
+  @PrimaryKey(autoGenerate: true)
+  int? id;
+  String? title;
+  String? content;
+
+  Note({
     this.id,
     required this.title,
     required this.content,
