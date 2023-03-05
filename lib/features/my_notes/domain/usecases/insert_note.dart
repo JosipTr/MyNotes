@@ -1,15 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_notes/features/my_notes/domain/repositories/note_repository.dart';
 
 import '../../../../core/errors/failure.dart';
+import '../../../../core/usecases/usecase.dart';
 import '../entities/note.dart';
+import '../repositories/note_repository.dart';
 
-class InsertNote {
+class InsertNote implements UseCase<void, Note> {
   final NoteRepository _repository;
 
   const InsertNote(this._repository);
 
-  Future<Either<Failure, void>> insertNote(Note note) async {
-    return await _repository.insertNote(note);
+  @override
+  Future<Either<Failure, void>> call({Params? params}) async {
+    return await _repository.insertNote(params!.note);
   }
 }
