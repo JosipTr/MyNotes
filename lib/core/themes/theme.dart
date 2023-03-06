@@ -28,7 +28,8 @@ ThemeData getThemeData() {
         const Color.fromRGBO(43, 52, 103, 1),
       ),
     ).copyWith(
-      background: const Color.fromRGBO(186, 215, 233, 1),
+      background: scaffoldBackgroundColor,
     ),
+    scaffoldBackgroundColor: scaffoldBackgroundColor,
   );
 }
