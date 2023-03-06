@@ -22,7 +22,7 @@ class ListItem extends StatelessWidget {
           margin: const EdgeInsets.all(8),
           elevation: 5,
           child: ListTile(
-            onTap: () => context.go('/addNote', extra: state.notes[index]),
+            onTap: () => context.go('/addNoteArg', extra: state.notes[index]),
             title: Text(
               state.notes[index].title!,
               maxLines: 1,
