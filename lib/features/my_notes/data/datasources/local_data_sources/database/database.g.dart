@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: library_private_types_in_public_api
-
 part of 'database.dart';
 
 // **************************************************************************
@@ -87,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT, `date` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -112,7 +110,8 @@ class _$NoteDao extends NoteDao {
             (Note item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
-                  'content': item.content
+                  'content': item.content,
+                  'date': item.date
                 }),
         _noteUpdateAdapter = UpdateAdapter(
             database,
@@ -121,7 +120,8 @@ class _$NoteDao extends NoteDao {
             (Note item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
-                  'content': item.content
+                  'content': item.content,
+                  'date': item.date
                 }),
         _noteDeletionAdapter = DeletionAdapter(
             database,
@@ -130,7 +130,8 @@ class _$NoteDao extends NoteDao {
             (Note item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
-                  'content': item.content
+                  'content': item.content,
+                  'date': item.date
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -151,7 +152,8 @@ class _$NoteDao extends NoteDao {
         mapper: (Map<String, Object?> row) => Note(
             id: row['id'] as int?,
             title: row['title'] as String?,
-            content: row['content'] as String?));
+            content: row['content'] as String?,
+            date: row['date'] as String?));
   }
 
   @override

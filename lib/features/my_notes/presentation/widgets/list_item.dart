@@ -40,9 +40,18 @@ class ListItem extends StatelessWidget {
                   maxLines: 1,
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
-                subtitle: Text(
-                  state.notes[index].content!,
-                  maxLines: 1,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      state.notes[index].content!,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      state.notes[index].date!,
+                      maxLines: 1,
+                    ),
+                  ],
                 ),
                 trailing: IconButton(
                   onPressed: () {
