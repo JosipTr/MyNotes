@@ -13,10 +13,6 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: 'addNote',
-          builder: (context, state) => const AddModifyNotePage(),
-        ),
-        GoRoute(
-          path: 'addNoteArg',
           builder: (context, state) => AddModifyNotePage(
             note: state.extra as Note?,
           ),
