@@ -33,3 +33,5 @@ Color shadeColor(Color color, double factor) => Color.fromRGBO(
     shadeValue(color.green, factor),
     shadeValue(color.blue, factor),
     1);
+
+const labelColor = Color.fromRGBO(43, 52, 103, 1);

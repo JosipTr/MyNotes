@@ -10,6 +10,13 @@ class AddModifyNotePage extends StatelessWidget {
   final Note? note;
   const AddModifyNotePage({super.key, this.note});
 
+  String _getDateTime() {
+    final dateTime = DateTime.now();
+    final dateFormat = DateFormat.yMd();
+    final newDate = dateFormat.format(dateTime);
+    return newDate;
+  }
+
   void _addNote(
       TextEditingController titleController,
       TextEditingController contentController,
@@ -27,24 +34,17 @@ class AddModifyNotePage extends StatelessWidget {
           note == null) {
         Navigator.of(context).pop();
       } else if (note != null) {
-        final dateTime = DateTime.now();
-        final dateFormat = DateFormat.yMd();
-        final newDate = dateFormat.format(dateTime);
         note!.title = titleController.text.trim();
         note!.content = contentController.text.trim();
-        note!.date = newDate;
+        note!.date = _getDateTime();
         action.add(UpdateNoteEvent(note!));
         action.add(const GetAllNotesEvent());
         Navigator.of(context).pop();
       } else {
-        var dateTime = DateTime.now();
-        var dateFormat = DateFormat.yMd();
-        var newDate = dateFormat.format(dateTime);
-        print(newDate);
         final newNote = Note(
-          title: titleController.text.trim(),
+          title: titleController.text.toUpperCase().trim(),
           content: contentController.text.trim(),
-          date: newDate,
+          date: _getDateTime(),
         );
         action.add(InsertNoteEvent(newNote));
         action.add(const GetAllNotesEvent());
@@ -73,23 +73,28 @@ class AddModifyNotePage extends StatelessWidget {
           return true;
         },
         child: Container(
-          margin: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: titleController,
-                decoration: const InputDecoration(
-                  hintText: 'Title',
+          color: Theme.of(context).colorScheme.background,
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    hintText: 'Title',
+                  ),
                 ),
-              ),
-              TextFormField(
-                controller: contentController,
-                decoration: const InputDecoration(
-                  hintText: 'Content',
-                  border: InputBorder.none,
+                TextFormField(
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  controller: contentController,
+                  decoration: const InputDecoration(
+                    hintText: 'Content',
+                    border: InputBorder.none,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
