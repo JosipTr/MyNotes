@@ -15,12 +15,16 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyNotes'),
-        actions: [
-          IconButton(
-            onPressed: () => context.go('/addNote'),
-            icon: const Icon(Icons.add),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.note_add,
+            color: Theme.of(context).iconTheme.color,
           ),
-        ],
+          onPressed: () => context.go('/addNote'),
+        ),
       ),
       body: BlocBuilder<NoteBloc, NoteState>(
         builder: (context, state) {

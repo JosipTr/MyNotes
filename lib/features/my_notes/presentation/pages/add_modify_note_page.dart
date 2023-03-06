@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
+import '../../../../core/functions/get_datetime.dart';
 import '../../domain/entities/note.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
@@ -10,13 +10,6 @@ import '../bloc/note_event.dart';
 class AddModifyNotePage extends StatelessWidget {
   final Note? note;
   const AddModifyNotePage({super.key, this.note});
-
-  String _getDateTime() {
-    final dateTime = DateTime.now();
-    final dateFormat = DateFormat('dd.MM.yyyy');
-    final newDate = dateFormat.format(dateTime);
-    return newDate;
-  }
 
   void _addNote(
       TextEditingController titleController,
@@ -37,7 +30,7 @@ class AddModifyNotePage extends StatelessWidget {
       } else if (note != null) {
         note!.title = titleController.text.trim();
         note!.content = contentController.text.trim();
-        note!.date = _getDateTime();
+        note!.date = getDateTime();
         action.add(UpdateNoteEvent(note!));
         action.add(const GetAllNotesEvent());
         context.pop();
@@ -45,7 +38,7 @@ class AddModifyNotePage extends StatelessWidget {
         final newNote = Note(
           title: titleController.text.trim(),
           content: contentController.text.trim(),
-          date: _getDateTime(),
+          date: getDateTime(),
         );
         action.add(InsertNoteEvent(newNote));
         action.add(const GetAllNotesEvent());
