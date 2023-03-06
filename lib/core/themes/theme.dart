@@ -3,23 +3,21 @@ import '../colors/generate_material_color.dart';
 
 ThemeData getThemeData() {
   return ThemeData(
+    fontFamily: 'PlayfairDisplay',
     textTheme: const TextTheme(
       labelLarge: TextStyle(
         color: labelColor,
-        fontSize: 16,
-        fontFamily: 'PlayfairDisplay',
+        fontSize: 19,
         fontWeight: FontWeight.bold,
       ),
       labelMedium: TextStyle(
         color: labelColor,
-        fontFamily: 'PlayfairDisplay',
-        fontSize: 14,
+        fontSize: 17,
       ),
       labelSmall: TextStyle(
         color: labelColor,
-        fontFamily: 'PlayfairDisplay',
         fontStyle: FontStyle.italic,
-        fontSize: 13,
+        fontSize: 15,
       ),
     ),
     cardColor: const Color.fromRGBO(252, 255, 231, 1),

@@ -13,7 +13,7 @@ class AddModifyNotePage extends StatelessWidget {
 
   String _getDateTime() {
     final dateTime = DateTime.now();
-    final dateFormat = DateFormat.yMd();
+    final dateFormat = DateFormat('dd.MM.yyyy');
     final newDate = dateFormat.format(dateTime);
     return newDate;
   }

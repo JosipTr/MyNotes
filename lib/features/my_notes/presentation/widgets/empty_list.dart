@@ -16,6 +16,7 @@ class EmptyList extends StatelessWidget {
           ),
           const Text(
             'No notes added!',
+            style: TextStyle(fontSize: 19),
           )
         ],
       ),
