@@ -19,9 +19,8 @@ class HomePage extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(30.0),
         child: FloatingActionButton(
-          child: Icon(
+          child: const Icon(
             Icons.note_add,
-            color: Theme.of(context).iconTheme.color,
           ),
           onPressed: () => context.go('/addNote'),
         ),

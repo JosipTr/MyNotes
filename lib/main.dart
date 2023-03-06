@@ -5,6 +5,7 @@ import 'core/routes/router.dart';
 import 'core/themes/theme.dart';
 import 'features/my_notes/presentation/bloc/note_bloc.dart';
 import 'features/my_notes/presentation/bloc/note_event.dart';
+import 'features/my_notes/presentation/bloc/selection_cubit.dart';
 import 'injector.dart';
 
 Future<void> main() async {
@@ -18,8 +19,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NoteBloc>(
-      create: (_) => di()..add(const GetAllNotesEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<NoteBloc>(
+          create: (_) => di()
+            ..add(
+              const GetAllNotesEvent(),
+            ),
+        ),
+        BlocProvider(
+          create: (_) => SelectionCubit(),
+        ),
+      ],
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
