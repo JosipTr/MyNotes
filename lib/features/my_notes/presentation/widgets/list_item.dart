@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
@@ -23,14 +24,7 @@ class ListItem extends StatelessWidget {
           margin: const EdgeInsets.all(8),
           elevation: 5,
           child: ListTile(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return AddModifyNotePage(note: state.notes[index]);
-                },
-              ),
-            ),
+            onTap: () => context.go('/addNote', extra: state.notes[index]),
             title: Text(
               state.notes[index].title!,
               maxLines: 1,
