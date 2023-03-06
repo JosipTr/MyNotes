@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 import '../widgets/list_item.dart';
-import 'add_modify_note_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print('build homepage');
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyNotes'),
         actions: [
           IconButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const AddModifyNotePage();
-                },
-              ),
-            ),
+            onPressed: () => context.go('/addNote'),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -35,9 +28,7 @@ class HomePage extends StatelessWidget {
             return ListItem(state: state);
           }
           if (state is Empty) {
-            return const Center(
-              child: Text('Empty list'),
-            );
+            return const EmptyList();
           }
           if (state is Loading) {
             return const Center(

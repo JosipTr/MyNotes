@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
-import '../pages/add_modify_note_page.dart';
 
 class ListItem extends StatelessWidget {
   final Loaded state;
@@ -16,7 +15,6 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
     return ListView.builder(
       itemCount: state.notes.length,
       itemBuilder: (context, index) {

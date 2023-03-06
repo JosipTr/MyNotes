@@ -5,11 +5,11 @@ import '../../features/my_notes/presentation/pages/home_page.dart';
 
 // GoRouter configuration
 final router = GoRouter(
-  routes: <RouteBase>[
+  routes: [
     GoRoute(
       path: '/',
       builder: (context, state) => const HomePage(),
-      routes: <RouteBase>[
+      routes: [
         GoRoute(
           path: 'addNote',
           builder: (context, state) => const AddModifyNotePage(),

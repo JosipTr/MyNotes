@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entities/note.dart';
@@ -28,27 +29,27 @@ class AddModifyNotePage extends StatelessWidget {
           note != null) {
         action.add(RemoveNoteEvent(note!));
         action.add(const GetAllNotesEvent());
-        Navigator.of(context).pop();
+        context.pop();
       } else if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
           note == null) {
-        Navigator.of(context).pop();
+        context.pop();
       } else if (note != null) {
         note!.title = titleController.text.trim();
         note!.content = contentController.text.trim();
         note!.date = _getDateTime();
         action.add(UpdateNoteEvent(note!));
         action.add(const GetAllNotesEvent());
-        Navigator.of(context).pop();
+        context.pop();
       } else {
         final newNote = Note(
-          title: titleController.text.toUpperCase().trim(),
+          title: titleController.text.trim(),
           content: contentController.text.trim(),
           date: _getDateTime(),
         );
         action.add(InsertNoteEvent(newNote));
         action.add(const GetAllNotesEvent());
-        Navigator.of(context).pop();
+        context.pop();
       }
     }
   }
