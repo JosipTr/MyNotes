@@ -34,7 +34,7 @@ class NoteModifiedState extends NoteState {
 }
 
 class NoteSelectedState extends NoteState {
-  final String note;
+  final Note note;
 
   const NoteSelectedState(this.note);
 }
