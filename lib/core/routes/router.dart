@@ -20,4 +20,9 @@ final router = GoRouter(
       ],
     ),
   ],
+  redirect: (context, state) {
+    if (state.path == 'addNote') {
+      context.pop();
+    }
+  },
 );

@@ -22,18 +22,15 @@ class AddModifyNotePage extends StatelessWidget {
           note != null) {
         action.add(RemoveNoteEvent(note!));
         action.add(const GetAllNotesEvent());
-        context.pop();
       } else if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
           note == null) {
-        context.pop();
       } else if (note != null) {
         note!.title = titleController.text.trim();
         note!.content = contentController.text.trim();
         note!.date = getDateTime();
         action.add(UpdateNoteEvent(note!));
         action.add(const GetAllNotesEvent());
-        context.pop();
       } else {
         final newNote = Note(
           title: titleController.text.trim(),
@@ -42,13 +39,13 @@ class AddModifyNotePage extends StatelessWidget {
         );
         action.add(InsertNoteEvent(newNote));
         action.add(const GetAllNotesEvent());
-        context.pop();
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Addnote build');
     final titleController = note == null
         ? TextEditingController()
         : TextEditingController(text: note!.title);

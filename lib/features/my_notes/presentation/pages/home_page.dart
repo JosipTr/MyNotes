@@ -12,43 +12,46 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MyNotes'),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: FloatingActionButton(
-          child: const Icon(
-            Icons.note_add,
-          ),
-          onPressed: () => context.go('/addNote'),
+    print('homepage build');
+    return BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('MyNotes'),
         ),
-      ),
-      body: BlocBuilder<NoteBloc, NoteState>(
-        builder: (context, state) {
-          if (state is Loaded) {
-            return ListItem(state: state);
-          }
-          if (state is Empty) {
-            return const EmptyList();
-          }
-          if (state is Loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is Error) {
-            return Center(
-              child: Text(state.message),
-            );
-          } else {
-            return const Center(
-              child: Text('Unexpected error'),
-            );
-          }
-        },
-      ),
-    );
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: FloatingActionButton(
+            child: const Icon(
+              Icons.note_add,
+            ),
+            onPressed: () => context.go('/addNote'),
+          ),
+        ),
+        body: BlocBuilder<NoteBloc, NoteState>(
+          builder: (context, state) {
+            if (state is Loaded) {
+              return ListItem(state: state);
+            }
+            if (state is Empty) {
+              return const EmptyList();
+            }
+            if (state is Loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is Error) {
+              return Center(
+                child: Text(state.message),
+              );
+            } else {
+              return const Center(
+                child: Text('Unexpected error'),
+              );
+            }
+          },
+        ),
+      );
+    });
   }
 }
