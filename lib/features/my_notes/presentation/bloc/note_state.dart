@@ -32,3 +32,9 @@ class NoteModifiedState extends NoteState {
   final String message;
   const NoteModifiedState(this.message);
 }
+
+class NoteSelectedState extends NoteState {
+  final String note;
+
+  const NoteSelectedState(this.note);
+}

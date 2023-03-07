@@ -22,7 +22,8 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<RemoveNoteEvent>(_onRemoveNoteEvent);
     on<InsertNoteEvent>(_onInsertNote);
     on<UpdateNoteEvent>(_onUpdateNoteEvent);
-  } //Probaj bez Initialstate
+    on<SelectNoteEvent>(_onSelectNoteEvent);
+  }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
     emit(const Loading());
@@ -54,5 +55,9 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     emit(const Loading());
     emit(const NoteModifiedState('Note successfully updated'));
     await _updateNote(params: Params(event.note));
+  }
+
+  void _onSelectNoteEvent(SelectNoteEvent event, Emitter<NoteState> emit) {
+    event.note.isSelected = !event.note.isSelected!;
   }
 }

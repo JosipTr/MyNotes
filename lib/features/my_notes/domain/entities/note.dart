@@ -7,7 +7,7 @@ class Note {
   String? title;
   String? content;
   String? date;
-
+  bool? isSelected = false;
   Note({
     this.id,
     required this.title,

@@ -24,3 +24,9 @@ class UpdateNoteEvent extends NoteEvent {
   final Note note;
   const UpdateNoteEvent(this.note);
 }
+
+class SelectNoteEvent extends NoteEvent {
+  final Note note;
+
+  const SelectNoteEvent(this.note);
+}

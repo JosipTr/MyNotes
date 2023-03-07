@@ -10,11 +10,8 @@ class AddModifyNotePage extends StatelessWidget {
   final Note? note;
   const AddModifyNotePage({super.key, this.note});
 
-  void _addNote(
-      TextEditingController titleController,
-      TextEditingController contentController,
-      BuildContext context,
-      NoteBloc action) {
+  void _addNote(TextEditingController titleController,
+      TextEditingController contentController, NoteBloc action) {
     {
       if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
@@ -63,7 +60,7 @@ class AddModifyNotePage extends StatelessWidget {
       ),
       body: WillPopScope(
         onWillPop: () async {
-          _addNote(titleController, contentController, context, action);
+          _addNote(titleController, contentController, action);
           return true;
         },
         child: Container(

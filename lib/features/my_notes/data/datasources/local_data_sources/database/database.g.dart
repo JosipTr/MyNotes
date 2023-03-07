@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: library_private_types_in_public_api
-
 part of 'database.dart';
 
 // **************************************************************************
@@ -87,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT, `date` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT, `date` TEXT, `isSelected` INTEGER)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -113,7 +111,10 @@ class _$NoteDao extends NoteDao {
                   'id': item.id,
                   'title': item.title,
                   'content': item.content,
-                  'date': item.date
+                  'date': item.date,
+                  'isSelected': item.isSelected == null
+                      ? null
+                      : (item.isSelected! ? 1 : 0)
                 }),
         _noteUpdateAdapter = UpdateAdapter(
             database,
@@ -123,7 +124,10 @@ class _$NoteDao extends NoteDao {
                   'id': item.id,
                   'title': item.title,
                   'content': item.content,
-                  'date': item.date
+                  'date': item.date,
+                  'isSelected': item.isSelected == null
+                      ? null
+                      : (item.isSelected! ? 1 : 0)
                 }),
         _noteDeletionAdapter = DeletionAdapter(
             database,
@@ -133,7 +137,10 @@ class _$NoteDao extends NoteDao {
                   'id': item.id,
                   'title': item.title,
                   'content': item.content,
-                  'date': item.date
+                  'date': item.date,
+                  'isSelected': item.isSelected == null
+                      ? null
+                      : (item.isSelected! ? 1 : 0)
                 });
 
   final sqflite.DatabaseExecutor database;
