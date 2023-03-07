@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../core/functions/get_datetime.dart';
 import '../../domain/entities/note.dart';
@@ -45,7 +44,6 @@ class AddModifyNotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Addnote build');
     final titleController = note == null
         ? TextEditingController()
         : TextEditingController(text: note!.title);

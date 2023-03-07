@@ -24,5 +24,6 @@ final router = GoRouter(
     if (state.path == 'addNote') {
       context.pop();
     }
+    return null;
   },
 );

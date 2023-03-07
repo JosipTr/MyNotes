@@ -12,7 +12,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('homepage build');
     return BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
