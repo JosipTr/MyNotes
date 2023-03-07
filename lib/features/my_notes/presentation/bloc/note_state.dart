@@ -27,3 +27,8 @@ class Error extends NoteState {
 
   const Error(this.message);
 }
+
+class NoteModifiedState extends NoteState {
+  final String message;
+  const NoteModifiedState(this.message);
+}

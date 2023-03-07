@@ -38,18 +38,21 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onInsertNote(InsertNoteEvent event, Emitter<NoteState> emit) async {
     emit(const Loading());
+    emit(const NoteModifiedState('Note successfully added'));
     await _insertNote(params: Params(event.note));
   }
 
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
     emit(const Loading());
+    emit(const NoteModifiedState('Note successfully removed'));
     await _removeNote(params: Params(event.note));
   }
 
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
     emit(const Loading());
+    emit(const NoteModifiedState('Note successfully updated'));
     await _updateNote(params: Params(event.note));
   }
 }
