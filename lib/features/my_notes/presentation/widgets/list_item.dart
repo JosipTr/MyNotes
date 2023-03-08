@@ -22,7 +22,7 @@ class ListItem extends StatelessWidget {
         return Card(
           margin: const EdgeInsets.all(8),
           elevation: 5,
-          color: state.notes[index].isSelected == true
+          color: state.notes[index].isSelected!
               ? Colors.blueGrey[200]
               : Theme.of(context).cardColor,
           child: ListTile(
@@ -64,7 +64,7 @@ class ListItem extends StatelessWidget {
                     .add(RemoveNoteEvent(state.notes[index]));
                 context.read<NoteBloc>().add(const GetAllNotesEvent());
               },
-              icon: state.notes[index].isSelected == true
+              icon: state.notes[index].isSelected!
                   ? Icon(
                       Icons.delete,
                       color: Theme.of(context).iconTheme.color,

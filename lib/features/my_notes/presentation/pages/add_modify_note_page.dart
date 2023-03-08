@@ -21,11 +21,11 @@ class AddModifyNotePage extends StatelessWidget {
       } else if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
           note == null) {
-        return;
+        action.add(const GetAllNotesEvent());
       } else if (note != null &&
           note!.title == titleController.text &&
           note!.content == contentController.text) {
-        return;
+        action.add(const GetAllNotesEvent());
       } else if (note != null) {
         note!.title = titleController.text.trim();
         note!.content = contentController.text.trim();
