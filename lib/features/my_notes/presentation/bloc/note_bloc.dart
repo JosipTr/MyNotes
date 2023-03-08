@@ -26,8 +26,8 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
+    final either = await _getAllNotes(noParams: NoParams());
     emit(const Loading());
-    var either = await _getAllNotes(noParams: NoParams());
     either.fold((failure) => emit(Error(failure.toString())), (notes) {
       if (notes.isEmpty) {
         emit(const Empty());
@@ -38,30 +38,50 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   }
 
   void _onInsertNote(InsertNoteEvent event, Emitter<NoteState> emit) async {
-    emit(const Loading());
-    emit(const NoteModifiedState('Note successfully added'));
-    await _insertNote(params: Params(event.note));
+    final either = await _insertNote(params: Params(event.note));
+    either.fold(
+        (failure) => emit(
+              const NoteModifiedState('Ooops! Something went wrong.'),
+            ), (_) {
+      emit(
+        const NoteModifiedState('Note successfully added!'),
+      );
+      emit(const Loading());
+    });
   }
 
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
-    emit(const Loading());
-    emit(const NoteModifiedState('Note successfully removed'));
-    await _removeNote(params: Params(event.note));
+    final either = await _removeNote(params: Params(event.note));
+    either.fold(
+        (failure) => emit(
+              const NoteModifiedState('Ooops! Something went wrong.'),
+            ), (_) {
+      emit(
+        const NoteModifiedState('Note successfully removed!'),
+      );
+      emit(const Loading());
+    });
   }
 
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
-    emit(const Loading());
-    emit(const NoteModifiedState('Note successfully updated'));
-    await _updateNote(params: Params(event.note));
+    final either = await _updateNote(params: Params(event.note));
+    either.fold(
+        (failure) => emit(
+              const NoteModifiedState('Ooops! Something went wrong.'),
+            ), (_) {
+      emit(
+        const NoteModifiedState('Note successfully updated!'),
+      );
+      emit(const Loading());
+    });
   }
 
   void _onSelectNoteEvent(
       SelectNoteEvent event, Emitter<NoteState> emit) async {
     event.note.isSelected = !event.note.isSelected!;
     await _updateNote(params: Params(event.note));
-    emit(const Loading());
     var either = await _getAllNotes(noParams: NoParams());
     either.fold(
       (failure) => emit(Error(failure.toString())),
