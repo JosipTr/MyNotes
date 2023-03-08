@@ -162,7 +162,10 @@ class _$NoteDao extends NoteDao {
             id: row['id'] as int?,
             title: row['title'] as String?,
             content: row['content'] as String?,
-            date: row['date'] as String?));
+            date: row['date'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0));
   }
 
   @override

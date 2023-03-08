@@ -16,7 +16,6 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('list_item build');
     return ListView.builder(
       itemCount: state.notes.length,
       itemBuilder: (context, index) {
@@ -27,7 +26,9 @@ class ListItem extends StatelessWidget {
               ? Colors.blueGrey[200]
               : Theme.of(context).cardColor,
           child: ListTile(
-            onLongPress: () {},
+            onLongPress: () {
+              context.read<NoteBloc>().add(SelectNoteEvent(state.notes[index]));
+            },
             onTap: () => context.go('/addNote', extra: state.notes[index]),
             title: Text(
               state.notes[index].title!,

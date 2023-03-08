@@ -33,8 +33,8 @@ class NoteModifiedState extends NoteState {
   const NoteModifiedState(this.message);
 }
 
-class NoteSelectedState extends NoteState {
-  final Note note;
+class NotesSelectedState extends NoteState {
+  final List<Note> notes;
 
-  const NoteSelectedState(this.note);
+  const NotesSelectedState(this.notes);
 }
