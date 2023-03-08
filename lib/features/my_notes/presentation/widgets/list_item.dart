@@ -29,7 +29,14 @@ class ListItem extends StatelessWidget {
             onLongPress: () {
               context.read<NoteBloc>().add(SelectNoteEvent(state.notes[index]));
             },
-            onTap: () => context.go('/addNote', extra: state.notes[index]),
+            onTap: () {
+              if (state.notes[index].isSelected!) {
+                context
+                    .read<NoteBloc>()
+                    .add(SelectNoteEvent(state.notes[index]));
+              }
+              context.go('/addNote', extra: state.notes[index]);
+            },
             title: Text(
               state.notes[index].title!,
               maxLines: 1,
