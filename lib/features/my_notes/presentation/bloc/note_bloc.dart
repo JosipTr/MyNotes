@@ -63,15 +63,11 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     await _updateNote(params: Params(event.note));
     emit(const Loading());
     var either = await _getAllNotes(noParams: NoParams());
-    either.fold((failure) => emit(Error(failure.toString())), (notes) {
-      if (notes.isEmpty) {
-        emit(const Empty());
-      } else {
-        for (int i = 0; i < notes.length; i++) {
-          print(notes[i].isSelected);
-        }
-        emit(Loaded(notes));
-      }
-    });
+    either.fold(
+      (failure) => emit(Error(failure.toString())),
+      (notes) => emit(
+        Loaded(notes),
+      ),
+    );
   }
 }
