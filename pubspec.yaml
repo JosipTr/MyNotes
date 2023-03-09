@@ -42,6 +42,15 @@ dependencies:
   intl: ^0.18.0
   go_router: ^6.2.0
   nil: ^1.1.1
+  flutter_native_splash: ^2.2.19
+
+flutter_native_splash:
+  ios: false
+  web: false
+  image: "dev_assets/notebook.png"
+  color: "#bad7e9"
+  android_12:
+    image: "dev_assets/notebook.png"
 
 dev_dependencies:
   flutter_test:
