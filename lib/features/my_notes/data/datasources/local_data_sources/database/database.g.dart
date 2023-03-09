@@ -142,7 +142,7 @@ class _$NoteDao extends NoteDao {
 
   @override
   Future<List<Note>> getAllNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM Note',
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY date DESC',
         mapper: (Map<String, Object?> row) => Note(
             id: row['id'] as int?,
             title: row['title'] as String?,

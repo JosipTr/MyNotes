@@ -32,9 +32,3 @@ class NoteModifiedState extends NoteState {
   final String message;
   const NoteModifiedState(this.message);
 }
-
-class NotesSelectedState extends NoteState {
-  final List<Note> notes;
-
-  const NotesSelectedState(this.notes);
-}
