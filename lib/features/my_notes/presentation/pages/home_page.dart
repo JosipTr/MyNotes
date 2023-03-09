@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nil/nil.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
@@ -50,7 +49,7 @@ class HomePage extends StatelessWidget {
               child: Text(state.message),
             );
           } else {
-            return const Nil();
+            return const SizedBox();
           }
         },
       ),
