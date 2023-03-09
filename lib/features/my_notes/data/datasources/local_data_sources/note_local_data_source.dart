@@ -20,7 +20,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
 
   @override
   Future<List<Note>> getAllNotes() {
-    _appDatabase.noteDao.updateSelectedNotes(false, true);
+    _appDatabase.noteDao.updateSelectedNotes();
     return _appDatabase.noteDao.getAllNotes();
   }
 
@@ -41,6 +41,6 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
 
   @override
   Future<void> removeNote() {
-    return _appDatabase.noteDao.removeNote(true);
+    return _appDatabase.noteDao.removeNote();
   }
 }

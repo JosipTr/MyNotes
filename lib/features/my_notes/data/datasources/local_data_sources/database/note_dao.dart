@@ -7,12 +7,11 @@ abstract class NoteDao {
   @Query('SELECT * FROM Note')
   Future<List<Note>> getAllNotes();
 
-  @Query(
-      'UPDATE Note SET isSelected=:isSelectedOne WHERE isSelected= :isSelectedTwo')
-  Future<void> updateSelectedNotes(bool isSelectedOne, bool isSelectedTwo);
+  @Query('UPDATE Note SET isSelected=false WHERE isSelected=true')
+  Future<void> updateSelectedNotes();
 
-  @Query('DELETE FROM Note WHERE isSelected=:isSelected')
-  Future<void> removeNote(bool isSelected);
+  @Query('DELETE FROM Note WHERE isSelected=true')
+  Future<void> removeNote();
 
   @insert
   Future<void> insertNote(Note note);

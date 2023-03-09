@@ -154,19 +154,14 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
-  Future<void> updateSelectedNotes(
-    bool isSelectedOne,
-    bool isSelectedTwo,
-  ) async {
+  Future<void> updateSelectedNotes() async {
     await _queryAdapter.queryNoReturn(
-        'UPDATE Note SET isSelected=?1 WHERE isSelected= ?2',
-        arguments: [isSelectedOne ? 1 : 0, isSelectedTwo ? 1 : 0]);
+        'UPDATE Note SET isSelected=false WHERE isSelected=true');
   }
 
   @override
-  Future<void> removeNote(bool isSelected) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM Note WHERE isSelected=?1',
-        arguments: [isSelected ? 1 : 0]);
+  Future<void> removeNote() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Note WHERE isSelected=true');
   }
 
   @override
