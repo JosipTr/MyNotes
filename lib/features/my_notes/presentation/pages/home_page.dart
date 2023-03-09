@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nil/nil.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
@@ -16,24 +17,22 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('MyNotes'),
       ),
-      floatingActionButton:
-          BlocConsumer<NoteBloc, NoteState>(listener: (context, state) {
-        if (state is NoteModifiedState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
-        }
-      }, builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: FloatingActionButton(
-            child: const Icon(
-              Icons.note_add,
-            ),
-            onPressed: () => context.go('/addNote'),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: FloatingActionButton(
+          child: const Icon(
+            Icons.note_add,
           ),
-        );
-      }),
-      body: BlocBuilder<NoteBloc, NoteState>(
+          onPressed: () => context.go('/addNote'),
+        ),
+      ),
+      body: BlocConsumer<NoteBloc, NoteState>(
+        listener: (context, state) {
+          if (state is NoteModifiedState) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message)));
+          }
+        },
         builder: (context, state) {
           if (state is Loaded) {
             return ListItem(state: state);
@@ -51,9 +50,7 @@ class HomePage extends StatelessWidget {
               child: Text(state.message),
             );
           } else {
-            return const Center(
-              child: Text('Unexpected error'),
-            );
+            return const Nil();
           }
         },
       ),
