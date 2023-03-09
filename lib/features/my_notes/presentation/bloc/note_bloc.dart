@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_notes.dart';
 
 import '../../../../core/usecases/usecase.dart';
-import '../../domain/entities/note.dart';
 import '../../domain/usecases/get_all_notes.dart';
 import '../../domain/usecases/insert_note.dart';
 import '../../domain/usecases/remove_note.dart';
@@ -68,7 +67,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
-    final either = await _removeNote(params: Params(event.note));
+    final either = await _removeNote(noParams: NoParams());
     either.fold(
         (failure) => emit(
               const NoteModifiedState('Ooops! Something went wrong.'),

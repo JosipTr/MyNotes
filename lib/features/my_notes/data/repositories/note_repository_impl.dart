@@ -41,9 +41,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> removeNote(Note note) async {
+  Future<Either<Failure, void>> removeNote() async {
     try {
-      return Right(_noteLocalDataSource.removeNote(note));
+      return Right(_noteLocalDataSource.removeNote());
     } on DatabaseException {
       return Left(DatabaseFailure());
     }

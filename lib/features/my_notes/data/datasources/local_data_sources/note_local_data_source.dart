@@ -6,7 +6,7 @@ abstract class NoteLocalDataSource {
 
   Future<List<Note>> getAllSelectedNotes();
 
-  Future<void> removeNote(Note note);
+  Future<void> removeNote();
 
   Future<void> insertNote(Note note);
 
@@ -35,12 +35,12 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   }
 
   @override
-  Future<void> removeNote(Note note) {
-    return _appDatabase.noteDao.removeNote(note);
+  Future<void> updateNote(Note note) {
+    return _appDatabase.noteDao.updateNote(note);
   }
 
   @override
-  Future<void> updateNote(Note note) {
-    return _appDatabase.noteDao.updateNote(note);
+  Future<void> removeNote() {
+    return _appDatabase.noteDao.removeNote(true);
   }
 }

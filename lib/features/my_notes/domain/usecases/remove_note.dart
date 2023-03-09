@@ -11,7 +11,7 @@ class RemoveNote implements UseCase<void, Note> {
   const RemoveNote(this._repository);
 
   @override
-  Future<Either<Failure, void>> call({Params? params}) async {
-    return await _repository.removeNote(params!.note);
+  Future<Either<Failure, void>> call({NoParams? noParams}) async {
+    return await _repository.removeNote();
   }
 }

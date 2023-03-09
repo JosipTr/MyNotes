@@ -128,19 +128,6 @@ class _$NoteDao extends NoteDao {
                   'isSelected': item.isSelected == null
                       ? null
                       : (item.isSelected! ? 1 : 0)
-                }),
-        _noteDeletionAdapter = DeletionAdapter(
-            database,
-            'Note',
-            ['id'],
-            (Note item) => <String, Object?>{
-                  'id': item.id,
-                  'title': item.title,
-                  'content': item.content,
-                  'date': item.date,
-                  'isSelected': item.isSelected == null
-                      ? null
-                      : (item.isSelected! ? 1 : 0)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -152,8 +139,6 @@ class _$NoteDao extends NoteDao {
   final InsertionAdapter<Note> _noteInsertionAdapter;
 
   final UpdateAdapter<Note> _noteUpdateAdapter;
-
-  final DeletionAdapter<Note> _noteDeletionAdapter;
 
   @override
   Future<List<Note>> getAllNotes() async {
@@ -179,6 +164,12 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
+  Future<void> removeNote(bool isSelected) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Note WHERE isSelected=?1',
+        arguments: [isSelected ? 1 : 0]);
+  }
+
+  @override
   Future<void> insertNote(Note note) async {
     await _noteInsertionAdapter.insert(note, OnConflictStrategy.abort);
   }
@@ -186,10 +177,5 @@ class _$NoteDao extends NoteDao {
   @override
   Future<void> updateNote(Note note) async {
     await _noteUpdateAdapter.update(note, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> removeNote(Note note) async {
-    await _noteDeletionAdapter.delete(note);
   }
 }
