@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: library_private_types_in_public_api
-
 part of 'database.dart';
 
 // **************************************************************************
@@ -168,6 +166,16 @@ class _$NoteDao extends NoteDao {
             isSelected: row['isSelected'] == null
                 ? null
                 : (row['isSelected'] as int) != 0));
+  }
+
+  @override
+  Future<void> updateSelectedNotes(
+    bool isSelectedOne,
+    bool isSelectedTwo,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE Note SET isSelected=?1 WHERE isSelected= ?2',
+        arguments: [isSelectedOne ? 1 : 0, isSelectedTwo ? 1 : 0]);
   }
 
   @override

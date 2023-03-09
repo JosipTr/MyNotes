@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_notes.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/entities/note.dart';
@@ -15,27 +16,17 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   final InsertNote _insertNote;
   final RemoveNote _removeNote;
   final UpdateNote _updateNote;
+  final GetAllSelectedNotes _getAllSelectedNotes;
 
-  NoteBloc(
-      this._getAllNotes, this._insertNote, this._removeNote, this._updateNote)
+  NoteBloc(this._getAllNotes, this._insertNote, this._removeNote,
+      this._updateNote, this._getAllSelectedNotes)
       : super(const InitialState()) {
     on<GetAllNotesEvent>(_onGetAllNotes);
     on<RemoveNoteEvent>(_onRemoveNoteEvent);
     on<InsertNoteEvent>(_onInsertNote);
     on<UpdateNoteEvent>(_onUpdateNoteEvent);
     on<SelectNoteEvent>(_onSelectNoteEvent);
-  }
-
-  var i = 0;
-  var noteList = List<Note>.empty(growable: true);
-
-  void unSelectAll() {
-    for (i = 0; i < noteList.length; i++) {
-      if (noteList[i].isSelected!) {
-        noteList[i].isSelected = false;
-        _updateNote(params: Params(noteList[i]));
-      }
-    }
+    on<GetAllSelectedNotesEvent>(_onGetAllSelectedNotes);
   }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
@@ -45,16 +36,26 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       if (notes.isEmpty) {
         emit(const Empty());
       } else {
-        noteList = notes;
-        unSelectAll();
-        emit(Loaded(noteList));
+        emit(Loaded(notes));
+      }
+    });
+  }
+
+  void _onGetAllSelectedNotes(
+      GetAllSelectedNotesEvent event, Emitter<NoteState> emit) async {
+    final either = await _getAllSelectedNotes(noParams: NoParams());
+
+    either.fold((failure) => emit(Error(failure.toString())), (notes) {
+      if (notes.isEmpty) {
+        emit(const Empty());
+      } else {
+        emit(Loaded(notes));
       }
     });
   }
 
   void _onInsertNote(InsertNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _insertNote(params: Params(event.note));
-    noteList.add(event.note);
     either.fold(
         (failure) => emit(
               const NoteModifiedState('Ooops! Something went wrong.'),
@@ -62,14 +63,12 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       emit(
         const NoteModifiedState('Note successfully added!'),
       );
-      emit(const Loading());
     });
   }
 
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _removeNote(params: Params(event.note));
-    noteList.remove(event.note);
     either.fold(
         (failure) => emit(
               const NoteModifiedState('Ooops! Something went wrong.'),
@@ -84,8 +83,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _updateNote(params: Params(event.note));
-    final index = noteList.indexWhere((element) => element.id == event.note.id);
-    noteList[index] = event.note;
     either.fold(
         (failure) => emit(
               const NoteModifiedState('Ooops! Something went wrong.'),
@@ -101,8 +98,5 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       SelectNoteEvent event, Emitter<NoteState> emit) async {
     event.note.isSelected = !event.note.isSelected!;
     await _updateNote(params: Params(event.note));
-    final index = noteList.indexWhere((element) => element.id == event.note.id);
-    noteList[index] = event.note;
-    emit(Loaded(noteList));
   }
 }

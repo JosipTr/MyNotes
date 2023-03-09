@@ -22,6 +22,16 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
+  Future<Either<Failure, List<Note>>> getAllSelectedNotes() async {
+    try {
+      final noteList = await _noteLocalDataSource.getAllSelectedNotes();
+      return Right(noteList);
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> insertNote(Note note) async {
     try {
       return Right(await _noteLocalDataSource.insertNote(note));

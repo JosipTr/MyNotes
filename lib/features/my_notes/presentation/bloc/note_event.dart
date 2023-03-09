@@ -20,6 +20,10 @@ class GetAllNotesEvent extends NoteEvent {
   const GetAllNotesEvent();
 }
 
+class GetAllSelectedNotesEvent extends NoteEvent {
+  const GetAllSelectedNotesEvent();
+}
+
 class UpdateNoteEvent extends NoteEvent {
   final Note note;
   const UpdateNoteEvent(this.note);

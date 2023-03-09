@@ -5,6 +5,7 @@ import '../../../../core/errors/failure.dart';
 
 abstract class NoteRepository {
   Future<Either<Failure, List<Note>>> getAllNotes();
+  Future<Either<Failure, List<Note>>> getAllSelectedNotes();
   Future<Either<Failure, void>> insertNote(Note note);
   Future<Either<Failure, void>> removeNote(Note note);
   Future<Either<Failure, void>> updateNote(Note note);
