@@ -63,6 +63,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         const NoteModifiedState('Note successfully added!'),
       );
     });
+    emit(const Loading());
   }
 
   void _onRemoveNoteEvent(
