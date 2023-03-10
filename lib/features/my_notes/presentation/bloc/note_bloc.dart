@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/strings/string.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_notes.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/get_searche_note.dart';
 
+import '../../../../core/strings/string.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/get_all_notes.dart';
+import '../../domain/usecases/get_all_selected_notes.dart';
+import '../../domain/usecases/get_searche_note.dart';
 import '../../domain/usecases/insert_note.dart';
 import '../../domain/usecases/remove_note.dart';
 import '../../domain/usecases/update_note.dart';
