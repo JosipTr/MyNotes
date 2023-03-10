@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/strings/string.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_notes.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_searche_note.dart';
 
@@ -34,67 +35,32 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
     final either = await _getAllNotes(noParams: NoParams());
 
-    either.fold((failure) => emit(Error(failure.toString())), (notes) {
-      if (notes.isEmpty) {
-        emit(const Empty('No notes added!'));
-      } else {
-        emit(Loaded(notes));
-      }
-    });
+    _getNotes(either, emit);
   }
 
   void _onGetAllSelectedNotes(
       GetAllSelectedNotesEvent event, Emitter<NoteState> emit) async {
     final either = await _getAllSelectedNotes(noParams: NoParams());
 
-    either.fold((failure) => emit(Error(failure.toString())), (notes) {
-      if (notes.isEmpty) {
-        emit(const Empty('No notes added!'));
-      } else {
-        emit(Loaded(notes));
-      }
-    });
+    _getNotes(either, emit);
   }
 
   void _onInsertNote(InsertNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _insertNote(params: Params(event.note));
-    either.fold(
-        (failure) => emit(
-              const NoteModifiedState('Ooops! Something went wrong.'),
-            ), (_) {
-      emit(
-        const NoteModifiedState('Note successfully added!'),
-      );
-    });
-    emit(const Loading());
+
+    _transmitMessage(either, emit, onFailureMessage, onInsertNoteMessage);
   }
 
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _removeNote(noParams: NoParams());
-    either.fold(
-        (failure) => emit(
-              const NoteModifiedState('Ooops! Something went wrong.'),
-            ), (_) {
-      emit(
-        const NoteModifiedState('Note successfully removed!'),
-      );
-      emit(const Loading());
-    });
+    _transmitMessage(either, emit, onFailureMessage, onRemoveNoteMessage);
   }
 
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _updateNote(params: Params(event.note));
-    either.fold(
-        (failure) => emit(
-              const NoteModifiedState('Ooops! Something went wrong.'),
-            ), (_) {
-      emit(
-        const NoteModifiedState('Note successfully updated!'),
-      );
-      emit(const Loading());
-    });
+    _transmitMessage(either, emit, onFailureMessage, onUpdateNoteMessage);
   }
 
   void _onSelectNoteEvent(
@@ -113,5 +79,29 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       either.fold((failure) => emit(Error(failure.toString())),
           (notes) => emit(SearchNoteLoaded(notes)));
     }
+  }
+
+  //Functions
+
+  void _getNotes(either, emit) {
+    either.fold((failure) => emit(Error(failure.toString())), (notes) {
+      if (notes.isEmpty) {
+        emit(const Empty('No notes added!'));
+      } else {
+        emit(Loaded(notes));
+      }
+    });
+  }
+
+  void _transmitMessage(either, emit, failureMessage, successMessage) {
+    either.fold(
+        (failure) => emit(
+              const NoteModifiedState('Ooops! Something went wrong.'),
+            ), (_) {
+      emit(
+        const NoteModifiedState('Note successfully added!'),
+      );
+    });
+    emit(const Loading());
   }
 }
