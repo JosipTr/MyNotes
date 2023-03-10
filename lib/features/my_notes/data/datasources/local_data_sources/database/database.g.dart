@@ -165,6 +165,20 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
+  Future<List<Note>> getSearchNote(String title) async {
+    return _queryAdapter.queryList('SELECT * FROM Note WHERE title LIKE ?1',
+        mapper: (Map<String, Object?> row) => Note(
+            id: row['id'] as int?,
+            title: row['title'] as String?,
+            content: row['content'] as String?,
+            date: row['date'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0),
+        arguments: [title]);
+  }
+
+  @override
   Future<void> insertNote(Note note) async {
     await _noteInsertionAdapter.insert(note, OnConflictStrategy.abort);
   }

@@ -13,6 +13,9 @@ abstract class NoteDao {
   @Query('DELETE FROM Note WHERE isSelected=true')
   Future<void> removeNote();
 
+  @Query('SELECT * FROM Note WHERE title LIKE :title')
+  Future<List<Note>> getSearchNote(String title);
+
   @insert
   Future<void> insertNote(Note note);
 

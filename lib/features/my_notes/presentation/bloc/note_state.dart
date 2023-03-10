@@ -9,7 +9,8 @@ class InitialState extends NoteState {
 }
 
 class Empty extends NoteState {
-  const Empty();
+  final String message;
+  const Empty(this.message);
 }
 
 class Loading extends NoteState {
@@ -31,4 +32,10 @@ class Error extends NoteState {
 class NoteModifiedState extends NoteState {
   final String message;
   const NoteModifiedState(this.message);
+}
+
+class SearchNoteLoaded extends NoteState {
+  final List<Note> notes;
+
+  const SearchNoteLoaded(this.notes);
 }

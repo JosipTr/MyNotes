@@ -1,4 +1,5 @@
 import 'package:flutter_notes/features/my_notes/presentation/pages/add_modify_note_page.dart';
+import 'package:flutter_notes/features/my_notes/presentation/pages/search_note_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/my_notes/domain/entities/note.dart';
@@ -16,6 +17,10 @@ final router = GoRouter(
           builder: (context, state) => AddModifyNotePage(
             note: state.extra as Note?,
           ),
+        ),
+        GoRoute(
+          path: 'searchNote',
+          builder: (context, state) => const SearchNotePage(),
         ),
       ],
     ),

@@ -71,16 +71,20 @@ class AddModifyNotePage extends StatelessWidget {
               children: [
                 TextFormField(
                   controller: titleController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Title',
+                    hintStyle: TextStyle(
+                        color: Theme.of(context).textTheme.labelLarge!.color),
                   ),
                 ),
                 TextFormField(
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   controller: contentController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Content',
+                    hintStyle: TextStyle(
+                        color: Theme.of(context).textTheme.labelLarge!.color),
                     border: InputBorder.none,
                   ),
                 ),

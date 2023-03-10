@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EmptyList extends StatelessWidget {
-  const EmptyList({super.key});
+  final String message;
+  const EmptyList({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,9 @@ class EmptyList extends StatelessWidget {
             height: 150,
             width: 150,
           ),
-          const Text(
-            'No notes added!',
-            style: TextStyle(fontSize: 19),
+          Text(
+            message,
+            style: const TextStyle(fontSize: 19),
           )
         ],
       ),

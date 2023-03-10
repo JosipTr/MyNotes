@@ -34,3 +34,9 @@ class SelectNoteEvent extends NoteEvent {
 
   const SelectNoteEvent(this.note);
 }
+
+class SearchNoteEvent extends NoteEvent {
+  final String title;
+
+  const SearchNoteEvent(this.title);
+}

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_notes.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/get_searche_note.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/get_all_notes.dart';
@@ -16,9 +17,10 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   final RemoveNote _removeNote;
   final UpdateNote _updateNote;
   final GetAllSelectedNotes _getAllSelectedNotes;
+  final GetSearchNote _getSearchNote;
 
   NoteBloc(this._getAllNotes, this._insertNote, this._removeNote,
-      this._updateNote, this._getAllSelectedNotes)
+      this._updateNote, this._getAllSelectedNotes, this._getSearchNote)
       : super(const InitialState()) {
     on<GetAllNotesEvent>(_onGetAllNotes);
     on<RemoveNoteEvent>(_onRemoveNoteEvent);
@@ -26,6 +28,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<UpdateNoteEvent>(_onUpdateNoteEvent);
     on<SelectNoteEvent>(_onSelectNoteEvent);
     on<GetAllSelectedNotesEvent>(_onGetAllSelectedNotes);
+    on<SearchNoteEvent>(_onSearchNoteEvent);
   }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
@@ -33,7 +36,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
     either.fold((failure) => emit(Error(failure.toString())), (notes) {
       if (notes.isEmpty) {
-        emit(const Empty());
+        emit(const Empty('No notes added!'));
       } else {
         emit(Loaded(notes));
       }
@@ -46,7 +49,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
     either.fold((failure) => emit(Error(failure.toString())), (notes) {
       if (notes.isEmpty) {
-        emit(const Empty());
+        emit(const Empty('No notes added!'));
       } else {
         emit(Loaded(notes));
       }
@@ -98,5 +101,18 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       SelectNoteEvent event, Emitter<NoteState> emit) async {
     event.note.isSelected = !event.note.isSelected!;
     await _updateNote(params: Params(event.note));
+  }
+
+  void _onSearchNoteEvent(
+      SearchNoteEvent event, Emitter<NoteState> emit) async {
+    final either = await _getSearchNote(event.title);
+
+    either.fold((failure) => emit(Error(failure.toString())), (notes) {
+      if (notes.isEmpty) {
+        emit(const Empty('There is no notes for that search!'));
+      } else {
+        emit(SearchNoteLoaded(notes));
+      }
+    });
   }
 }

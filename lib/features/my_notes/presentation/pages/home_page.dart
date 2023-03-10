@@ -15,6 +15,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyNotes'),
+        actions: [
+          IconButton(
+              onPressed: () => context.go('/searchNote'),
+              icon: const Icon(Icons.search))
+        ],
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -37,7 +42,7 @@ class HomePage extends StatelessWidget {
             return ListItem(state: state);
           }
           if (state is Empty) {
-            return const EmptyList();
+            return EmptyList(message: state.message);
           }
           if (state is Loading) {
             return const Center(

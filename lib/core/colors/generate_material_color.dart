@@ -36,3 +36,4 @@ Color shadeColor(Color color, double factor) => Color.fromRGBO(
 
 const labelColor = Color.fromRGBO(43, 52, 103, 1);
 const scaffoldBackgroundColor = Color.fromRGBO(186, 215, 233, 1);
+const hintTextColor = Color.fromRGBO(252, 255, 231, 0.40);

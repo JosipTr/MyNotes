@@ -3,6 +3,7 @@ import '../colors/generate_material_color.dart';
 
 ThemeData getThemeData() {
   return ThemeData(
+    hintColor: hintTextColor,
     iconTheme: const IconThemeData(color: Color.fromRGBO(252, 255, 231, 1)),
     fontFamily: 'PlayfairDisplay',
     textTheme: const TextTheme(
