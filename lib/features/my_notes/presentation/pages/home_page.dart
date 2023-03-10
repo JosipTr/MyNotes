@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/strings/string.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
         title: const Text('MyNotes'),
         actions: [
           IconButton(
-              onPressed: () => context.go('/searchNote'),
+              onPressed: () => context.go(searchNotePageRoute),
               icon: const Icon(Icons.search))
         ],
       ),
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
           child: const Icon(
             Icons.note_add,
           ),
-          onPressed: () => context.go('/addNote'),
+          onPressed: () => context.go(addNotePageRoute),
         ),
       ),
       body: BlocConsumer<NoteBloc, NoteState>(

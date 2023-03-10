@@ -1,3 +1,4 @@
+import 'package:flutter_notes/core/strings/string.dart';
 import 'package:flutter_notes/features/my_notes/presentation/pages/add_modify_note_page.dart';
 import 'package:flutter_notes/features/my_notes/presentation/pages/search_note_page.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +11,7 @@ import '../../features/my_notes/presentation/pages/transition_page.dart';
 final router = GoRouter(
   routes: [
     GoRoute(
-      path: '/',
+      path: homePageRoute,
       builder: (context, state) => const HomePage(),
       pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
         context: context,

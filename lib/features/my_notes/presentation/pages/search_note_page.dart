@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/strings/string.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,7 +61,7 @@ class SearchNotePage extends StatelessWidget {
                               .read<NoteBloc>()
                               .add(SelectNoteEvent(state.notes[index]));
                         }
-                        context.go('/addNote', extra: state.notes[index]);
+                        context.go(addNotePageRoute, extra: state.notes[index]);
                       },
                       title: Text(
                         state.notes[index].title!,
