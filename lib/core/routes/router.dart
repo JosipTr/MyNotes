@@ -20,13 +20,12 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: 'addNote',
-          builder: (context, state) => AddModifyNotePage(
-            note: state.extra as Note?,
-          ),
           pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
             context: context,
             state: state,
-            child: const AddModifyNotePage(),
+            child: AddModifyNotePage(
+              note: state.extra as Note?,
+            ),
           ),
         ),
         GoRoute(

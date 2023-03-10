@@ -52,7 +52,7 @@ class SearchNotePage extends StatelessWidget {
                             .add(SelectNoteEvent(state.notes[index]));
                         context
                             .read<NoteBloc>()
-                            .add(const GetAllSelectedNotesEvent());
+                            .add(SearchNoteEvent(searchController.text));
                       },
                       onTap: () {
                         if (state.notes[index].isSelected!) {
