@@ -107,12 +107,11 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       SearchNoteEvent event, Emitter<NoteState> emit) async {
     final either = await _getSearchNote(event.title);
 
-    either.fold((failure) => emit(Error(failure.toString())), (notes) {
-      if (notes.isEmpty) {
-        emit(const Empty('There is no notes for that search!'));
-      } else {
-        emit(SearchNoteLoaded(notes));
-      }
-    });
+    if (event.title.isEmpty) {
+      emit(const Empty(''));
+    } else {
+      either.fold((failure) => emit(Error(failure.toString())),
+          (notes) => emit(SearchNoteLoaded(notes)));
+    }
   }
 }

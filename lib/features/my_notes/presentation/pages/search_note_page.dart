@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/note_bloc.dart';
@@ -87,6 +86,8 @@ class SearchNotePage extends StatelessWidget {
                   );
                 },
               );
+            } else if (state is Empty) {
+              return const SizedBox();
             } else {
               return const SizedBox();
             }
