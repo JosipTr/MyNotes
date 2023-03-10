@@ -10,7 +10,10 @@ abstract class UseCase<Type, Params> {
 class NoParams {}
 
 class Params {
-  final Note note;
-
-  const Params(this.note);
+  final Note? note;
+  final String? searchText;
+  const Params({
+    this.note,
+    this.searchText,
+  });
 }

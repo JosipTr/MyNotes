@@ -16,7 +16,6 @@ class AddModifyNotePage extends StatelessWidget {
       if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
           note != null) {
-        action.add(RemoveNoteEvent(note!));
         action.add(const GetAllNotesEvent());
       } else if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&

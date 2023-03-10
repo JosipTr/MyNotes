@@ -36,7 +36,7 @@ class SelectNoteEvent extends NoteEvent {
 }
 
 class SearchNoteEvent extends NoteEvent {
-  final String title;
+  final String searchText;
 
-  const SearchNoteEvent(this.title);
+  const SearchNoteEvent(this.searchText);
 }

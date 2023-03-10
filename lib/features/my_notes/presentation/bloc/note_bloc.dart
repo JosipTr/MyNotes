@@ -46,7 +46,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   }
 
   void _onInsertNote(InsertNoteEvent event, Emitter<NoteState> emit) async {
-    final either = await _insertNote(params: Params(event.note));
+    final either = await _insertNote(params: Params(note: event.note));
 
     _transmitMessage(either, emit, onFailureMessage, onInsertNoteMessage);
   }
@@ -59,21 +59,22 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
-    final either = await _updateNote(params: Params(event.note));
+    final either = await _updateNote(params: Params(note: event.note));
     _transmitMessage(either, emit, onFailureMessage, onUpdateNoteMessage);
   }
 
   void _onSelectNoteEvent(
       SelectNoteEvent event, Emitter<NoteState> emit) async {
     event.note.isSelected = !event.note.isSelected!;
-    await _updateNote(params: Params(event.note));
+    await _updateNote(params: Params(note: event.note));
   }
 
   void _onSearchNoteEvent(
       SearchNoteEvent event, Emitter<NoteState> emit) async {
-    final either = await _getSearchNote(event.title);
+    final either =
+        await _getSearchNote(params: Params(searchText: event.searchText));
 
-    if (event.title.isEmpty) {
+    if (event.searchText.isEmpty) {
       emit(const Empty(''));
     } else {
       either.fold((failure) => emit(Error(failure.toString())),

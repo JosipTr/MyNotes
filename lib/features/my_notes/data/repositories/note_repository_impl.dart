@@ -32,9 +32,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Failure, List<Note>>> getSearchNote(String title) async {
+  Future<Either<Failure, List<Note>>> getSearchNote(String? title) async {
     try {
-      final noteList = await _noteLocalDataSource.getSearchNote(title);
+      final noteList = await _noteLocalDataSource.getSearchNote(title!);
       return Right(noteList);
     } on DatabaseException {
       return Left(DatabaseFailure());
@@ -42,9 +42,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> insertNote(Note note) async {
+  Future<Either<Failure, void>> insertNote(Note? note) async {
     try {
-      return Right(await _noteLocalDataSource.insertNote(note));
+      return Right(await _noteLocalDataSource.insertNote(note!));
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
@@ -60,9 +60,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateNote(Note note) async {
+  Future<Either<Failure, void>> updateNote(Note? note) async {
     try {
-      return Right(await _noteLocalDataSource.updateNote(note));
+      return Right(await _noteLocalDataSource.updateNote(note!));
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
