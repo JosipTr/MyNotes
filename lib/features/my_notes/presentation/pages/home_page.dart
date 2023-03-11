@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/strings/string.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/update_note_order.dart';
-import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/strings/string.dart';
 import '../bloc/note_bloc.dart';
+import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
+import '../widgets/empty_list.dart';
 import '../widgets/list_item.dart';
 
 class HomePage extends StatelessWidget {
@@ -35,7 +34,16 @@ class HomePage extends StatelessWidget {
             icon: const Icon(Icons.sort),
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: const Text('Sort by date'),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_upward,
+                      color: Theme.of(context).textTheme.labelLarge!.color,
+                    ),
+                    Text('By date',
+                        style: Theme.of(context).textTheme.labelMedium!),
+                  ],
+                ),
                 onTap: () {
                   context
                       .read<NoteBloc>()
@@ -44,7 +52,34 @@ class HomePage extends StatelessWidget {
                 },
               ),
               PopupMenuItem(
-                child: const Text('Sort by title'),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_upward,
+                      color: Theme.of(context).textTheme.labelLarge!.color,
+                    ),
+                    Text('By date',
+                        style: Theme.of(context).textTheme.labelMedium!),
+                  ],
+                ),
+                onTap: () {
+                  context
+                      .read<NoteBloc>()
+                      .add(const UpdateNoteOrderEvent('dateDesc'));
+                  context.read<NoteBloc>().add(const GetAllNotesEvent());
+                },
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_upward,
+                      color: Theme.of(context).textTheme.labelLarge!.color,
+                    ),
+                    Text('By title',
+                        style: Theme.of(context).textTheme.labelMedium!),
+                  ],
+                ),
                 onTap: () {
                   context
                       .read<NoteBloc>()
@@ -53,11 +88,20 @@ class HomePage extends StatelessWidget {
                 },
               ),
               PopupMenuItem(
-                child: const Text('Sort by content'),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_downward,
+                      color: Theme.of(context).textTheme.labelLarge!.color,
+                    ),
+                    Text('By title',
+                        style: Theme.of(context).textTheme.labelMedium!),
+                  ],
+                ),
                 onTap: () {
                   context
                       .read<NoteBloc>()
-                      .add(const UpdateNoteOrderEvent('content'));
+                      .add(const UpdateNoteOrderEvent('titleDesc'));
                   context.read<NoteBloc>().add(const GetAllNotesEvent());
                 },
               ),

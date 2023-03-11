@@ -27,11 +27,10 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<List<Note>> getAllNotes() async {
     String noteOrder;
     if ((await _appDatabase.sortDao.getNoteOrder()) == null) {
-      _appDatabase.sortDao.insertSort(Sort(1, 'title'));
+      _appDatabase.sortDao.insertSort(const Sort(1, 'title'));
       noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
     } else {
       noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
-      print('notInsert');
     }
     switch (noteOrder) {
       case 'date':
@@ -44,10 +43,15 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
           _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByTitle();
         }
-      case 'content':
+      case 'dateDesc':
         {
           _appDatabase.noteDao.updateSelectedNotes();
-          return _appDatabase.noteDao.getAllNotesByContent();
+          return _appDatabase.noteDao.getAllNotesByDateDesc();
+        }
+      case 'titleDesc':
+        {
+          _appDatabase.noteDao.updateSelectedNotes();
+          return _appDatabase.noteDao.getAllNotesByTitleDesc();
         }
       default:
         {
@@ -61,7 +65,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<List<Note>> getAllSelectedNotes() async {
     var noteOrder = '';
     if ((await _appDatabase.sortDao.getNoteOrder()) == null) {
-      _appDatabase.sortDao.insertSort(Sort(1, 'title'));
+      _appDatabase.sortDao.insertSort(const Sort(1, 'title'));
       noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
     } else {
       noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
@@ -69,18 +73,27 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     switch (noteOrder) {
       case 'date':
         {
+          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByDate();
         }
       case 'title':
         {
+          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByTitle();
         }
-      case 'content':
+      case 'dateDesc':
         {
-          return _appDatabase.noteDao.getAllNotesByContent();
+          _appDatabase.noteDao.updateSelectedNotes();
+          return _appDatabase.noteDao.getAllNotesByDateDesc();
+        }
+      case 'titleDesc':
+        {
+          _appDatabase.noteDao.updateSelectedNotes();
+          return _appDatabase.noteDao.getAllNotesByTitleDesc();
         }
       default:
         {
+          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotes();
         }
     }

@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'database.dart';
 
 // **************************************************************************
@@ -176,8 +178,8 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
-  Future<List<Note>> getAllNotesByDate() async {
-    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY date DESC',
+  Future<List<Note>> getAllNotesByTitleDesc() async {
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY title DESC',
         mapper: (Map<String, Object?> row) => Note(
             id: row['id'] as int?,
             title: row['title'] as String?,
@@ -189,8 +191,21 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
-  Future<List<Note>> getAllNotesByContent() async {
-    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY content',
+  Future<List<Note>> getAllNotesByDate() async {
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY date',
+        mapper: (Map<String, Object?> row) => Note(
+            id: row['id'] as int?,
+            title: row['title'] as String?,
+            content: row['content'] as String?,
+            date: row['date'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0));
+  }
+
+  @override
+  Future<List<Note>> getAllNotesByDateDesc() async {
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY date DESC',
         mapper: (Map<String, Object?> row) => Note(
             id: row['id'] as int?,
             title: row['title'] as String?,
