@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/strings/string.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Menu(),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(30.0),
         child: FloatingActionButton(
