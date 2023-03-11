@@ -10,7 +10,7 @@ abstract class NoteDao {
   @Query('SELECT * FROM Note ORDER BY title')
   Future<List<Note>> getAllNotesByTitle();
 
-  @Query('SELECT * FROM Note ORDER BY date')
+  @Query('SELECT * FROM Note ORDER BY date DESC')
   Future<List<Note>> getAllNotesByDate();
 
   @Query('SELECT * FROM Note ORDER BY content')
