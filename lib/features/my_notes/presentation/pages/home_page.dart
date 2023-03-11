@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/core/strings/string.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/update_note_order.dart';
+import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,14 +16,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('MyNotes'),
-        actions: [
-          IconButton(
-              onPressed: () => context.go(searchNotePageRoute),
-              icon: const Icon(Icons.search))
-        ],
-      ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(30.0),
         child: FloatingActionButton(
@@ -30,6 +24,46 @@ class HomePage extends StatelessWidget {
           ),
           onPressed: () => context.go(addNotePageRoute),
         ),
+      ),
+      appBar: AppBar(
+        title: const Text('MyNotes'),
+        actions: [
+          IconButton(
+              onPressed: () => context.go(searchNotePageRoute),
+              icon: const Icon(Icons.search)),
+          PopupMenuButton(
+            icon: const Icon(Icons.sort),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: const Text('Sort by date'),
+                onTap: () {
+                  context
+                      .read<NoteBloc>()
+                      .add(const UpdateNoteOrderEvent('date'));
+                  context.read<NoteBloc>().add(const GetAllNotesEvent());
+                },
+              ),
+              PopupMenuItem(
+                child: const Text('Sort by title'),
+                onTap: () {
+                  context
+                      .read<NoteBloc>()
+                      .add(const UpdateNoteOrderEvent('title'));
+                  context.read<NoteBloc>().add(const GetAllNotesEvent());
+                },
+              ),
+              PopupMenuItem(
+                child: const Text('Sort by content'),
+                onTap: () {
+                  context
+                      .read<NoteBloc>()
+                      .add(const UpdateNoteOrderEvent('content'));
+                  context.read<NoteBloc>().add(const GetAllNotesEvent());
+                },
+              ),
+            ],
+          )
+        ],
       ),
       body: BlocConsumer<NoteBloc, NoteState>(
         listener: (context, state) {

@@ -12,8 +12,10 @@ class NoParams {}
 class Params {
   final Note? note;
   final String? searchText;
+  final String? noteOrder;
   const Params({
     this.note,
     this.searchText,
+    this.noteOrder,
   });
 }

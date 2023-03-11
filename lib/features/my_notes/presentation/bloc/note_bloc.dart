@@ -9,6 +9,7 @@ import '../../domain/usecases/insert_note.dart';
 import '../../domain/usecases/remove_note.dart';
 import '../../domain/usecases/update_note.dart';
 
+import '../../domain/usecases/update_note_order.dart';
 import 'note_event.dart';
 import 'note_state.dart';
 
@@ -19,9 +20,16 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   final UpdateNote _updateNote;
   final GetAllSelectedNotes _getAllSelectedNotes;
   final GetSearchNote _getSearchNote;
+  final UpdateNoteOrder _updateNoteOrder;
 
-  NoteBloc(this._getAllNotes, this._insertNote, this._removeNote,
-      this._updateNote, this._getAllSelectedNotes, this._getSearchNote)
+  NoteBloc(
+      this._getAllNotes,
+      this._insertNote,
+      this._removeNote,
+      this._updateNote,
+      this._getAllSelectedNotes,
+      this._getSearchNote,
+      this._updateNoteOrder)
       : super(const InitialState()) {
     on<GetAllNotesEvent>(_onGetAllNotes);
     on<RemoveNoteEvent>(_onRemoveNoteEvent);
@@ -30,6 +38,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<SelectNoteEvent>(_onSelectNoteEvent);
     on<GetAllSelectedNotesEvent>(_onGetAllSelectedNotes);
     on<SearchNoteEvent>(_onSearchNoteEvent);
+    on<UpdateNoteOrderEvent>(_onUpdateNoteOrderEvent);
   }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
@@ -80,6 +89,11 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       either.fold((failure) => emit(Error(failure.toString())),
           (notes) => emit(SearchNoteLoaded(notes)));
     }
+  }
+
+  void _onUpdateNoteOrderEvent(
+      UpdateNoteOrderEvent event, Emitter<NoteState> emit) async {
+    await _updateNoteOrder(params: Params(noteOrder: event.noteOrder));
   }
 
   //Functions

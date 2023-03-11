@@ -4,8 +4,17 @@ import '../../../../domain/entities/note.dart';
 
 @dao
 abstract class NoteDao {
-  @Query('SELECT * FROM Note ORDER BY date DESC')
+  @Query('SELECT * FROM Note')
   Future<List<Note>> getAllNotes();
+
+  @Query('SELECT * FROM Note ORDER BY title')
+  Future<List<Note>> getAllNotesByTitle();
+
+  @Query('SELECT * FROM Note ORDER BY date')
+  Future<List<Note>> getAllNotesByDate();
+
+  @Query('SELECT * FROM Note ORDER BY content')
+  Future<List<Note>> getAllNotesByContent();
 
   @Query('UPDATE Note SET isSelected=false WHERE isSelected=true')
   Future<void> updateSelectedNotes();

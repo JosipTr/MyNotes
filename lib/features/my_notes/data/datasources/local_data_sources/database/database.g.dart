@@ -63,6 +63,8 @@ class _$AppDatabase extends AppDatabase {
 
   NoteDao? _noteDaoInstance;
 
+  SortDao? _sortDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -86,6 +88,8 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT, `date` TEXT, `isSelected` INTEGER)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Sort` (`id` INTEGER NOT NULL, `noteOrder` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -96,6 +100,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   NoteDao get noteDao {
     return _noteDaoInstance ??= _$NoteDao(database, changeListener);
+  }
+
+  @override
+  SortDao get sortDao {
+    return _sortDaoInstance ??= _$SortDao(database, changeListener);
   }
 }
 
@@ -142,7 +151,46 @@ class _$NoteDao extends NoteDao {
 
   @override
   Future<List<Note>> getAllNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY date DESC',
+    return _queryAdapter.queryList('SELECT * FROM Note',
+        mapper: (Map<String, Object?> row) => Note(
+            id: row['id'] as int?,
+            title: row['title'] as String?,
+            content: row['content'] as String?,
+            date: row['date'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0));
+  }
+
+  @override
+  Future<List<Note>> getAllNotesByTitle() async {
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY title',
+        mapper: (Map<String, Object?> row) => Note(
+            id: row['id'] as int?,
+            title: row['title'] as String?,
+            content: row['content'] as String?,
+            date: row['date'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0));
+  }
+
+  @override
+  Future<List<Note>> getAllNotesByDate() async {
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY date',
+        mapper: (Map<String, Object?> row) => Note(
+            id: row['id'] as int?,
+            title: row['title'] as String?,
+            content: row['content'] as String?,
+            date: row['date'] as String?,
+            isSelected: row['isSelected'] == null
+                ? null
+                : (row['isSelected'] as int) != 0));
+  }
+
+  @override
+  Future<List<Note>> getAllNotesByContent() async {
+    return _queryAdapter.queryList('SELECT * FROM Note ORDER BY content',
         mapper: (Map<String, Object?> row) => Note(
             id: row['id'] as int?,
             title: row['title'] as String?,
@@ -187,5 +235,42 @@ class _$NoteDao extends NoteDao {
   @override
   Future<void> updateNote(Note note) async {
     await _noteUpdateAdapter.update(note, OnConflictStrategy.abort);
+  }
+}
+
+class _$SortDao extends SortDao {
+  _$SortDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _sortInsertionAdapter = InsertionAdapter(
+            database,
+            'Sort',
+            (Sort item) =>
+                <String, Object?>{'id': item.id, 'noteOrder': item.noteOrder});
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Sort> _sortInsertionAdapter;
+
+  @override
+  Future<String?> getNoteOrder() async {
+    return _queryAdapter.query('SELECT noteOrder FROM Sort WHERE id=1',
+        mapper: (Map<String, Object?> row) => row.values.first as String);
+  }
+
+  @override
+  Future<void> updateNoteOrder(String noteOrder) async {
+    await _queryAdapter.queryNoReturn('UPDATE Sort SET noteOrder=?1 WHERE id=1',
+        arguments: [noteOrder]);
+  }
+
+  @override
+  Future<void> insertSort(Sort sort) async {
+    await _sortInsertionAdapter.insert(sort, OnConflictStrategy.abort);
   }
 }

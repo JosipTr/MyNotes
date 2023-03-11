@@ -67,4 +67,13 @@ class NoteRepositoryImpl implements NoteRepository {
       return Left(DatabaseFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateNoteOrder(String? noteOrder) async {
+    try {
+      return Right(await _noteLocalDataSource.updateNoteOrder(noteOrder!));
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
 }

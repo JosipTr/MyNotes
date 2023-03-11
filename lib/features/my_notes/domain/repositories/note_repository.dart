@@ -10,4 +10,5 @@ abstract class NoteRepository {
   Future<Either<Failure, void>> insertNote(Note? note);
   Future<Either<Failure, void>> removeNote();
   Future<Either<Failure, void>> updateNote(Note? note);
+  Future<Either<Failure, void>> updateNoteOrder(String? note);
 }

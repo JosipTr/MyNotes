@@ -40,3 +40,9 @@ class SearchNoteEvent extends NoteEvent {
 
   const SearchNoteEvent(this.searchText);
 }
+
+class UpdateNoteOrderEvent extends NoteEvent {
+  final String noteOrder;
+
+  const UpdateNoteOrderEvent(this.noteOrder);
+}
