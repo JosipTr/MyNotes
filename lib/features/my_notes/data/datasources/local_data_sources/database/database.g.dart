@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: library_private_types_in_public_api
-
 part of 'database.dart';
 
 // **************************************************************************
@@ -259,6 +257,11 @@ class _$NoteDao extends NoteDao {
   Future<void> updateSelectedNotes() async {
     await _queryAdapter.queryNoReturn(
         'UPDATE Note SET isSelected=false WHERE isSelected=true');
+  }
+
+  @override
+  Future<void> selectAllNotes() async {
+    await _queryAdapter.queryNoReturn('UPDATE Note SET isSelected=true');
   }
 
   @override

@@ -4,6 +4,9 @@ import '../../../domain/entities/note.dart';
 import '../../../domain/entities/sort.dart';
 import 'database/database.dart';
 
+bool _isSelected = false;
+String _noteOrder = '';
+
 abstract class NoteLocalDataSource {
   Future<List<Note>> getAllNotes(String? type, String? searchText);
 
@@ -25,15 +28,23 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
 
   @override
   Future<List<Note>> getAllNotes(String? type, String? searchText) async {
-    String noteOrder;
     if ((await _appDatabase.sortDao.getNoteOrder()) == null) {
       _appDatabase.sortDao.insertSort(const Sort(1, 'title'));
-      noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
+      _noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
     } else {
-      noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
+      _noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
     }
     if (type == 'select') {
-      return getSortedNotes(noteOrder, _appDatabase);
+      return getSortedNotes(_noteOrder, _appDatabase);
+    } else if (type == 'selectAll') {
+      _isSelected = !_isSelected;
+      if (_isSelected == true) {
+        _appDatabase.noteDao.selectAllNotes();
+        return getSortedNotes(_noteOrder, _appDatabase);
+      } else {
+        _appDatabase.noteDao.updateSelectedNotes();
+        return getSortedNotes(_noteOrder, _appDatabase);
+      }
     } else if (type == 'deleted') {
       _appDatabase.noteDao.updateSelectedNotes();
       return _appDatabase.noteDao.getAllDeletedNotes();
@@ -43,7 +54,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
       return _appDatabase.noteDao.getSearchNote('$searchText%');
     } else {
       _appDatabase.noteDao.updateSelectedNotes();
-      return getSortedNotes(noteOrder, _appDatabase);
+      return getSortedNotes(_noteOrder, _appDatabase);
     }
   }
 

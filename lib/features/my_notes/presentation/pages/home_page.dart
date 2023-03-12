@@ -9,6 +9,8 @@ import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
 import '../widgets/empty_list.dart';
 import '../widgets/list_item.dart';
+import '../widgets/select_menu.dart';
+import '../widgets/sort_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,83 +34,8 @@ class HomePage extends StatelessWidget {
           IconButton(
               onPressed: () => context.go(searchNotePageRoute),
               icon: const Icon(Icons.search)),
-          PopupMenuButton(
-            icon: const Icon(Icons.sort),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_upward,
-                      color: Theme.of(context).textTheme.labelLarge!.color,
-                    ),
-                    Text('By date',
-                        style: Theme.of(context).textTheme.labelMedium!),
-                  ],
-                ),
-                onTap: () {
-                  context
-                      .read<NoteBloc>()
-                      .add(const UpdateNoteOrderEvent('date'));
-                  context.read<NoteBloc>().add(const GetAllNotesEvent());
-                },
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_upward,
-                      color: Theme.of(context).textTheme.labelLarge!.color,
-                    ),
-                    Text('By date',
-                        style: Theme.of(context).textTheme.labelMedium!),
-                  ],
-                ),
-                onTap: () {
-                  context
-                      .read<NoteBloc>()
-                      .add(const UpdateNoteOrderEvent('dateDesc'));
-                  context.read<NoteBloc>().add(const GetAllNotesEvent());
-                },
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_upward,
-                      color: Theme.of(context).textTheme.labelLarge!.color,
-                    ),
-                    Text('By title',
-                        style: Theme.of(context).textTheme.labelMedium!),
-                  ],
-                ),
-                onTap: () {
-                  context
-                      .read<NoteBloc>()
-                      .add(const UpdateNoteOrderEvent('title'));
-                  context.read<NoteBloc>().add(const GetAllNotesEvent());
-                },
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_downward,
-                      color: Theme.of(context).textTheme.labelLarge!.color,
-                    ),
-                    Text('By title',
-                        style: Theme.of(context).textTheme.labelMedium!),
-                  ],
-                ),
-                onTap: () {
-                  context
-                      .read<NoteBloc>()
-                      .add(const UpdateNoteOrderEvent('titleDesc'));
-                  context.read<NoteBloc>().add(const GetAllNotesEvent());
-                },
-              ),
-            ],
-          )
+          const SortMenu(),
+          const SelectMenu(),
         ],
       ),
       body: BlocConsumer<NoteBloc, NoteState>(

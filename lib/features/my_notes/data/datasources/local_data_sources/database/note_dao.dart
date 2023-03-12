@@ -25,6 +25,9 @@ abstract class NoteDao {
   @Query('UPDATE Note SET isSelected=false WHERE isSelected=true')
   Future<void> updateSelectedNotes();
 
+  @Query('UPDATE Note SET isSelected=true')
+  Future<void> selectAllNotes();
+
   @Query('UPDATE Note SET isDeleted=true WHERE isSelected=true')
   Future<void> removeNote();
 
