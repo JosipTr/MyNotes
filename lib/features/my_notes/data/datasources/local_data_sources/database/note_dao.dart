@@ -4,26 +4,32 @@ import '../../../../domain/entities/note.dart';
 
 @dao
 abstract class NoteDao {
-  @Query('SELECT * FROM Note')
+  @Query('SELECT * FROM Note WHERE isDeleted=false')
   Future<List<Note>> getAllNotes();
 
-  @Query('SELECT * FROM Note ORDER BY title')
+  @Query('SELECT * FROM Note WHERE isDeleted=false ORDER BY title')
   Future<List<Note>> getAllNotesByTitle();
 
-  @Query('SELECT * FROM Note ORDER BY title DESC')
+  @Query('SELECT * FROM Note WHERE isDeleted=false ORDER BY title DESC')
   Future<List<Note>> getAllNotesByTitleDesc();
 
-  @Query('SELECT * FROM Note ORDER BY date')
+  @Query('SELECT * FROM Note WHERE isDeleted=false ORDER BY date')
   Future<List<Note>> getAllNotesByDate();
 
-  @Query('SELECT * FROM Note ORDER BY date DESC')
+  @Query('SELECT * FROM Note WHERE isDeleted=false ORDER BY date DESC')
   Future<List<Note>> getAllNotesByDateDesc();
+
+  @Query('SELECT * FROM Note WHERE isDeleted=true')
+  Future<List<Note>> getAllDeletedNotes();
 
   @Query('UPDATE Note SET isSelected=false WHERE isSelected=true')
   Future<void> updateSelectedNotes();
 
-  @Query('DELETE FROM Note WHERE isSelected=true')
+  @Query('UPDATE Note SET isDeleted=true WHERE isSelected=true')
   Future<void> removeNote();
+
+  @Query('DELETE FROM Note WHERE isSelected=true')
+  Future<void> removeDeletedNotes();
 
   @Query(
       'SELECT * FROM Note WHERE title LIKE :searchValue OR content LIKE :searchValue')

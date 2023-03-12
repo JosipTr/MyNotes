@@ -1,5 +1,6 @@
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_notes.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_searche_note.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/remove_deleted_notes.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/update_note_order.dart';
 import 'package:get_it/get_it.dart';
 
@@ -8,6 +9,8 @@ import './features/my_notes/domain/usecases/get_all_notes.dart';
 import 'features/my_notes/data/datasources/local_data_sources/note_local_data_source.dart';
 import 'features/my_notes/data/repositories/note_repository_impl.dart';
 import 'features/my_notes/domain/repositories/note_repository.dart';
+import 'features/my_notes/domain/usecases/get_all_deleted_notes.dart';
+import 'features/my_notes/domain/usecases/get_all_selected_deleted_notes.dart';
 import 'features/my_notes/domain/usecases/insert_note.dart';
 import 'features/my_notes/domain/usecases/remove_note.dart';
 import 'features/my_notes/domain/usecases/update_note.dart';
@@ -22,7 +25,8 @@ Future<void> init() async {
   di.registerSingleton(database);
 
   //Bloc
-  di.registerFactory(() => NoteBloc(di(), di(), di(), di(), di(), di(), di()));
+  di.registerFactory(() =>
+      NoteBloc(di(), di(), di(), di(), di(), di(), di(), di(), di(), di()));
 
   //UseCases
   di.registerLazySingleton(() => GetAllNotes(di()));
@@ -30,8 +34,11 @@ Future<void> init() async {
   di.registerLazySingleton(() => RemoveNote(di()));
   di.registerLazySingleton(() => UpdateNote(di()));
   di.registerLazySingleton(() => GetAllSelectedNotes(di()));
+  di.registerLazySingleton(() => GetAllSelectedDeletedNotes(di()));
   di.registerLazySingleton(() => GetSearchNote(di()));
   di.registerLazySingleton(() => UpdateNoteOrder(di()));
+  di.registerLazySingleton(() => GetAllDeletedNotes(di()));
+  di.registerLazySingleton(() => RemoveDeletedNotes(di()));
 
   //Repository
   di.registerLazySingleton<NoteRepository>(() => NoteRepositoryImpl(di()));

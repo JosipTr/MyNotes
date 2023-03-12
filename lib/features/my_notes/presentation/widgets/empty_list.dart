@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class EmptyList extends StatelessWidget {
   final String message;
-  const EmptyList({super.key, required this.message});
+  final String iconPath;
+  const EmptyList({super.key, required this.message, required this.iconPath});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class EmptyList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/post-it.png',
+            iconPath,
             height: 150,
             width: 150,
           ),

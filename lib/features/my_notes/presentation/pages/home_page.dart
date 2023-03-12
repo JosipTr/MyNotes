@@ -123,7 +123,8 @@ class HomePage extends StatelessWidget {
             return ListItem(state: state);
           }
           if (state is Empty) {
-            return EmptyList(message: state.message);
+            return EmptyList(
+                message: state.message, iconPath: 'assets/images/post-it.png');
           }
           if (state is Loading) {
             return const Center(

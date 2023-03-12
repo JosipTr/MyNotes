@@ -76,4 +76,33 @@ class NoteRepositoryImpl implements NoteRepository {
       return Left(DatabaseFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<Note>>> getAllDeletedNotes() async {
+    try {
+      final noteList = await _noteLocalDataSource.getAllDeletedNotes();
+      return Right(noteList);
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeDeletedNotes() async {
+    try {
+      return Right(_noteLocalDataSource.removeDeletedNotes());
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Note>>> getAllSelectedDeletedNotes() async {
+    try {
+      final noteList = await _noteLocalDataSource.getAllSelectedDeletedNotes();
+      return Right(noteList);
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
 }

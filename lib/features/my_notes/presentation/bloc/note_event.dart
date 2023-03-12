@@ -11,9 +11,7 @@ class InsertNoteEvent extends NoteEvent {
 }
 
 class RemoveNoteEvent extends NoteEvent {
-  final Note note;
-
-  const RemoveNoteEvent(this.note);
+  const RemoveNoteEvent();
 }
 
 class GetAllNotesEvent extends NoteEvent {
@@ -22,6 +20,14 @@ class GetAllNotesEvent extends NoteEvent {
 
 class GetAllSelectedNotesEvent extends NoteEvent {
   const GetAllSelectedNotesEvent();
+}
+
+class GetAllDeletedNotesEvent extends NoteEvent {
+  const GetAllDeletedNotesEvent();
+}
+
+class GetAllSelectedDeletedNotesEvent extends NoteEvent {
+  const GetAllSelectedDeletedNotesEvent();
 }
 
 class UpdateNoteEvent extends NoteEvent {
@@ -35,6 +41,12 @@ class SelectNoteEvent extends NoteEvent {
   const SelectNoteEvent(this.note);
 }
 
+class SelectDeleteNoteEvent extends NoteEvent {
+  final Note note;
+
+  const SelectDeleteNoteEvent(this.note);
+}
+
 class SearchNoteEvent extends NoteEvent {
   final String searchText;
 
@@ -45,4 +57,8 @@ class UpdateNoteOrderEvent extends NoteEvent {
   final String noteOrder;
 
   const UpdateNoteOrderEvent(this.noteOrder);
+}
+
+class RemoveDeletedNotesEvent extends NoteEvent {
+  const RemoveDeletedNotesEvent();
 }

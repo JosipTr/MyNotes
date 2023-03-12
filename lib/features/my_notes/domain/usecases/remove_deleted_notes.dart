@@ -4,13 +4,13 @@ import '../../../../core/errors/failure.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/note_repository.dart';
 
-class RemoveNote implements UseCase<void, NoParams> {
+class RemoveDeletedNotes implements UseCase<void, NoParams> {
   final NoteRepository _repository;
 
-  const RemoveNote(this._repository);
+  const RemoveDeletedNotes(this._repository);
 
   @override
   Future<Either<Failure, void>> call({NoParams? noParams}) async {
-    return await _repository.removeNote();
+    return await _repository.removeDeletedNotes();
   }
 }

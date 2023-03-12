@@ -18,3 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 <a href="https://www.flaticon.com/free-icons/journal" title="journal icons">Journal icons created by Freepik - Flaticon</a>
 
 <a href="https://www.flaticon.com/free-icons/paper" title="paper icons">Paper icons created by Pixel perfect - Flaticon</a>
+
+<a href="https://www.flaticon.com/free-icons/recycle-bin" title="recycle bin icons">Recycle bin icons created by Ghozi Muhtarom - Flaticon</a>

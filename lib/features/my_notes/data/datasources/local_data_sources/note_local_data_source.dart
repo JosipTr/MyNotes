@@ -7,6 +7,10 @@ abstract class NoteLocalDataSource {
 
   Future<List<Note>> getAllSelectedNotes();
 
+  Future<List<Note>> getAllDeletedNotes();
+
+  Future<List<Note>> getAllSelectedDeletedNotes();
+
   Future<List<Note>> getSearchNote(String title);
 
   Future<void> removeNote();
@@ -16,6 +20,8 @@ abstract class NoteLocalDataSource {
   Future<void> updateNote(Note note);
 
   Future<void> updateNoteOrder(String noteOrder);
+
+  Future<void> removeDeletedNotes();
 }
 
 class NoteLocalDataSourceImpl implements NoteLocalDataSource {
@@ -73,27 +79,22 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     switch (noteOrder) {
       case 'date':
         {
-          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByDate();
         }
       case 'title':
         {
-          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByTitle();
         }
       case 'dateDesc':
         {
-          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByDateDesc();
         }
       case 'titleDesc':
         {
-          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotesByTitleDesc();
         }
       default:
         {
-          _appDatabase.noteDao.updateSelectedNotes();
           return _appDatabase.noteDao.getAllNotes();
         }
     }
@@ -122,5 +123,21 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   @override
   Future<void> updateNoteOrder(String noteOrder) {
     return _appDatabase.sortDao.updateNoteOrder(noteOrder);
+  }
+
+  @override
+  Future<List<Note>> getAllDeletedNotes() {
+    _appDatabase.noteDao.updateSelectedNotes();
+    return _appDatabase.noteDao.getAllDeletedNotes();
+  }
+
+  @override
+  Future<void> removeDeletedNotes() {
+    return _appDatabase.noteDao.removeDeletedNotes();
+  }
+
+  @override
+  Future<List<Note>> getAllSelectedDeletedNotes() {
+    return _appDatabase.noteDao.getAllDeletedNotes();
   }
 }

@@ -60,9 +60,7 @@ class ListItem extends StatelessWidget {
             ),
             trailing: IconButton(
               onPressed: () {
-                context
-                    .read<NoteBloc>()
-                    .add(RemoveNoteEvent(state.notes[index]));
+                context.read<NoteBloc>().add(const RemoveNoteEvent());
                 context.read<NoteBloc>().add(const GetAllNotesEvent());
               },
               icon: state.notes[index].isSelected!

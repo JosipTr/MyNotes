@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/presentation/bloc/note_bloc.dart';
+import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
+import 'package:go_router/go_router.dart';
 
 class Menu extends StatelessWidget {
   const Menu({super.key});
@@ -21,16 +25,18 @@ class Menu extends StatelessWidget {
               leading: const Icon(Icons.note),
               title: const Text('All notes'),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                context.read<NoteBloc>().add(const GetAllNotesEvent());
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
             ListTile(
               leading: const Icon(Icons.delete),
               title: const Text('Trash'),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.of(context).pop();
+                context.read<NoteBloc>().add(const GetAllDeletedNotesEvent());
+                context.go('/trashNote');
               },
             ),
             ListTile(

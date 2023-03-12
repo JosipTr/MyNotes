@@ -11,4 +11,7 @@ abstract class NoteRepository {
   Future<Either<Failure, void>> removeNote();
   Future<Either<Failure, void>> updateNote(Note? note);
   Future<Either<Failure, void>> updateNoteOrder(String? note);
+  Future<Either<Failure, List<Note>>> getAllDeletedNotes();
+  Future<Either<Failure, void>> removeDeletedNotes();
+  Future<Either<Failure, List<Note>>> getAllSelectedDeletedNotes();
 }

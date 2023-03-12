@@ -8,11 +8,13 @@ class Note {
   String? content;
   String? date;
   bool? isSelected;
+  bool? isDeleted;
   Note({
     this.id,
     required this.title,
     required this.content,
     required this.date,
     this.isSelected = false,
+    this.isDeleted = false,
   });
 }
