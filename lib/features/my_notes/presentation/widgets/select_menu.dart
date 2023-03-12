@@ -4,33 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 
-class SelectMenu extends StatefulWidget {
+class SelectMenu extends StatelessWidget {
+  final String type;
   const SelectMenu({
     super.key,
+    required this.type,
   });
 
-  @override
-  State<SelectMenu> createState() => _SelectMenuState();
-}
-
-bool _isSelected = true;
-
-class _SelectMenuState extends State<SelectMenu> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: _isSelected
-              ? const Text('Select all')
-              : const Text('Unselect all'),
+          child: const Text('Select all'),
           onTap: () {
-            setState(() {
-              _isSelected = !_isSelected;
-            });
-            context
-                .read<NoteBloc>()
-                .add(const GetAllNotesEvent(type: 'selectAll'));
+            context.read<NoteBloc>().add(GetAllNotesEvent(type: type));
           },
         ),
       ],

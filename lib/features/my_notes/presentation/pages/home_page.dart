@@ -35,7 +35,9 @@ class HomePage extends StatelessWidget {
               onPressed: () => context.go(searchNotePageRoute),
               icon: const Icon(Icons.search)),
           const SortMenu(),
-          const SelectMenu(),
+          const SelectMenu(
+            type: 'selectAllNormal',
+          ),
         ],
       ),
       body: BlocConsumer<NoteBloc, NoteState>(

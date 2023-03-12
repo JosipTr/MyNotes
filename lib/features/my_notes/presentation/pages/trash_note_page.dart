@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
+import 'package:flutter_notes/features/my_notes/presentation/widgets/select_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
 
@@ -17,6 +18,7 @@ class TrashNotePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trash'),
+        actions: const [SelectMenu(type: 'selectAllDeleted')],
       ),
       drawer: const Menu(),
       body: WillPopScope(

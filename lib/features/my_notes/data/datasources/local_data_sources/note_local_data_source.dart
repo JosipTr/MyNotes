@@ -4,6 +4,7 @@ import '../../../domain/entities/note.dart';
 import '../../../domain/entities/sort.dart';
 import 'database/database.dart';
 
+bool _isSelectedDeleted = false;
 bool _isSelected = false;
 String _noteOrder = '';
 
@@ -36,7 +37,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     }
     if (type == 'select') {
       return getSortedNotes(_noteOrder, _appDatabase);
-    } else if (type == 'selectAll') {
+    } else if (type == 'selectAllNormal') {
       _isSelected = !_isSelected;
       if (_isSelected == true) {
         _appDatabase.noteDao.selectAllNotes();
@@ -44,6 +45,15 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
       } else {
         _appDatabase.noteDao.updateSelectedNotes();
         return getSortedNotes(_noteOrder, _appDatabase);
+      }
+    } else if (type == 'selectAllDeleted') {
+      _isSelectedDeleted = !_isSelectedDeleted;
+      if (_isSelectedDeleted == true) {
+        _appDatabase.noteDao.selectAllNotes();
+        return _appDatabase.noteDao.getAllDeletedNotes();
+      } else {
+        _appDatabase.noteDao.updateSelectedNotes();
+        return _appDatabase.noteDao.getAllDeletedNotes();
       }
     } else if (type == 'deleted') {
       _appDatabase.noteDao.updateSelectedNotes();
