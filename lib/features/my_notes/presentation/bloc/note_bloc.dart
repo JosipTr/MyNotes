@@ -1,11 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/get_all_selected_deleted_notes.dart';
 
 import '../../../../core/strings/string.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../../domain/usecases/get_all_deleted_notes.dart';
 import '../../domain/usecases/get_all_notes.dart';
-import '../../domain/usecases/get_all_selected_notes.dart';
 import '../../domain/usecases/get_searche_note.dart';
 import '../../domain/usecases/insert_note.dart';
 import '../../domain/usecases/remove_deleted_notes.dart';
@@ -21,62 +18,32 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   final InsertNote _insertNote;
   final RemoveNote _removeNote;
   final UpdateNote _updateNote;
-  final GetAllSelectedNotes _getAllSelectedNotes;
   final GetSearchNote _getSearchNote;
   final UpdateNoteOrder _updateNoteOrder;
-  final GetAllDeletedNotes _getAllDeletedNotes;
   final RemoveDeletedNotes _removeDeletedNotes;
-  final GetAllSelectedDeletedNotes _getAllSelectedDeletedNotes;
 
   NoteBloc(
-      this._getAllNotes,
-      this._insertNote,
-      this._removeNote,
-      this._updateNote,
-      this._getAllSelectedNotes,
-      this._getSearchNote,
-      this._updateNoteOrder,
-      this._getAllDeletedNotes,
-      this._removeDeletedNotes,
-      this._getAllSelectedDeletedNotes)
-      : super(const InitialState()) {
+    this._getAllNotes,
+    this._insertNote,
+    this._removeNote,
+    this._updateNote,
+    this._getSearchNote,
+    this._updateNoteOrder,
+    this._removeDeletedNotes,
+  ) : super(const InitialState()) {
     on<GetAllNotesEvent>(_onGetAllNotes);
     on<RemoveNoteEvent>(_onRemoveNoteEvent);
     on<InsertNoteEvent>(_onInsertNote);
     on<UpdateNoteEvent>(_onUpdateNoteEvent);
     on<SelectNoteEvent>(_onSelectNoteEvent);
-    on<GetAllSelectedNotesEvent>(_onGetAllSelectedNotes);
     on<SearchNoteEvent>(_onSearchNoteEvent);
     on<UpdateNoteOrderEvent>(_onUpdateNoteOrderEvent);
-    on<GetAllDeletedNotesEvent>(_onGetAllDeletedNotes);
     on<SelectDeleteNoteEvent>(_onSelectDeleteNoteEvent);
     on<RemoveDeletedNotesEvent>(_onRemoveDeletedNotes);
-    on<GetAllSelectedDeletedNotesEvent>(_onGetAllSelectedDeletedNotes);
   }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
-    final either = await _getAllNotes(noParams: NoParams());
-
-    _getNotes(either, emit);
-  }
-
-  void _onGetAllSelectedNotes(
-      GetAllSelectedNotesEvent event, Emitter<NoteState> emit) async {
-    final either = await _getAllSelectedNotes(noParams: NoParams());
-
-    _getNotes(either, emit);
-  }
-
-  void _onGetAllDeletedNotes(
-      GetAllDeletedNotesEvent event, Emitter<NoteState> emit) async {
-    final either = await _getAllDeletedNotes(noParams: NoParams());
-
-    _getNotes(either, emit);
-  }
-
-  void _onGetAllSelectedDeletedNotes(
-      GetAllSelectedDeletedNotesEvent event, Emitter<NoteState> emit) async {
-    final either = await _getAllSelectedDeletedNotes(noParams: NoParams());
+    final either = await _getAllNotes(params: Params(type: event.type));
 
     _getNotes(either, emit);
   }

@@ -12,19 +12,9 @@ class NoteRepositoryImpl implements NoteRepository {
   const NoteRepositoryImpl(this._noteLocalDataSource);
 
   @override
-  Future<Either<Failure, List<Note>>> getAllNotes() async {
+  Future<Either<Failure, List<Note>>> getAllNotes(String? type) async {
     try {
-      final noteList = await _noteLocalDataSource.getAllNotes();
-      return Right(noteList);
-    } on DatabaseException {
-      return Left(DatabaseFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Note>>> getAllSelectedNotes() async {
-    try {
-      final noteList = await _noteLocalDataSource.getAllSelectedNotes();
+      final noteList = await _noteLocalDataSource.getAllNotes(type);
       return Right(noteList);
     } on DatabaseException {
       return Left(DatabaseFailure());
@@ -78,29 +68,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Failure, List<Note>>> getAllDeletedNotes() async {
-    try {
-      final noteList = await _noteLocalDataSource.getAllDeletedNotes();
-      return Right(noteList);
-    } on DatabaseException {
-      return Left(DatabaseFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> removeDeletedNotes() async {
     try {
       return Right(_noteLocalDataSource.removeDeletedNotes());
-    } on DatabaseException {
-      return Left(DatabaseFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Note>>> getAllSelectedDeletedNotes() async {
-    try {
-      final noteList = await _noteLocalDataSource.getAllSelectedDeletedNotes();
-      return Right(noteList);
     } on DatabaseException {
       return Left(DatabaseFailure());
     }

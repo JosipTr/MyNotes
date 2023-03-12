@@ -35,7 +35,9 @@ class Menu extends StatelessWidget {
               title: const Text('Trash'),
               onTap: () {
                 Navigator.of(context).pop();
-                context.read<NoteBloc>().add(const GetAllDeletedNotesEvent());
+                context
+                    .read<NoteBloc>()
+                    .add(const GetAllNotesEvent(type: 'deleted'));
                 context.go('/trashNote');
               },
             ),

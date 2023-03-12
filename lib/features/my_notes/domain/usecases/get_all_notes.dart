@@ -5,13 +5,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/note.dart';
 import '../repositories/note_repository.dart';
 
-class GetAllNotes implements UseCase<List<Note>, NoParams> {
+class GetAllNotes implements UseCase<List<Note>, Params> {
   final NoteRepository _repository;
 
   const GetAllNotes(this._repository);
 
   @override
-  Future<Either<Failure, List<Note>>> call({NoParams? noParams}) async {
-    return await _repository.getAllNotes();
+  Future<Either<Failure, List<Note>>> call({Params? params}) async {
+    return await _repository.getAllNotes(params!.type);
   }
 }

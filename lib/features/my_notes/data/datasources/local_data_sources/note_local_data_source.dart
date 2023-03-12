@@ -1,15 +1,11 @@
+import 'package:flutter_notes/core/functions/get_sorted_notes.dart';
+
 import '../../../domain/entities/note.dart';
 import '../../../domain/entities/sort.dart';
 import 'database/database.dart';
 
 abstract class NoteLocalDataSource {
-  Future<List<Note>> getAllNotes();
-
-  Future<List<Note>> getAllSelectedNotes();
-
-  Future<List<Note>> getAllDeletedNotes();
-
-  Future<List<Note>> getAllSelectedDeletedNotes();
+  Future<List<Note>> getAllNotes(String? type);
 
   Future<List<Note>> getSearchNote(String title);
 
@@ -30,7 +26,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   const NoteLocalDataSourceImpl(this._appDatabase);
 
   @override
-  Future<List<Note>> getAllNotes() async {
+  Future<List<Note>> getAllNotes(String? type) async {
     String noteOrder;
     if ((await _appDatabase.sortDao.getNoteOrder()) == null) {
       _appDatabase.sortDao.insertSort(const Sort(1, 'title'));
@@ -38,65 +34,16 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     } else {
       noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
     }
-    switch (noteOrder) {
-      case 'date':
-        {
-          _appDatabase.noteDao.updateSelectedNotes();
-          return _appDatabase.noteDao.getAllNotesByDate();
-        }
-      case 'title':
-        {
-          _appDatabase.noteDao.updateSelectedNotes();
-          return _appDatabase.noteDao.getAllNotesByTitle();
-        }
-      case 'dateDesc':
-        {
-          _appDatabase.noteDao.updateSelectedNotes();
-          return _appDatabase.noteDao.getAllNotesByDateDesc();
-        }
-      case 'titleDesc':
-        {
-          _appDatabase.noteDao.updateSelectedNotes();
-          return _appDatabase.noteDao.getAllNotesByTitleDesc();
-        }
-      default:
-        {
-          _appDatabase.noteDao.updateSelectedNotes();
-          return _appDatabase.noteDao.getAllNotes();
-        }
-    }
-  }
-
-  @override
-  Future<List<Note>> getAllSelectedNotes() async {
-    var noteOrder = '';
-    if ((await _appDatabase.sortDao.getNoteOrder()) == null) {
-      _appDatabase.sortDao.insertSort(const Sort(1, 'title'));
-      noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
+    if (type == 'select') {
+      return getSortedNotes(noteOrder, _appDatabase);
+    } else if (type == 'deleted') {
+      _appDatabase.noteDao.updateSelectedNotes();
+      return _appDatabase.noteDao.getAllDeletedNotes();
+    } else if (type == 'selectDeleted') {
+      return _appDatabase.noteDao.getAllDeletedNotes();
     } else {
-      noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
-    }
-    switch (noteOrder) {
-      case 'date':
-        {
-          return _appDatabase.noteDao.getAllNotesByDate();
-        }
-      case 'title':
-        {
-          return _appDatabase.noteDao.getAllNotesByTitle();
-        }
-      case 'dateDesc':
-        {
-          return _appDatabase.noteDao.getAllNotesByDateDesc();
-        }
-      case 'titleDesc':
-        {
-          return _appDatabase.noteDao.getAllNotesByTitleDesc();
-        }
-      default:
-        {
-          return _appDatabase.noteDao.getAllNotes();
-        }
+      _appDatabase.noteDao.updateSelectedNotes();
+      return getSortedNotes(noteOrder, _appDatabase);
     }
   }
 
@@ -126,18 +73,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   }
 
   @override
-  Future<List<Note>> getAllDeletedNotes() {
-    _appDatabase.noteDao.updateSelectedNotes();
-    return _appDatabase.noteDao.getAllDeletedNotes();
-  }
-
-  @override
   Future<void> removeDeletedNotes() {
     return _appDatabase.noteDao.removeDeletedNotes();
-  }
-
-  @override
-  Future<List<Note>> getAllSelectedDeletedNotes() {
-    return _appDatabase.noteDao.getAllDeletedNotes();
   }
 }

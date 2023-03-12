@@ -43,7 +43,7 @@ class TrashNotePage extends StatelessWidget {
                             .add(SelectNoteEvent(state.notes[index]));
                         context
                             .read<NoteBloc>()
-                            .add(const GetAllSelectedDeletedNotesEvent());
+                            .add(const GetAllNotesEvent(type: 'selectDeleted'));
                       },
                       onTap: () {
                         if (state.notes[index].isSelected!) {
@@ -80,7 +80,7 @@ class TrashNotePage extends StatelessWidget {
                               .add(const RemoveDeletedNotesEvent());
                           context
                               .read<NoteBloc>()
-                              .add(const GetAllDeletedNotesEvent());
+                              .add(const GetAllNotesEvent(type: 'deleted'));
                         },
                         icon: state.notes[index].isSelected!
                             ? Icon(

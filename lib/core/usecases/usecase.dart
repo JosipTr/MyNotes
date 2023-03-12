@@ -13,9 +13,11 @@ class Params {
   final Note? note;
   final String? searchText;
   final String? noteOrder;
+  final String? type;
   const Params({
     this.note,
     this.searchText,
     this.noteOrder,
+    this.type,
   });
 }

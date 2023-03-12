@@ -28,7 +28,9 @@ class ListItem extends StatelessWidget {
           child: ListTile(
             onLongPress: () {
               context.read<NoteBloc>().add(SelectNoteEvent(state.notes[index]));
-              context.read<NoteBloc>().add(const GetAllSelectedNotesEvent());
+              context
+                  .read<NoteBloc>()
+                  .add(const GetAllNotesEvent(type: 'select'));
             },
             onTap: () {
               if (state.notes[index].isSelected!) {

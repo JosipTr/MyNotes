@@ -15,19 +15,8 @@ class RemoveNoteEvent extends NoteEvent {
 }
 
 class GetAllNotesEvent extends NoteEvent {
-  const GetAllNotesEvent();
-}
-
-class GetAllSelectedNotesEvent extends NoteEvent {
-  const GetAllSelectedNotesEvent();
-}
-
-class GetAllDeletedNotesEvent extends NoteEvent {
-  const GetAllDeletedNotesEvent();
-}
-
-class GetAllSelectedDeletedNotesEvent extends NoteEvent {
-  const GetAllSelectedDeletedNotesEvent();
+  final String? type;
+  const GetAllNotesEvent({this.type});
 }
 
 class UpdateNoteEvent extends NoteEvent {
