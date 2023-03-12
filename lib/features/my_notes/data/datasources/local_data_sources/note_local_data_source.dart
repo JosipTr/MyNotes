@@ -36,6 +36,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
       _noteOrder = (await _appDatabase.sortDao.getNoteOrder())!;
     }
     if (type == 'select') {
+      _isSelectedDeleted = false;
+      _isSelected = false;
       return getSortedNotes(_noteOrder, _appDatabase);
     } else if (type == 'selectAllNormal') {
       _isSelected = !_isSelected;
@@ -56,13 +58,21 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
         return _appDatabase.noteDao.getAllDeletedNotes();
       }
     } else if (type == 'deleted') {
+      _isSelectedDeleted = false;
+      _isSelected = false;
       _appDatabase.noteDao.updateSelectedNotes();
       return _appDatabase.noteDao.getAllDeletedNotes();
     } else if (type == 'selectDeleted') {
+      _isSelectedDeleted = false;
+      _isSelected = false;
       return _appDatabase.noteDao.getAllDeletedNotes();
     } else if (type == 'search') {
+      _isSelectedDeleted = false;
+      _isSelected = false;
       return _appDatabase.noteDao.getSearchNote('$searchText%');
     } else {
+      _isSelectedDeleted = false;
+      _isSelected = false;
       _appDatabase.noteDao.updateSelectedNotes();
       return getSortedNotes(_noteOrder, _appDatabase);
     }
