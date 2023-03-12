@@ -12,6 +12,6 @@ class GetAllNotes implements UseCase<List<Note>, Params> {
 
   @override
   Future<Either<Failure, List<Note>>> call({Params? params}) async {
-    return await _repository.getAllNotes(params!.type);
+    return await _repository.getAllNotes(params!.type, params.searchText);
   }
 }

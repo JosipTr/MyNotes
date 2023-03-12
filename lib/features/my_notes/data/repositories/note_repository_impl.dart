@@ -12,19 +12,10 @@ class NoteRepositoryImpl implements NoteRepository {
   const NoteRepositoryImpl(this._noteLocalDataSource);
 
   @override
-  Future<Either<Failure, List<Note>>> getAllNotes(String? type) async {
+  Future<Either<Failure, List<Note>>> getAllNotes(
+      String? type, String? searchText) async {
     try {
-      final noteList = await _noteLocalDataSource.getAllNotes(type);
-      return Right(noteList);
-    } on DatabaseException {
-      return Left(DatabaseFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Note>>> getSearchNote(String? title) async {
-    try {
-      final noteList = await _noteLocalDataSource.getSearchNote(title!);
+      final noteList = await _noteLocalDataSource.getAllNotes(type, searchText);
       return Right(noteList);
     } on DatabaseException {
       return Left(DatabaseFailure());

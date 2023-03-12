@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/strings/string.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/usecases/get_all_notes.dart';
-import '../../domain/usecases/get_searche_note.dart';
 import '../../domain/usecases/insert_note.dart';
 import '../../domain/usecases/remove_deleted_notes.dart';
 import '../../domain/usecases/remove_note.dart';
@@ -18,7 +17,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   final InsertNote _insertNote;
   final RemoveNote _removeNote;
   final UpdateNote _updateNote;
-  final GetSearchNote _getSearchNote;
   final UpdateNoteOrder _updateNoteOrder;
   final RemoveDeletedNotes _removeDeletedNotes;
 
@@ -27,7 +25,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     this._insertNote,
     this._removeNote,
     this._updateNote,
-    this._getSearchNote,
     this._updateNoteOrder,
     this._removeDeletedNotes,
   ) : super(const InitialState()) {
@@ -36,14 +33,14 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<InsertNoteEvent>(_onInsertNote);
     on<UpdateNoteEvent>(_onUpdateNoteEvent);
     on<SelectNoteEvent>(_onSelectNoteEvent);
-    on<SearchNoteEvent>(_onSearchNoteEvent);
     on<UpdateNoteOrderEvent>(_onUpdateNoteOrderEvent);
     on<SelectDeleteNoteEvent>(_onSelectDeleteNoteEvent);
     on<RemoveDeletedNotesEvent>(_onRemoveDeletedNotes);
   }
 
   void _onGetAllNotes(GetAllNotesEvent event, Emitter<NoteState> emit) async {
-    final either = await _getAllNotes(params: Params(type: event.type));
+    final either = await _getAllNotes(
+        params: Params(type: event.type, searchText: event.searchText));
 
     _getNotes(either, emit);
   }
@@ -76,19 +73,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       SelectDeleteNoteEvent event, Emitter<NoteState> emit) async {
     event.note.isDeleted = !event.note.isDeleted!;
     await _updateNote(params: Params(note: event.note));
-  }
-
-  void _onSearchNoteEvent(
-      SearchNoteEvent event, Emitter<NoteState> emit) async {
-    final either =
-        await _getSearchNote(params: Params(searchText: event.searchText));
-
-    if (event.searchText.isEmpty) {
-      emit(const Empty(''));
-    } else {
-      either.fold((failure) => emit(Error(failure.toString())),
-          (notes) => emit(SearchNoteLoaded(notes)));
-    }
   }
 
   void _onUpdateNoteOrderEvent(

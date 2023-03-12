@@ -1,4 +1,3 @@
-import 'package:flutter_notes/features/my_notes/domain/usecases/get_searche_note.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/remove_deleted_notes.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/update_note_order.dart';
 import 'package:get_it/get_it.dart';
@@ -22,14 +21,13 @@ Future<void> init() async {
   di.registerSingleton(database);
 
   //Bloc
-  di.registerFactory(() => NoteBloc(di(), di(), di(), di(), di(), di(), di()));
+  di.registerFactory(() => NoteBloc(di(), di(), di(), di(), di(), di()));
 
   //UseCases
   di.registerLazySingleton(() => GetAllNotes(di()));
   di.registerLazySingleton(() => InsertNote(di()));
   di.registerLazySingleton(() => RemoveNote(di()));
   di.registerLazySingleton(() => UpdateNote(di()));
-  di.registerLazySingleton(() => GetSearchNote(di()));
   di.registerLazySingleton(() => UpdateNoteOrder(di()));
   di.registerLazySingleton(() => RemoveDeletedNotes(di()));
 

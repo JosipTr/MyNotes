@@ -5,9 +5,7 @@ import '../../../domain/entities/sort.dart';
 import 'database/database.dart';
 
 abstract class NoteLocalDataSource {
-  Future<List<Note>> getAllNotes(String? type);
-
-  Future<List<Note>> getSearchNote(String title);
+  Future<List<Note>> getAllNotes(String? type, String? searchText);
 
   Future<void> removeNote();
 
@@ -26,7 +24,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   const NoteLocalDataSourceImpl(this._appDatabase);
 
   @override
-  Future<List<Note>> getAllNotes(String? type) async {
+  Future<List<Note>> getAllNotes(String? type, String? searchText) async {
     String noteOrder;
     if ((await _appDatabase.sortDao.getNoteOrder()) == null) {
       _appDatabase.sortDao.insertSort(const Sort(1, 'title'));
@@ -41,15 +39,12 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
       return _appDatabase.noteDao.getAllDeletedNotes();
     } else if (type == 'selectDeleted') {
       return _appDatabase.noteDao.getAllDeletedNotes();
+    } else if (type == 'search') {
+      return _appDatabase.noteDao.getSearchNote('$searchText%');
     } else {
       _appDatabase.noteDao.updateSelectedNotes();
       return getSortedNotes(noteOrder, _appDatabase);
     }
-  }
-
-  @override
-  Future<List<Note>> getSearchNote(String title) {
-    return _appDatabase.noteDao.getSearchNote('$title%');
   }
 
   @override

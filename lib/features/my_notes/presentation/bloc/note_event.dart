@@ -16,7 +16,8 @@ class RemoveNoteEvent extends NoteEvent {
 
 class GetAllNotesEvent extends NoteEvent {
   final String? type;
-  const GetAllNotesEvent({this.type});
+  final String? searchText;
+  const GetAllNotesEvent({this.type, this.searchText});
 }
 
 class UpdateNoteEvent extends NoteEvent {
@@ -34,12 +35,6 @@ class SelectDeleteNoteEvent extends NoteEvent {
   final Note note;
 
   const SelectDeleteNoteEvent(this.note);
-}
-
-class SearchNoteEvent extends NoteEvent {
-  final String searchText;
-
-  const SearchNoteEvent(this.searchText);
 }
 
 class UpdateNoteOrderEvent extends NoteEvent {

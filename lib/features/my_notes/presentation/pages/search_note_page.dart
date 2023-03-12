@@ -26,9 +26,8 @@ class SearchNotePage extends StatelessWidget {
             autofocus: true,
             controller: searchController,
             onChanged: (value) {
-              context
-                  .read<NoteBloc>()
-                  .add(SearchNoteEvent(searchController.text));
+              context.read<NoteBloc>().add(GetAllNotesEvent(
+                  type: 'search', searchText: searchController.text));
             },
             decoration: InputDecoration(
               hintText: 'Search...',
@@ -38,7 +37,7 @@ class SearchNotePage extends StatelessWidget {
         ),
         body: BlocBuilder<NoteBloc, NoteState>(
           builder: (context, state) {
-            if (state is SearchNoteLoaded) {
+            if (state is Loaded) {
               return ListView.builder(
                 itemCount: state.notes.length,
                 itemBuilder: (context, index) {
@@ -51,9 +50,8 @@ class SearchNotePage extends StatelessWidget {
                         context
                             .read<NoteBloc>()
                             .add(SelectNoteEvent(state.notes[index]));
-                        context
-                            .read<NoteBloc>()
-                            .add(SearchNoteEvent(searchController.text));
+                        context.read<NoteBloc>().add(GetAllNotesEvent(
+                            type: 'search', searchText: searchController.text));
                       },
                       onTap: () {
                         if (state.notes[index].isSelected!) {
