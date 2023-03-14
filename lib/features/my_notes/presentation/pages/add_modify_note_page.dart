@@ -16,21 +16,21 @@ class AddModifyNotePage extends StatelessWidget {
       if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
           note != null) {
-        action.add(const GetAllNotesEvent());
+        action.add(const GetNotesEvent());
       } else if (titleController.text.isEmpty &&
           contentController.text.isEmpty &&
           note == null) {
-        action.add(const GetAllNotesEvent());
+        action.add(const GetNotesEvent());
       } else if (note != null &&
           note!.title == titleController.text &&
           note!.content == contentController.text) {
-        action.add(const GetAllNotesEvent());
+        action.add(const GetNotesEvent());
       } else if (note != null) {
         note!.title = titleController.text.trim();
         note!.content = contentController.text.trim();
         note!.date = getDateTime();
-        action.add(UpdateNoteEvent(note!));
-        action.add(const GetAllNotesEvent());
+        action.add(UpdateNotesEvent(id: note!.id));
+        action.add(const GetNotesEvent());
       } else {
         final newNote = Note(
           title: titleController.text.trim(),
@@ -38,7 +38,7 @@ class AddModifyNotePage extends StatelessWidget {
           date: getDateTime(),
         );
         action.add(InsertNoteEvent(newNote));
-        action.add(const GetAllNotesEvent());
+        action.add(const GetNotesEvent());
       }
     }
   }

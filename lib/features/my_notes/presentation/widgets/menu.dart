@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/core/colors/generate_material_color.dart';
+import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_bloc.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
@@ -37,8 +38,8 @@ class Menu extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
-                context.read<NoteBloc>().add(const GetAllNotesEvent());
-                Navigator.of(context).pop();
+                context.read<NoteBloc>().add(const GetNotesEvent());
+                context.go('/');
                 Navigator.of(context).pop();
               },
             ),
@@ -52,10 +53,9 @@ class Menu extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
+                context.read<NoteBloc>().add(
+                    const GetNotesEvent(criteria: GetNotesCriteria.deleted));
                 Navigator.of(context).pop();
-                context
-                    .read<NoteBloc>()
-                    .add(const GetAllNotesEvent(type: 'deleted'));
                 context.go('/trashNote');
               },
             ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
+import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 
 class SelectMenu extends StatelessWidget {
-  final String type;
   const SelectMenu({
     super.key,
-    required this.type,
   });
 
   @override
@@ -18,7 +18,11 @@ class SelectMenu extends StatelessWidget {
         PopupMenuItem(
           child: const Text('Select all'),
           onTap: () {
-            context.read<NoteBloc>().add(GetAllNotesEvent(type: type));
+            context.read<NoteBloc>().add(const UpdateNotesEvent(
+                criteria: UpdateNotesCriteria.selectAll));
+            context
+                .read<NoteBloc>()
+                .add(const GetNotesEvent(criteria: GetNotesCriteria.selected));
           },
         ),
       ],

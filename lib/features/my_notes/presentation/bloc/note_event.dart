@@ -1,3 +1,6 @@
+import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
+import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
+
 import '../../domain/entities/note.dart';
 
 abstract class NoteEvent {
@@ -10,39 +13,22 @@ class InsertNoteEvent extends NoteEvent {
   const InsertNoteEvent(this.note);
 }
 
-class RemoveNoteEvent extends NoteEvent {
-  const RemoveNoteEvent();
+class GetNotesEvent extends NoteEvent {
+  final GetNotesCriteria? criteria;
+  final String? searchValue;
+
+  const GetNotesEvent({this.criteria, this.searchValue});
 }
 
-class GetAllNotesEvent extends NoteEvent {
-  final String? type;
-  final String? searchText;
-  const GetAllNotesEvent({this.type, this.searchText});
+class UpdateNotesEvent extends NoteEvent {
+  final UpdateNotesCriteria? criteria;
+  final int? id;
+  final String? sortType;
+  final Note? note;
+
+  const UpdateNotesEvent({this.criteria, this.id, this.sortType, this.note});
 }
 
-class UpdateNoteEvent extends NoteEvent {
-  final Note note;
-  const UpdateNoteEvent(this.note);
-}
-
-class SelectNoteEvent extends NoteEvent {
-  final Note note;
-
-  const SelectNoteEvent(this.note);
-}
-
-class SelectDeleteNoteEvent extends NoteEvent {
-  final Note note;
-
-  const SelectDeleteNoteEvent(this.note);
-}
-
-class UpdateNoteOrderEvent extends NoteEvent {
-  final String noteOrder;
-
-  const UpdateNoteOrderEvent(this.noteOrder);
-}
-
-class RemoveDeletedNotesEvent extends NoteEvent {
-  const RemoveDeletedNotesEvent();
+class RemoveNotesEvent extends NoteEvent {
+  const RemoveNotesEvent();
 }

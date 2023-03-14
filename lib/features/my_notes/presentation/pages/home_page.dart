@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/strings/string.dart';
 import '../bloc/note_bloc.dart';
-import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
 import '../widgets/empty_list.dart';
 import '../widgets/list_item.dart';
@@ -35,9 +34,7 @@ class HomePage extends StatelessWidget {
               onPressed: () => context.go(searchNotePageRoute),
               icon: const Icon(Icons.search)),
           const SortMenu(),
-          const SelectMenu(
-            type: 'selectAllNormal',
-          ),
+          const SelectMenu(),
         ],
       ),
       body: BlocConsumer<NoteBloc, NoteState>(

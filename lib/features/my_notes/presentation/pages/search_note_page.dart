@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
+import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 import 'package:flutter_notes/core/strings/string.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +17,7 @@ class SearchNotePage extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
     return WillPopScope(
       onWillPop: () async {
-        context.read<NoteBloc>().add(const GetAllNotesEvent());
+        context.read<NoteBloc>().add(const GetNotesEvent());
         return true;
       },
       child: Scaffold(
@@ -26,8 +28,8 @@ class SearchNotePage extends StatelessWidget {
             autofocus: true,
             controller: searchController,
             onChanged: (value) {
-              context.read<NoteBloc>().add(GetAllNotesEvent(
-                  type: 'search', searchText: searchController.text));
+              context.read<NoteBloc>().add(GetNotesEvent(
+                  criteria: GetNotesCriteria.searched, searchValue: value));
             },
             decoration: InputDecoration(
               hintText: 'Search...',
@@ -47,18 +49,14 @@ class SearchNotePage extends StatelessWidget {
                     color: Theme.of(context).cardColor,
                     child: ListTile(
                       onLongPress: () {
-                        context
-                            .read<NoteBloc>()
-                            .add(SelectNoteEvent(state.notes[index]));
-                        context.read<NoteBloc>().add(GetAllNotesEvent(
-                            type: 'search', searchText: searchController.text));
+                        context.read<NoteBloc>().add(UpdateNotesEvent(
+                            criteria: UpdateNotesCriteria.select,
+                            id: state.notes[index].id));
+                        context.read<NoteBloc>().add(GetNotesEvent(
+                            criteria: GetNotesCriteria.searched,
+                            searchValue: searchController.text));
                       },
                       onTap: () {
-                        if (state.notes[index].isSelected!) {
-                          context
-                              .read<NoteBloc>()
-                              .add(SelectNoteEvent(state.notes[index]));
-                        }
                         context.go(addNotePageRoute, extra: state.notes[index]);
                       },
                       title: Text(

@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 class Sort {
   @primaryKey
   final int id;
-  final String noteOrder;
+  final String sortType;
 
-  const Sort(this.id, this.noteOrder);
+  const Sort(this.id, this.sortType);
 }

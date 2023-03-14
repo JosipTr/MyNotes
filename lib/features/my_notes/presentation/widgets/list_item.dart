@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
+import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
 
@@ -27,17 +29,13 @@ class ListItem extends StatelessWidget {
               : Theme.of(context).cardColor,
           child: ListTile(
             onLongPress: () {
-              context.read<NoteBloc>().add(SelectNoteEvent(state.notes[index]));
-              context
-                  .read<NoteBloc>()
-                  .add(const GetAllNotesEvent(type: 'select'));
+              context.read<NoteBloc>().add(UpdateNotesEvent(
+                  criteria: UpdateNotesCriteria.select,
+                  id: state.notes[index].id));
+              context.read<NoteBloc>().add(
+                  const GetNotesEvent(criteria: GetNotesCriteria.selected));
             },
             onTap: () {
-              if (state.notes[index].isSelected!) {
-                context
-                    .read<NoteBloc>()
-                    .add(SelectNoteEvent(state.notes[index]));
-              }
               context.go('/addNote', extra: state.notes[index]);
             },
             title: Text(
@@ -62,8 +60,9 @@ class ListItem extends StatelessWidget {
             ),
             trailing: IconButton(
               onPressed: () {
-                context.read<NoteBloc>().add(const RemoveNoteEvent());
-                context.read<NoteBloc>().add(const GetAllNotesEvent());
+                context.read<NoteBloc>().add(const UpdateNotesEvent(
+                    criteria: UpdateNotesCriteria.delete));
+                context.read<NoteBloc>().add(const GetNotesEvent());
               },
               icon: state.notes[index].isSelected!
                   ? Icon(

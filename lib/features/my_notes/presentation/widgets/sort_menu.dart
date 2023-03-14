@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
@@ -25,8 +26,9 @@ class SortMenu extends StatelessWidget {
             ],
           ),
           onTap: () {
-            context.read<NoteBloc>().add(const UpdateNoteOrderEvent('date'));
-            context.read<NoteBloc>().add(const GetAllNotesEvent());
+            context.read<NoteBloc>().add(const UpdateNotesEvent(
+                criteria: UpdateNotesCriteria.sortType, sortType: 'date'));
+            context.read<NoteBloc>().add(const GetNotesEvent());
           },
         ),
         PopupMenuItem(
@@ -40,10 +42,9 @@ class SortMenu extends StatelessWidget {
             ],
           ),
           onTap: () {
-            context
-                .read<NoteBloc>()
-                .add(const UpdateNoteOrderEvent('dateDesc'));
-            context.read<NoteBloc>().add(const GetAllNotesEvent());
+            context.read<NoteBloc>().add(const UpdateNotesEvent(
+                criteria: UpdateNotesCriteria.sortType, sortType: 'date'));
+            context.read<NoteBloc>().add(const GetNotesEvent());
           },
         ),
         PopupMenuItem(
@@ -57,8 +58,9 @@ class SortMenu extends StatelessWidget {
             ],
           ),
           onTap: () {
-            context.read<NoteBloc>().add(const UpdateNoteOrderEvent('title'));
-            context.read<NoteBloc>().add(const GetAllNotesEvent());
+            context.read<NoteBloc>().add(const UpdateNotesEvent(
+                criteria: UpdateNotesCriteria.sortType, sortType: 'title ASC'));
+            context.read<NoteBloc>().add(const GetNotesEvent());
           },
         ),
         PopupMenuItem(
@@ -72,10 +74,10 @@ class SortMenu extends StatelessWidget {
             ],
           ),
           onTap: () {
-            context
-                .read<NoteBloc>()
-                .add(const UpdateNoteOrderEvent('titleDesc'));
-            context.read<NoteBloc>().add(const GetAllNotesEvent());
+            context.read<NoteBloc>().add(const UpdateNotesEvent(
+                criteria: UpdateNotesCriteria.sortType,
+                sortType: 'title DESC'));
+            context.read<NoteBloc>().add(const GetNotesEvent());
           },
         ),
       ],

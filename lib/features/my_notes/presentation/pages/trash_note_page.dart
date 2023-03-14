@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
+import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/select_menu.dart';
@@ -18,12 +20,23 @@ class TrashNotePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trash'),
-        actions: const [SelectMenu(type: 'selectAllDeleted')],
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: const Text('Empty Trash'),
+                onTap: () {
+                  context.read<NoteBloc>().add(const RemoveNotesEvent());
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       drawer: const Menu(),
       body: WillPopScope(
         onWillPop: () async {
-          context.read<NoteBloc>().add(const GetAllNotesEvent());
+          context.read<NoteBloc>().add(const GetNotesEvent());
           return true;
         },
         child: BlocBuilder<NoteBloc, NoteState>(
@@ -40,19 +53,13 @@ class TrashNotePage extends StatelessWidget {
                         : Theme.of(context).cardColor,
                     child: ListTile(
                       onLongPress: () {
-                        context
-                            .read<NoteBloc>()
-                            .add(SelectNoteEvent(state.notes[index]));
-                        context
-                            .read<NoteBloc>()
-                            .add(const GetAllNotesEvent(type: 'selectDeleted'));
+                        context.read<NoteBloc>().add(UpdateNotesEvent(
+                            criteria: UpdateNotesCriteria.select,
+                            id: state.notes[index].id));
+                        context.read<NoteBloc>().add(const GetNotesEvent(
+                            criteria: GetNotesCriteria.selectedDeleted));
                       },
                       onTap: () {
-                        if (state.notes[index].isSelected!) {
-                          context
-                              .read<NoteBloc>()
-                              .add(SelectNoteEvent(state.notes[index]));
-                        }
                         context.go('/addNote', extra: state.notes[index]);
                       },
                       title: Text(
@@ -79,10 +86,9 @@ class TrashNotePage extends StatelessWidget {
                         onPressed: () {
                           context
                               .read<NoteBloc>()
-                              .add(const RemoveDeletedNotesEvent());
-                          context
-                              .read<NoteBloc>()
-                              .add(const GetAllNotesEvent(type: 'deleted'));
+                              .add(const RemoveNotesEvent());
+                          context.read<NoteBloc>().add(const GetNotesEvent(
+                              criteria: GetNotesCriteria.deleted));
                         },
                         icon: state.notes[index].isSelected!
                             ? Icon(

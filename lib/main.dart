@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<NoteBloc>(
           create: (_) => di()
             ..add(
-              const GetAllNotesEvent(),
+              const GetNotesEvent(),
             ),
         ),
       ],

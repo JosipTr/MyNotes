@@ -89,7 +89,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `content` TEXT, `date` TEXT, `isSelected` INTEGER, `isDeleted` INTEGER)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Sort` (`id` INTEGER NOT NULL, `noteOrder` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Sort` (`id` INTEGER NOT NULL, `sortType` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -154,42 +154,17 @@ class _$NoteDao extends NoteDao {
   final UpdateAdapter<Note> _noteUpdateAdapter;
 
   @override
-  Future<List<Note>> getAllNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM Note WHERE isDeleted=false',
-        mapper: (Map<String, Object?> row) => Note(
-            id: row['id'] as int?,
-            title: row['title'] as String?,
-            content: row['content'] as String?,
-            date: row['date'] as String?,
-            isSelected: row['isSelected'] == null
-                ? null
-                : (row['isSelected'] as int) != 0,
-            isDeleted: row['isDeleted'] == null
-                ? null
-                : (row['isDeleted'] as int) != 0));
-  }
-
-  @override
-  Future<List<Note>> getAllNotesByTitle() async {
+  Future<List<Note>> getNotes(String sortType) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM Note WHERE isDeleted=false ORDER BY title',
-        mapper: (Map<String, Object?> row) => Note(
-            id: row['id'] as int?,
-            title: row['title'] as String?,
-            content: row['content'] as String?,
-            date: row['date'] as String?,
-            isSelected: row['isSelected'] == null
-                ? null
-                : (row['isSelected'] as int) != 0,
-            isDeleted: row['isDeleted'] == null
-                ? null
-                : (row['isDeleted'] as int) != 0));
+        'SELECT * FROM Note WHERE isDeleted=0 ORDER BY CASE ?1 WHEN \"title\" THEN title WHEN \"date\" THEN date ELSE title END',
+        mapper: (Map<String, Object?> row) => Note(id: row['id'] as int?, title: row['title'] as String?, content: row['content'] as String?, date: row['date'] as String?, isSelected: row['isSelected'] == null ? null : (row['isSelected'] as int) != 0, isDeleted: row['isDeleted'] == null ? null : (row['isDeleted'] as int) != 0),
+        arguments: [sortType]);
   }
 
   @override
-  Future<List<Note>> getAllNotesByTitleDesc() async {
+  Future<List<Note>> getDeletedNotes(String sortType) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM Note WHERE isDeleted=false ORDER BY title DESC',
+        'SELECT * FROM Note WHERE isDeleted=1 ORDER BY ?1',
         mapper: (Map<String, Object?> row) => Note(
             id: row['id'] as int?,
             title: row['title'] as String?,
@@ -200,83 +175,12 @@ class _$NoteDao extends NoteDao {
                 : (row['isSelected'] as int) != 0,
             isDeleted: row['isDeleted'] == null
                 ? null
-                : (row['isDeleted'] as int) != 0));
+                : (row['isDeleted'] as int) != 0),
+        arguments: [sortType]);
   }
 
   @override
-  Future<List<Note>> getAllNotesByDate() async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM Note WHERE isDeleted=false ORDER BY date',
-        mapper: (Map<String, Object?> row) => Note(
-            id: row['id'] as int?,
-            title: row['title'] as String?,
-            content: row['content'] as String?,
-            date: row['date'] as String?,
-            isSelected: row['isSelected'] == null
-                ? null
-                : (row['isSelected'] as int) != 0,
-            isDeleted: row['isDeleted'] == null
-                ? null
-                : (row['isDeleted'] as int) != 0));
-  }
-
-  @override
-  Future<List<Note>> getAllNotesByDateDesc() async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM Note WHERE isDeleted=false ORDER BY date DESC',
-        mapper: (Map<String, Object?> row) => Note(
-            id: row['id'] as int?,
-            title: row['title'] as String?,
-            content: row['content'] as String?,
-            date: row['date'] as String?,
-            isSelected: row['isSelected'] == null
-                ? null
-                : (row['isSelected'] as int) != 0,
-            isDeleted: row['isDeleted'] == null
-                ? null
-                : (row['isDeleted'] as int) != 0));
-  }
-
-  @override
-  Future<List<Note>> getAllDeletedNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM Note WHERE isDeleted=true',
-        mapper: (Map<String, Object?> row) => Note(
-            id: row['id'] as int?,
-            title: row['title'] as String?,
-            content: row['content'] as String?,
-            date: row['date'] as String?,
-            isSelected: row['isSelected'] == null
-                ? null
-                : (row['isSelected'] as int) != 0,
-            isDeleted: row['isDeleted'] == null
-                ? null
-                : (row['isDeleted'] as int) != 0));
-  }
-
-  @override
-  Future<void> updateSelectedNotes() async {
-    await _queryAdapter.queryNoReturn(
-        'UPDATE Note SET isSelected=false WHERE isSelected=true');
-  }
-
-  @override
-  Future<void> selectAllNotes() async {
-    await _queryAdapter.queryNoReturn('UPDATE Note SET isSelected=true');
-  }
-
-  @override
-  Future<void> removeNote() async {
-    await _queryAdapter
-        .queryNoReturn('UPDATE Note SET isDeleted=true WHERE isSelected=true');
-  }
-
-  @override
-  Future<void> removeDeletedNotes() async {
-    await _queryAdapter.queryNoReturn('DELETE FROM Note WHERE isSelected=true');
-  }
-
-  @override
-  Future<List<Note>> getSearchNote(String searchValue) async {
+  Future<List<Note>> getSearchedNotes(String searchValue) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Note WHERE title LIKE ?1 OR content LIKE ?1',
         mapper: (Map<String, Object?> row) => Note(
@@ -294,12 +198,47 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
+  Future<void> unselectAllNotes() async {
+    await _queryAdapter.queryNoReturn('UPDATE Note SET isSelected=0');
+  }
+
+  @override
+  Future<void> selectAllNotes() async {
+    await _queryAdapter
+        .queryNoReturn('UPDATE Note SET isSelected=1 WHERE isDeleted=0');
+  }
+
+  @override
+  Future<void> selectNote(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE Note SET isSelected=CASE WHEN isSelected=1 THEN 0 ELSE 1 END WHERE id=?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> setNoteDeleted() async {
+    await _queryAdapter
+        .queryNoReturn('UPDATE Note SET isDeleted=1 WHERE isSelected=1');
+  }
+
+  @override
+  Future<void> setNoteUndeleted() async {
+    await _queryAdapter
+        .queryNoReturn('UPDATE Note SET isDeleted=0 WHERE isSelected=1');
+  }
+
+  @override
+  Future<void> removeNotes() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM Note WHERE isDeleted=true');
+  }
+
+  @override
   Future<void> insertNote(Note note) async {
     await _noteInsertionAdapter.insert(note, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateNote(Note note) async {
+  Future<void> updateNoteContent(Note note) async {
     await _noteUpdateAdapter.update(note, OnConflictStrategy.abort);
   }
 }
@@ -313,7 +252,7 @@ class _$SortDao extends SortDao {
             database,
             'Sort',
             (Sort item) =>
-                <String, Object?>{'id': item.id, 'noteOrder': item.noteOrder});
+                <String, Object?>{'id': item.id, 'sortType': item.sortType});
 
   final sqflite.DatabaseExecutor database;
 
@@ -324,15 +263,15 @@ class _$SortDao extends SortDao {
   final InsertionAdapter<Sort> _sortInsertionAdapter;
 
   @override
-  Future<String?> getNoteOrder() async {
-    return _queryAdapter.query('SELECT noteOrder FROM Sort WHERE id=1',
+  Future<String?> getSortType() async {
+    return _queryAdapter.query('SELECT sortType FROM Sort WHERE id=1',
         mapper: (Map<String, Object?> row) => row.values.first as String);
   }
 
   @override
-  Future<void> updateNoteOrder(String noteOrder) async {
-    await _queryAdapter.queryNoReturn('UPDATE Sort SET noteOrder=?1 WHERE id=1',
-        arguments: [noteOrder]);
+  Future<void> updateSortType(String sortType) async {
+    await _queryAdapter.queryNoReturn('UPDATE Sort SET sortType=?1 WHERE id=1',
+        arguments: [sortType]);
   }
 
   @override
