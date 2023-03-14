@@ -18,65 +18,24 @@ class SortMenu extends StatelessWidget {
         PopupMenuItem(
           child: Row(
             children: [
-              Icon(
-                Icons.arrow_upward,
-                color: Theme.of(context).textTheme.labelLarge!.color,
-              ),
+              Text('By title', style: Theme.of(context).textTheme.labelMedium!),
+            ],
+          ),
+          onTap: () {
+            context.read<NoteBloc>().add(const UpdateNotesEvent(
+                criteria: UpdateNotesCriteria.sortType, sortType: 'title'));
+            context.read<NoteBloc>().add(const GetNotesEvent());
+          },
+        ),
+        PopupMenuItem(
+          child: Row(
+            children: [
               Text('By date', style: Theme.of(context).textTheme.labelMedium!),
             ],
           ),
           onTap: () {
             context.read<NoteBloc>().add(const UpdateNotesEvent(
                 criteria: UpdateNotesCriteria.sortType, sortType: 'date'));
-            context.read<NoteBloc>().add(const GetNotesEvent());
-          },
-        ),
-        PopupMenuItem(
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_downward,
-                color: Theme.of(context).textTheme.labelLarge!.color,
-              ),
-              Text('By date', style: Theme.of(context).textTheme.labelMedium!),
-            ],
-          ),
-          onTap: () {
-            context.read<NoteBloc>().add(const UpdateNotesEvent(
-                criteria: UpdateNotesCriteria.sortType, sortType: 'date'));
-            context.read<NoteBloc>().add(const GetNotesEvent());
-          },
-        ),
-        PopupMenuItem(
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_upward,
-                color: Theme.of(context).textTheme.labelLarge!.color,
-              ),
-              Text('By title', style: Theme.of(context).textTheme.labelMedium!),
-            ],
-          ),
-          onTap: () {
-            context.read<NoteBloc>().add(const UpdateNotesEvent(
-                criteria: UpdateNotesCriteria.sortType, sortType: 'title ASC'));
-            context.read<NoteBloc>().add(const GetNotesEvent());
-          },
-        ),
-        PopupMenuItem(
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_downward,
-                color: Theme.of(context).textTheme.labelLarge!.color,
-              ),
-              Text('By title', style: Theme.of(context).textTheme.labelMedium!),
-            ],
-          ),
-          onTap: () {
-            context.read<NoteBloc>().add(const UpdateNotesEvent(
-                criteria: UpdateNotesCriteria.sortType,
-                sortType: 'title DESC'));
             context.read<NoteBloc>().add(const GetNotesEvent());
           },
         ),

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_notes/features/my_notes/data/models/note_model.dart';
 import 'package:flutter_notes/features/my_notes/domain/entities/sort.dart';
 
 import '../../../../core/errors/exception.dart';
@@ -6,6 +7,7 @@ import '../../../../core/errors/failure.dart';
 import '../../domain/entities/note.dart';
 import '../../domain/repositories/note_repository.dart';
 import '../datasources/local_data_sources/note_local_data_source.dart';
+import '../models/sort_model.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
   final NoteLocalDataSource _noteLocalDataSource;
@@ -23,9 +25,20 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
+  Future<Either<Failure, List<Note>>> getDeletedNotes(String? sortType) async {
+    try {
+      final notes = await _noteLocalDataSource.getDeletedNotes(sortType!);
+      return Right(notes);
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> insertNote(Note? note) async {
     try {
-      return Right(await _noteLocalDataSource.insertNote(note!));
+      final noteModel = NoteModel.fromNote(note!);
+      return Right(await _noteLocalDataSource.insertNote(noteModel));
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
@@ -35,16 +48,6 @@ class NoteRepositoryImpl implements NoteRepository {
   Future<Either<Failure, void>> removeNotes() async {
     try {
       return Right(_noteLocalDataSource.removeNotes());
-    } on DatabaseException {
-      return Left(DatabaseFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Note>>> getDeletedNotes(String? sortType) async {
-    try {
-      final notes = await _noteLocalDataSource.getDeletedNotes(sortType!);
-      return Right(notes);
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
@@ -124,7 +127,8 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Either<Failure, void>> insertSort(Sort? sort) async {
     try {
-      final insert = await _noteLocalDataSource.insertSort(sort!);
+      final sortModel = SortModel.fromSort(sort!);
+      final insert = await _noteLocalDataSource.insertSort(sortModel);
       return Right(insert);
     } on DatabaseException {
       return Left(DatabaseFailure());
@@ -145,8 +149,9 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Either<Failure, void>> updateNoteContent(Note? note) async {
     try {
+      final noteModel = NoteModel.fromNote(note!);
       final updateNoteContent =
-          await _noteLocalDataSource.updateNoteContent(note!);
+          await _noteLocalDataSource.updateNoteContent(noteModel);
       return Right(updateNoteContent);
     } on DatabaseException {
       return Left(DatabaseFailure());

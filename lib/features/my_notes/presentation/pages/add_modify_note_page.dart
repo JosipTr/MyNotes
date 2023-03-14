@@ -26,10 +26,12 @@ class AddModifyNotePage extends StatelessWidget {
           note!.content == contentController.text) {
         action.add(const GetNotesEvent());
       } else if (note != null) {
-        note!.title = titleController.text.trim();
-        note!.content = contentController.text.trim();
-        note!.date = getDateTime();
-        action.add(UpdateNotesEvent(id: note!.id));
+        final title = titleController.text.trim();
+        final content = contentController.text.trim();
+        final date = getDateTime();
+        action.add(UpdateNotesEvent(
+            note: Note(
+                id: note!.id, title: title, content: content, date: date)));
         action.add(const GetNotesEvent());
       } else {
         final newNote = Note(

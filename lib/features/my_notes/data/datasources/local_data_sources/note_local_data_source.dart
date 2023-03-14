@@ -1,13 +1,13 @@
-import '../../../domain/entities/note.dart';
-import '../../../domain/entities/sort.dart';
+import '../../models/note_model.dart';
+import '../../models/sort_model.dart';
 import 'database/database.dart';
 
 abstract class NoteLocalDataSource {
-  Future<List<Note>> getNotes(String sortType);
+  Future<List<NoteModel>> getNotes(String sortType);
 
-  Future<List<Note>> getDeletedNotes(String sortType);
+  Future<List<NoteModel>> getDeletedNotes(String sortType);
 
-  Future<List<Note>> getSearchedNotes(String searchValue);
+  Future<List<NoteModel>> getSearchedNotes(String searchValue);
 
   Future<void> selectAllNotes();
 
@@ -19,16 +19,16 @@ abstract class NoteLocalDataSource {
 
   Future<void> setNoteUndeleted();
 
-  Future<void> insertNote(Note note);
+  Future<void> insertNote(NoteModel noteMode);
 
-  Future<void> updateNoteContent(Note note);
+  Future<void> updateNoteContent(NoteModel noteModel);
 
   Future<void> removeNotes();
 
   //SortDao
   Future<String?> getSortType();
 
-  Future<void> insertSort(Sort sort);
+  Future<void> insertSort(SortModel sortModel);
 
   Future<void> updateSortType(String sortType);
 }
@@ -39,28 +39,31 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   const NoteLocalDataSourceImpl(this._appDatabase);
 
   @override
-  Future<List<Note>> getNotes(String sortType) {
-    return _appDatabase.noteDao.getNotes(sortType);
+  Future<List<NoteModel>> getNotes(String sortType) async {
+    final notes = await _appDatabase.noteDao.getNotes(sortType);
+    return notes.map((note) => NoteModel.fromNote(note)).toList();
   }
 
   @override
-  Future<List<Note>> getDeletedNotes(String sortType) {
-    return _appDatabase.noteDao.getDeletedNotes(sortType);
+  Future<List<NoteModel>> getDeletedNotes(String sortType) async {
+    final notes = await _appDatabase.noteDao.getDeletedNotes(sortType);
+    return notes.map((note) => NoteModel.fromNote(note)).toList();
   }
 
   @override
-  Future<List<Note>> getSearchedNotes(String searchValue) {
-    return _appDatabase.noteDao.getSearchedNotes(searchValue);
+  Future<List<NoteModel>> getSearchedNotes(String searchValue) async {
+    final notes = await _appDatabase.noteDao.getSearchedNotes(searchValue);
+    return notes.map((note) => NoteModel.fromNote(note)).toList();
   }
 
   @override
-  Future<void> insertNote(Note note) {
-    return _appDatabase.noteDao.insertNote(note);
+  Future<void> insertNote(NoteModel noteModel) {
+    return _appDatabase.noteDao.insertNote(noteModel);
   }
 
   @override
-  Future<void> updateNoteContent(Note note) {
-    return _appDatabase.noteDao.updateNoteContent(note);
+  Future<void> updateNoteContent(NoteModel noteModel) {
+    return _appDatabase.noteDao.updateNoteContent(noteModel);
   }
 
   @override
@@ -99,12 +102,17 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   }
 
   @override
-  Future<String?> getSortType() {
-    return _appDatabase.sortDao.getSortType();
+  Future<String?> getSortType() async {
+    if (await _appDatabase.sortDao.getSortType() != null) {
+      return _appDatabase.sortDao.getSortType();
+    } else {
+      insertSort(SortModel(id: 1, sortType: 'title'));
+      return _appDatabase.sortDao.getSortType();
+    }
   }
 
   @override
-  Future<void> insertSort(Sort sort) {
-    return _appDatabase.sortDao.insertSort(sort);
+  Future<void> insertSort(SortModel sortModel) {
+    return _appDatabase.sortDao.insertSort(sortModel);
   }
 }

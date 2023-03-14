@@ -6,5 +6,5 @@ class Sort {
   final int id;
   final String sortType;
 
-  const Sort(this.id, this.sortType);
+  const Sort({required this.id, required this.sortType});
 }

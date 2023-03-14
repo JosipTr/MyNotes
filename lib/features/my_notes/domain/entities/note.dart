@@ -3,12 +3,12 @@ import 'package:floor/floor.dart';
 @entity
 class Note {
   @PrimaryKey(autoGenerate: true)
-  int? id;
-  String? title;
-  String? content;
-  String? date;
-  bool? isSelected;
-  bool? isDeleted;
+  final int? id;
+  final String? title;
+  final String? content;
+  final String? date;
+  final bool? isSelected;
+  final bool? isDeleted;
   Note({
     this.id,
     required this.title,

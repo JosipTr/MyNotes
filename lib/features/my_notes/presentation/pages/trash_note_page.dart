@@ -4,7 +4,6 @@ import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
 import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/select_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
 

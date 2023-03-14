@@ -8,7 +8,8 @@ abstract class NoteDao {
       'SELECT * FROM Note WHERE isDeleted=0 ORDER BY CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END')
   Future<List<Note>> getNotes(String sortType);
 
-  @Query('SELECT * FROM Note WHERE isDeleted=1 ORDER BY :sortType')
+  @Query(
+      'SELECT * FROM Note WHERE isDeleted=1ORDER BY CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END')
   Future<List<Note>> getDeletedNotes(String sortType);
 
   @Query(
@@ -40,21 +41,3 @@ abstract class NoteDao {
   @update
   Future<void> updateNoteContent(Note note);
 }
-//valja
-  // @Query(
-  //     'SELECT * FROM Note WHERE isDeleted=0 ORDER BY CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END ASC')
-  // Future<List<Note>> getNotes(String sortType);
-
-
-  //   @Query(
-  //     'SELECT * FROM Note WHERE isDeleted=0 ORDER BY CASE :sortOrder WHEN "asc" THEN CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END WHEN "desc" THEN CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END END')
-  // Future<List<Note>> getNotes(String sortOrder, String sortType);
-
-  
-  
-//prouči
-  // @Query(
-  //     'SELECT * FROM Note WHERE isDeleted=0 ORDER BY CASE :sortOrder WHEN "asc" THEN CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END WHEN "desc" THEN CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END ELSE title END COLLATE NOCASE;')
-  // Future<List<Note>> getNotes(String sortOrder, String sortType);
-
-  
