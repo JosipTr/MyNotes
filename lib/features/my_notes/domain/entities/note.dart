@@ -9,6 +9,7 @@ class Note {
   final String? date;
   final bool? isSelected;
   final bool? isDeleted;
+  final bool? isFavorite;
   Note({
     this.id,
     required this.title,
@@ -16,5 +17,6 @@ class Note {
     required this.date,
     this.isSelected = false,
     this.isDeleted = false,
+    this.isFavorite = false,
   });
 }

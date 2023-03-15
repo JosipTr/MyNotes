@@ -1,14 +1,14 @@
 import '../../domain/entities/note.dart';
 
 class NoteModel extends Note {
-  NoteModel({
-    super.id,
-    required super.title,
-    required super.content,
-    required super.date,
-    required super.isSelected,
-    required super.isDeleted,
-  });
+  NoteModel(
+      {super.id,
+      required super.title,
+      required super.content,
+      required super.date,
+      required super.isSelected,
+      required super.isDeleted,
+      required super.isFavorite});
 
   factory NoteModel.fromNote(Note note) {
     return NoteModel(
@@ -18,6 +18,7 @@ class NoteModel extends Note {
       date: note.date,
       isSelected: note.isSelected,
       isDeleted: note.isDeleted,
+      isFavorite: note.isFavorite,
     );
   }
 
@@ -29,6 +30,7 @@ class NoteModel extends Note {
       date: date,
       isSelected: isSelected,
       isDeleted: isDeleted,
+      isFavorite: isFavorite,
     );
   }
 }

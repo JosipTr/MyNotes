@@ -3,4 +3,6 @@ enum GetNotesCriteria {
   selected,
   deleted,
   selectedDeleted,
+  favorite,
+  selectedFavorite,
 }

@@ -5,21 +5,20 @@ import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nil/nil.dart';
 
 import '../../../../core/strings/string.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
 
-class TrashNotePage extends StatelessWidget {
-  const TrashNotePage({super.key});
+class FavoriteNotePage extends StatelessWidget {
+  const FavoriteNotePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trash'),
+        title: const Text('Favorites'),
         actions: [
           IconButton(
               onPressed: () {
@@ -42,7 +41,7 @@ class TrashNotePage extends StatelessWidget {
                       criteria: UpdateNotesCriteria.sortType,
                       sortType: 'title'));
                   context.read<NoteBloc>().add(
-                      const GetNotesEvent(criteria: GetNotesCriteria.deleted));
+                      const GetNotesEvent(criteria: GetNotesCriteria.favorite));
                 },
               ),
               PopupMenuItem(
@@ -57,7 +56,7 @@ class TrashNotePage extends StatelessWidget {
                       criteria: UpdateNotesCriteria.sortType,
                       sortType: 'date'));
                   context.read<NoteBloc>().add(
-                      const GetNotesEvent(criteria: GetNotesCriteria.deleted));
+                      const GetNotesEvent(criteria: GetNotesCriteria.favorite));
                 },
               ),
             ],
@@ -65,9 +64,12 @@ class TrashNotePage extends StatelessWidget {
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: const Text('Empty Trash'),
+                child: const Text('Select all'),
                 onTap: () {
-                  context.read<NoteBloc>().add(const RemoveNotesEvent());
+                  context.read<NoteBloc>().add(const UpdateNotesEvent(
+                      criteria: UpdateNotesCriteria.selectAll));
+                  context.read<NoteBloc>().add(const GetNotesEvent(
+                      criteria: GetNotesCriteria.selectedFavorite));
                 },
               ),
             ],
@@ -98,7 +100,7 @@ class TrashNotePage extends StatelessWidget {
                             criteria: UpdateNotesCriteria.select,
                             id: state.notes[index].id));
                         context.read<NoteBloc>().add(const GetNotesEvent(
-                            criteria: GetNotesCriteria.selectedDeleted));
+                            criteria: GetNotesCriteria.selectedFavorite));
                       },
                       onTap: () {
                         context.go('/addNote', extra: state.notes[index]);
@@ -123,29 +125,50 @@ class TrashNotePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          context
-                              .read<NoteBloc>()
-                              .add(const RemoveNotesEvent());
-                          context.read<NoteBloc>().add(const GetNotesEvent(
-                              criteria: GetNotesCriteria.deleted));
-                        },
-                        icon: state.notes[index].isSelected!
-                            ? Icon(
+                      trailing: state.notes[index].isSelected!
+                          ? IconButton(
+                              onPressed: () {
+                                context.read<NoteBloc>().add(
+                                    const UpdateNotesEvent(
+                                        criteria: UpdateNotesCriteria.delete));
+                                context.read<NoteBloc>().add(
+                                    const GetNotesEvent(
+                                        criteria: GetNotesCriteria.favorite));
+                              },
+                              icon: Icon(
                                 Icons.delete,
                                 color: Theme.of(context).iconTheme.color,
-                              )
-                            : const Nil(),
-                      ),
+                              ),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                context.read<NoteBloc>().add(UpdateNotesEvent(
+                                    criteria: UpdateNotesCriteria.favorite,
+                                    id: state.notes[index].id));
+                                context.read<NoteBloc>().add(
+                                    const GetNotesEvent(
+                                        criteria: GetNotesCriteria.favorite));
+                              },
+                              icon: state.notes[index].isFavorite!
+                                  ? Icon(
+                                      Icons.star,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    )
+                                  : Icon(
+                                      Icons.star_border,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                            ),
                     ),
                   );
                 },
               );
             } else if (state is Empty) {
               return const EmptyList(
-                message: 'Trash is empty!',
-                iconPath: 'assets/images/recycle-bin.png',
+                message: 'You have no favorite notes!',
+                iconPath: 'assets/images/favorite.png',
               );
             } else {
               return const SizedBox();

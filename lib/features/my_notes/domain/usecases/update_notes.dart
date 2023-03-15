@@ -22,6 +22,8 @@ class UpdateNotes implements UseCase<void, Params> {
         return await _noteRepository.setNoteDeleted();
       } else if (params.updateNotesCriteria == UpdateNotesCriteria.sortType) {
         return await _noteRepository.updateSortType(params.sortType);
+      } else if (params.updateNotesCriteria == UpdateNotesCriteria.favorite) {
+        return await _noteRepository.selectFavoriteNote(params.id);
       } else {
         return await _noteRepository.selectAllNotes();
       }

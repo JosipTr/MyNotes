@@ -9,6 +9,8 @@ abstract class NoteLocalDataSource {
 
   Future<List<NoteModel>> getSearchedNotes(String searchValue);
 
+  Future<List<NoteModel>> getFavoriteNotes(String sortType);
+
   Future<void> selectAllNotes();
 
   Future<void> unselectAllNotes();
@@ -24,6 +26,8 @@ abstract class NoteLocalDataSource {
   Future<void> updateNoteContent(NoteModel noteModel);
 
   Future<void> removeNotes();
+
+  Future<void> selectFavoriteNote(int id);
 
   //SortDao
   Future<String?> getSortType();
@@ -53,6 +57,12 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   @override
   Future<List<NoteModel>> getSearchedNotes(String searchValue) async {
     final notes = await _appDatabase.noteDao.getSearchedNotes(searchValue);
+    return notes.map((note) => NoteModel.fromNote(note)).toList();
+  }
+
+  @override
+  Future<List<NoteModel>> getFavoriteNotes(String sortType) async {
+    final notes = await _appDatabase.noteDao.getFavoriteNotes(sortType);
     return notes.map((note) => NoteModel.fromNote(note)).toList();
   }
 
@@ -114,5 +124,10 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   @override
   Future<void> insertSort(SortModel sortModel) {
     return _appDatabase.sortDao.insertSort(sortModel);
+  }
+
+  @override
+  Future<void> selectFavoriteNote(int id) {
+    return _appDatabase.noteDao.selectFavoriteNote(id);
   }
 }

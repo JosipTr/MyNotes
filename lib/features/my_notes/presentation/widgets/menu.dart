@@ -65,12 +65,14 @@ class Menu extends StatelessWidget {
                 color: labelColor,
               ),
               title: Text(
-                'Categorized',
+                'Favorites',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                context.read<NoteBloc>().add(
+                    const GetNotesEvent(criteria: GetNotesCriteria.favorite));
+                Navigator.of(context).pop();
+                context.go('/favoriteNote');
               },
             ),
           ],

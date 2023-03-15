@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
 import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nil/nil.dart';
 
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
@@ -58,19 +57,35 @@ class ListItem extends StatelessWidget {
                 ),
               ],
             ),
-            trailing: IconButton(
-              onPressed: () {
-                context.read<NoteBloc>().add(const UpdateNotesEvent(
-                    criteria: UpdateNotesCriteria.delete));
-                context.read<NoteBloc>().add(const GetNotesEvent());
-              },
-              icon: state.notes[index].isSelected!
-                  ? Icon(
+            trailing: state.notes[index].isSelected!
+                ? IconButton(
+                    onPressed: () {
+                      context.read<NoteBloc>().add(const UpdateNotesEvent(
+                          criteria: UpdateNotesCriteria.delete));
+                      context.read<NoteBloc>().add(const GetNotesEvent());
+                    },
+                    icon: Icon(
                       Icons.delete,
                       color: Theme.of(context).iconTheme.color,
-                    )
-                  : const Nil(),
-            ),
+                    ),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      context.read<NoteBloc>().add(UpdateNotesEvent(
+                          criteria: UpdateNotesCriteria.favorite,
+                          id: state.notes[index].id));
+                      context.read<NoteBloc>().add(const GetNotesEvent());
+                    },
+                    icon: state.notes[index].isFavorite!
+                        ? Icon(
+                            Icons.star,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        : Icon(
+                            Icons.star_border,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                  ),
           ),
         );
       },

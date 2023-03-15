@@ -28,6 +28,11 @@ class GetNotes implements UseCase<List<Note>, Params> {
     } else if (params?.searchText != null &&
         params?.getNotesCriteria == GetNotesCriteria.searched) {
       return await _noteRepository.getSearchedNotes('${params!.searchText}%');
+    } else if (params?.getNotesCriteria == GetNotesCriteria.favorite) {
+      await _noteRepository.unselectAllNotes();
+      return await _noteRepository.getFavoriteNotes(_sortType);
+    } else if (params?.getNotesCriteria == GetNotesCriteria.selectedFavorite) {
+      return await _noteRepository.getFavoriteNotes(_sortType);
     } else {
       await _noteRepository.unselectAllNotes();
       return await _noteRepository.getNotes(_sortType);

@@ -8,9 +8,11 @@ abstract class NoteRepository {
   Future<Either<Failure, List<Note>>> getNotes(String? sortType);
   Future<Either<Failure, List<Note>>> getDeletedNotes(String? sortType);
   Future<Either<Failure, List<Note>>> getSearchedNotes(String? searchValue);
+  Future<Either<Failure, List<Note>>> getFavoriteNotes(String? sortType);
   Future<Either<Failure, void>> unselectAllNotes();
   Future<Either<Failure, void>> selectAllNotes();
   Future<Either<Failure, void>> selectNote(int? id);
+  Future<Either<Failure, void>> selectFavoriteNote(int? id);
   Future<Either<Failure, void>> setNoteDeleted();
   Future<Either<Failure, void>> setNoteUndeleted();
   Future<Either<Failure, void>> insertNote(Note? note);

@@ -35,6 +35,16 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
+  Future<Either<Failure, List<Note>>> getFavoriteNotes(String? sortType) async {
+    try {
+      final notes = await _noteLocalDataSource.getFavoriteNotes(sortType!);
+      return Right(notes);
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> insertNote(Note? note) async {
     try {
       final noteModel = NoteModel.fromNote(note!);
@@ -153,6 +163,16 @@ class NoteRepositoryImpl implements NoteRepository {
       final updateNoteContent =
           await _noteLocalDataSource.updateNoteContent(noteModel);
       return Right(updateNoteContent);
+    } on DatabaseException {
+      return Left(DatabaseFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> selectFavoriteNote(int? id) async {
+    try {
+      final notes = await _noteLocalDataSource.selectFavoriteNote(id!);
+      return Right(notes);
     } on DatabaseException {
       return Left(DatabaseFailure());
     }
