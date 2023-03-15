@@ -6,7 +6,7 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/note.dart';
 import '../repositories/note_repository.dart';
 
-var _sortType = 'title';
+var _sortType = '';
 
 class GetNotes implements UseCase<List<Note>, Params> {
   final NoteRepository _noteRepository;

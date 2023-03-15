@@ -5,7 +5,7 @@ import '../../../../domain/entities/note.dart';
 @dao
 abstract class NoteDao {
   @Query(
-      'SELECT * FROM Note WHERE isDeleted=0 ORDER BY CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END')
+      'SELECT * FROM Note WHERE isDeleted=0 ORDER BY (CASE :sortType WHEN "title" THEN title WHEN "date" THEN date WHEN "titleDESC" THEN title + " DESC" WHEN "dateDESC" THEN date + " DESC" ELSE title END)')
   Future<List<Note>> getNotes(String sortType);
 
   @Query(
@@ -44,5 +44,5 @@ abstract class NoteDao {
 
 
 // @Query(
-//       'SELECT * FROM Note WHERE title LIKE :searchValue OR content LIKE :searchValue')
-//   Future<List<Note>> getSearchedNotes(String searchValue);
+//       'SELECT * FROM Note WHERE isDeleted=0 ORDER BY (CASE :sortType WHEN "title" THEN title WHEN "date" THEN date ELSE title END) DESC')
+//   Future<List<Note>> getNotes(String sortType);
