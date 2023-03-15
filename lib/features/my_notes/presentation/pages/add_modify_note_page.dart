@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/functions/get_datetime.dart';
 import '../../domain/entities/note.dart';
@@ -58,6 +59,14 @@ class AddModifyNotePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyNotes'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: ElevatedButton(
+        child: const Text('Save'),
+        onPressed: () {
+          _addNote(titleController, contentController, action);
+          context.pop();
+        },
       ),
       body: WillPopScope(
         onWillPop: () async {
