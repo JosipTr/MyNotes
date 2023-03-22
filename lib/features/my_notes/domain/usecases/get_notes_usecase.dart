@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/constants/strings/string_constants.dart';
 import '../../../../core/errors/failure.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/note.dart';
@@ -17,25 +18,27 @@ class GetNotesUseCase implements UseCase<List<Note>, NoParams> {
     final sortEither = await _noteRepository.getSortType();
     sortEither.fold((l) => l, (r) => _sortType = r!);
     final either = await _noteRepository.getNotes();
-    return either.fold((failure) => Left(failure), (notes) {
-      if (_sortType == "title") {
-        notes.sort((a, b) => a.title.compareTo(b.title));
-      } else if (_sortType == "date") {
-        notes.sort((a, b) => a.date.compareTo(b.date));
-      } else if (_sortType == "titleDesc") {
-        notes.sort((a, b) => b.title.compareTo(a.title));
-      } else if (_sortType == "dateDesc") {
-        notes.sort((a, b) => b.date.compareTo(a.date));
-      } else {
-        notes.sort((a, b) => a.title.compareTo(b.title));
-      }
-      final sortedNoteList =
-          notes.where((note) => note.isDeleted == false).map((note) {
-        note.isSelected = false;
-        _noteRepository.updateNote(note);
-        return note;
-      }).toList();
-      return Right(sortedNoteList);
-    });
+    return either.fold(
+      (failure) => Left(failure),
+      (notes) => Right(_getNotes(notes)),
+    );
+  }
+
+  List<Note> _getNotes(List<Note> notes) {
+    return notes.where((note) => note.isDeleted == false).toList()
+      ..sort((a, b) {
+        switch (_sortType) {
+          case StringConstants.titleSortType:
+            return a.title.compareTo(b.title);
+          case StringConstants.dateSortType:
+            return a.date.compareTo(b.date);
+          case StringConstants.titleDescSortType:
+            return b.title.compareTo(a.title);
+          case StringConstants.dateDescSortType:
+            return b.date.compareTo(a.date);
+          default:
+            return a.title.compareTo(b.title);
+        }
+      });
   }
 }

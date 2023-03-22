@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/strings/string.dart';
+import 'package:flutter_notes/core/constants/strings/string_constants.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,16 +27,12 @@ class ListItem extends StatelessWidget {
               : Theme.of(context).cardColor,
           child: ListTile(
             onLongPress: () {
-              context
-                  .read<NoteBloc>()
-                  .add(ToggleNoteSelectEvent(note: state.notes[index]));
-              context.read<NoteBloc>().add(const GetSelectedNotesEvent());
+              context.read<NoteBloc>().add(ToggleNoteSelectEvent(
+                  note: state.notes[index], notes: state.notes));
             },
             onTap: () {
-              context
-                  .read<NoteBloc>()
-                  .add(SetAllNotesUnselectedEvent(notes: state.notes));
-              context.go(updateNotePageRoute, extra: state.notes[index]);
+              context.go(StringConstants.updateNotePageRoute,
+                  extra: state.notes[index]);
             },
             title: Text(
               state.notes[index].title,
@@ -64,9 +60,6 @@ class ListItem extends StatelessWidget {
                       context
                           .read<NoteBloc>()
                           .add(SetNoteDeletedEvent(notes: state.notes));
-                      context
-                          .read<NoteBloc>()
-                          .add(SetAllNotesUnselectedEvent(notes: state.notes));
                       context.read<NoteBloc>().add(const GetNotesEvent());
                     },
                     icon: Icon(

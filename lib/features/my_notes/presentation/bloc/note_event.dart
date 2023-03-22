@@ -16,10 +16,6 @@ class GetFavoriteNotesEvent extends NoteEvent {
   const GetFavoriteNotesEvent();
 }
 
-class GetSelectedNotesEvent extends NoteEvent {
-  const GetSelectedNotesEvent();
-}
-
 class InsertNoteEvent extends NoteEvent {
   final String title;
   final String description;
@@ -49,15 +45,16 @@ class SetNoteDeletedEvent extends NoteEvent {
 }
 
 class ToggleNoteSelectEvent extends NoteEvent {
+  final List<Note> notes;
   final Note note;
 
-  const ToggleNoteSelectEvent({required this.note});
+  const ToggleNoteSelectEvent({required this.note, required this.notes});
 }
 
-class SetAllNotesUnselectedEvent extends NoteEvent {
+class ToggleAllNotesSelectEvent extends NoteEvent {
   final List<Note> notes;
 
-  const SetAllNotesUnselectedEvent({required this.notes});
+  const ToggleAllNotesSelectEvent({required this.notes});
 }
 
 //SortEvents

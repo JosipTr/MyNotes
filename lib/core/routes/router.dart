@@ -1,5 +1,5 @@
 import '../../features/my_notes/presentation/pages/update_note_page.dart';
-import '../strings/string.dart';
+import '../constants/strings/string_constants.dart';
 import '../../features/my_notes/presentation/pages/add_note_page.dart';
 import '../../features/my_notes/presentation/pages/favorite_note_page.dart';
 import '../../features/my_notes/presentation/pages/search_note_page.dart';
@@ -14,7 +14,7 @@ import '../../features/my_notes/presentation/pages/transition_page.dart';
 final router = GoRouter(
   routes: [
     GoRoute(
-      path: homePageRoute,
+      path: StringConstants.homePageRoute,
       builder: (context, state) => const HomePage(),
       pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
         context: context,

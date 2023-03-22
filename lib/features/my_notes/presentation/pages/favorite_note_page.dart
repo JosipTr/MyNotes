@@ -4,7 +4,7 @@ import '../widgets/empty_list.dart';
 import '../widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/strings/string.dart';
+import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
@@ -21,7 +21,7 @@ class FavoriteNotePage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 context.pop();
-                context.go(searchNotePageRoute);
+                context.go(StringConstants.searchNotePageRoute);
               },
               icon: const Icon(Icons.search)),
           PopupMenuButton(
@@ -78,7 +78,7 @@ class FavoriteNotePage extends StatelessWidget {
                     child: ListTile(
                       onLongPress: () {},
                       onTap: () {
-                        context.go(updateNotePageRoute,
+                        context.go(StringConstants.updateNotePageRoute,
                             extra: state.notes[index]);
                       },
                       title: Text(

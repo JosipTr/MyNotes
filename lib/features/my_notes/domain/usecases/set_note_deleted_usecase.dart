@@ -16,6 +16,7 @@ class SetNoteDeletedUseCase implements UseCase<Success, SetNoteDeletedParams> {
     for (var note in params.notes) {
       if (note.isSelected == true) {
         note.isDeleted = true;
+        note.isSelected = false;
         await _noteRepository.updateNote(note);
       }
     }

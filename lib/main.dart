@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/constants/strings/string_constants.dart';
 
 import 'core/routes/router.dart';
 import 'core/themes/theme.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
-        title: 'NotesApp',
+        title: StringConstants.appTitle,
         theme: getThemeData(),
       ),
     );

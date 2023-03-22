@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/strings/string.dart';
+import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,7 +45,8 @@ class SearchNotePage extends StatelessWidget {
                     child: ListTile(
                       onLongPress: () {},
                       onTap: () {
-                        context.go(addNotePageRoute, extra: state.notes[index]);
+                        context.go(StringConstants.addNotePageRoute,
+                            extra: state.notes[index]);
                       },
                       title: Text(
                         state.notes[index].title,

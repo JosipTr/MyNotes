@@ -1,7 +1,6 @@
-import 'package:flutter_notes/features/my_notes/domain/usecases/get_selected_notes_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/get_sort_type_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/insert_sort_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/set_all_notes_unselected_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_all_notes_select_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/sort_usecases.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_select_usecase.dart';
 
@@ -40,11 +39,10 @@ Future<void> init() async {
   di.registerLazySingleton(() => GetFavoriteNotesUsecase(di()));
   di.registerLazySingleton(() => GetDeletedNotesUseCase(di()));
   di.registerLazySingleton(() => SetNoteDeletedUseCase(di()));
-  di.registerLazySingleton(() => ToggleNoteSelectUseCase(di()));
-  di.registerLazySingleton(() => SetAllNotesUnselectedUseCase(di()));
-  di.registerLazySingleton(() => GetSelectedNotesUseCase(di()));
-  di.registerLazySingleton(() =>
-      NoteUseCases(di(), di(), di(), di(), di(), di(), di(), di(), di(), di()));
+  di.registerLazySingleton(() => const ToggleNoteSelectUseCase());
+  di.registerLazySingleton(() => const ToggleAllNotesSelectUseCase());
+  di.registerLazySingleton(
+      () => NoteUseCases(di(), di(), di(), di(), di(), di(), di(), di(), di()));
 
   di.registerLazySingleton(() => GetSortTypeUseCase(di()));
   di.registerLazySingleton(() => InsertSortUseCase(di()));

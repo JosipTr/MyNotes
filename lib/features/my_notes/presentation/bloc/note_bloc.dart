@@ -21,8 +21,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<SetNoteDeletedEvent>(_onSetNoteDeletedEvent);
     on<GetDeletedNotesEvent>(_onGetDeletedNotesEvent);
     on<GetFavoriteNotesEvent>(_onGetFavoriteNotesEvent);
-    on<SetAllNotesUnselectedEvent>(_setAllNotesUnselectedEvent);
-    on<GetSelectedNotesEvent>(_onGetSelectedNotesEvent);
+    on<ToggleAllNotesSelectEvent>(_onToggleAllNotesSelectEvent);
   }
 
   void _onGetNotesEvent(GetNotesEvent event, Emitter<NoteState> emit) async {
@@ -63,19 +62,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     });
   }
 
-  void _onGetSelectedNotesEvent(
-      GetSelectedNotesEvent event, Emitter<NoteState> emit) async {
-    final either = await _noteUseCases.getSelectedNotesUseCase(NoParams());
-
-    either.fold((failure) => emit(Error(failure.message)), (notes) {
-      if (notes.isEmpty) {
-        emit(const Empty('No notes added!'));
-      } else {
-        emit(Loaded(notes));
-      }
-    });
-  }
-
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
     await _noteUseCases.updateNoteUseCase(UpdateNoteParams(
@@ -91,12 +77,14 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
     await _noteUseCases.removeNoteUseCase(RemoveNoteParams(notes: event.notes));
+    emit(Loaded(event.notes));
   }
 
   void _onToggleNoteSelectEvent(
       ToggleNoteSelectEvent event, Emitter<NoteState> emit) async {
     await _noteUseCases
         .toggleNoteSelectUseCase(ToggleNoteSelectParams(note: event.note));
+    emit(Loaded(event.notes));
   }
 
   void _onSetNoteDeletedEvent(
@@ -105,10 +93,11 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         .setNoteDeletedUseCase(SetNoteDeletedParams(notes: event.notes));
   }
 
-  void _setAllNotesUnselectedEvent(
-      SetAllNotesUnselectedEvent event, Emitter<NoteState> emit) async {
+  void _onToggleAllNotesSelectEvent(
+      ToggleAllNotesSelectEvent event, Emitter<NoteState> emit) async {
     await _noteUseCases.setAllNotesUnselectedUseCase(
-        SetAllNotesUnselectedParams(notes: event.notes));
+        ToggleAllNotesSelectParams(notes: event.notes));
+    emit(Loaded(event.notes));
   }
 
   //Sort

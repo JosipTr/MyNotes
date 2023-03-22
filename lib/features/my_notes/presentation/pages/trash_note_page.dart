@@ -5,7 +5,7 @@ import '../widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
 
-import '../../../../core/strings/string.dart';
+import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
@@ -22,7 +22,7 @@ class TrashNotePage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 context.pop();
-                context.go(searchNotePageRoute);
+                context.go(StringConstants.searchNotePageRoute);
               },
               icon: const Icon(Icons.search)),
           PopupMenuButton(
@@ -78,14 +78,12 @@ class TrashNotePage extends StatelessWidget {
                         : Theme.of(context).cardColor,
                     child: ListTile(
                       onLongPress: () {
-                        context.read<NoteBloc>().add(
-                            ToggleNoteSelectEvent(note: state.notes[index]));
-                        context
-                            .read<NoteBloc>()
-                            .add(const GetDeletedNotesEvent());
+                        context.read<NoteBloc>().add(ToggleNoteSelectEvent(
+                            note: state.notes[index], notes: state.notes));
                       },
                       onTap: () {
-                        context.go(addNotePageRoute, extra: state.notes[index]);
+                        context.go(StringConstants.addNotePageRoute,
+                            extra: state.notes[index]);
                       },
                       title: Text(
                         state.notes[index].title,
@@ -108,7 +106,11 @@ class TrashNotePage extends StatelessWidget {
                         ],
                       ),
                       trailing: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context
+                              .read<NoteBloc>()
+                              .add(RemoveNoteEvent(notes: state.notes));
+                        },
                         icon: state.notes[index].isSelected
                             ? Icon(
                                 Icons.delete,

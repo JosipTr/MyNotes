@@ -40,8 +40,14 @@ class ToggleNoteSelectParams {
   const ToggleNoteSelectParams({required this.note});
 }
 
-class SetAllNotesUnselectedParams {
+class ToggleAllNotesSelectParams {
   final List<Note> notes;
 
-  const SetAllNotesUnselectedParams({required this.notes});
+  const ToggleAllNotesSelectParams({required this.notes});
+}
+
+class GetSelectedNotesParams {
+  final List<Note> notes;
+
+  const GetSelectedNotesParams({required this.notes});
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/strings/string.dart';
+import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 import '../widgets/empty_list.dart';
 import '../widgets/list_item.dart';
-import '../widgets/menu.dart';
 import '../widgets/select_menu.dart';
 import '../widgets/sort_menu.dart';
 
@@ -24,14 +24,14 @@ class HomePage extends StatelessWidget {
           child: const Icon(
             Icons.note_add,
           ),
-          onPressed: () => context.go(addNotePageRoute),
+          onPressed: () => context.go(StringConstants.addNotePageRoute),
         ),
       ),
       appBar: AppBar(
-        title: const Text('MyNotes'),
+        title: const Text(StringConstants.appbarTitle),
         actions: [
           IconButton(
-              onPressed: () => context.go(searchNotePageRoute),
+              onPressed: () => context.go(StringConstants.searchNotePageRoute),
               icon: const Icon(Icons.search)),
           const SortMenu(),
           const SelectMenu(),
@@ -50,7 +50,8 @@ class HomePage extends StatelessWidget {
           }
           if (state is Empty) {
             return EmptyList(
-                message: state.message, iconPath: 'assets/images/post-it.png');
+                message: state.message,
+                iconPath: StringConstants.imageNotesEmpty);
           }
           if (state is Loading) {
             return const Center(
