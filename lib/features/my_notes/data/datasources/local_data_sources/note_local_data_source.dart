@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../../core/errors/exception.dart';
 
 import '../../models/note_model.dart';
@@ -31,7 +33,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     try {
       final notes = await _appDatabase.noteDao.getNotes();
       return notes.map((note) => NoteModel.fromNote(note)).toList();
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }
@@ -40,7 +43,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<void> insertNote(NoteModel noteModel) async {
     try {
       return await _appDatabase.noteDao.insertNote(noteModel);
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }
@@ -49,7 +53,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<void> updateNote(NoteModel noteModel) async {
     try {
       return await _appDatabase.noteDao.updateNote(noteModel);
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }
@@ -58,7 +63,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<void> removeNote(NoteModel noteModel) async {
     try {
       return await _appDatabase.noteDao.removeNote(noteModel);
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }
@@ -74,7 +80,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
         insertSort(SortModel(id: 1, sortType: 'title'));
         return await _appDatabase.sortDao.getSortType();
       }
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }
@@ -83,7 +90,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<void> insertSort(SortModel sortModel) async {
     try {
       return await _appDatabase.sortDao.insertSort(sortModel);
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }
@@ -92,7 +100,8 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<void> updateSort(SortModel sortModel) async {
     try {
       return await _appDatabase.sortDao.updateSort(sortModel);
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       throw const DatabaseException();
     }
   }

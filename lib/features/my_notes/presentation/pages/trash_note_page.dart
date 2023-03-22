@@ -82,7 +82,7 @@ class TrashNotePage extends StatelessWidget {
                             note: state.notes[index], notes: state.notes));
                       },
                       onTap: () {
-                        context.go(StringConstants.addNotePageRoute,
+                        context.go(StringConstants.updateNotePageRoute,
                             extra: state.notes[index]);
                       },
                       title: Text(
@@ -110,6 +110,9 @@ class TrashNotePage extends StatelessWidget {
                           context
                               .read<NoteBloc>()
                               .add(RemoveNoteEvent(notes: state.notes));
+                          context
+                              .read<NoteBloc>()
+                              .add(const GetDeletedNotesEvent());
                         },
                         icon: state.notes[index].isSelected
                             ? Icon(

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/core/constants/strings/string_constants.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/sort_usecases.dart';
 
 import '../../domain/usecases/note_usecases.dart';
@@ -29,7 +30,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
     either.fold((failure) => emit(Error(failure.message)), (notes) {
       if (notes.isEmpty) {
-        emit(const Empty('No notes added!'));
+        emit(const Empty(StringConstants.emptyListMessage));
       } else {
         emit(Loaded(notes));
       }
@@ -42,7 +43,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
     either.fold((failure) => emit(Error(failure.message)), (notes) {
       if (notes.isEmpty) {
-        emit(const Empty('Trash is empty!'));
+        emit(const Empty(StringConstants.emptyTrashMessage));
       } else {
         emit(Loaded(notes));
       }
@@ -55,7 +56,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
     either.fold((failure) => emit(Error(failure.message)), (notes) {
       if (notes.isEmpty) {
-        emit(const Empty('You have no favorite notes!'));
+        emit(const Empty(StringConstants.emptyFavoriteMessage));
       } else {
         emit(Loaded(notes));
       }
@@ -64,19 +65,33 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onUpdateNoteEvent(
       UpdateNoteEvent event, Emitter<NoteState> emit) async {
-    await _noteUseCases.updateNoteUseCase(UpdateNoteParams(
+    final either = await _noteUseCases.updateNoteUseCase(UpdateNoteParams(
         note: event.note, title: event.title, description: event.description));
+    either.fold(
+        (failure) => emit(NoteModifiedState(failure.message)),
+        (success) =>
+            emit(const NoteModifiedState(StringConstants.onUpdateNoteMessage)));
   }
 
   void _onInsertNoteEvent(
       InsertNoteEvent event, Emitter<NoteState> emit) async {
-    await _noteUseCases.insertNoteUseCase(
+    final either = await _noteUseCases.insertNoteUseCase(
         InsertNoteParams(title: event.title, description: event.description));
+
+    either.fold(
+        (failure) => emit(NoteModifiedState(failure.message)),
+        (success) =>
+            emit(const NoteModifiedState(StringConstants.onInsertNoteMessage)));
   }
 
   void _onRemoveNoteEvent(
       RemoveNoteEvent event, Emitter<NoteState> emit) async {
-    await _noteUseCases.removeNoteUseCase(RemoveNoteParams(notes: event.notes));
+    final either = await _noteUseCases
+        .removeNoteUseCase(RemoveNoteParams(notes: event.notes));
+    either.fold(
+        (failure) => emit(NoteModifiedState(failure.message)),
+        (success) =>
+            emit(const NoteModifiedState(StringConstants.onRemoveNoteMessage)));
     emit(Loaded(event.notes));
   }
 
@@ -89,8 +104,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onSetNoteDeletedEvent(
       SetNoteDeletedEvent event, Emitter<NoteState> emit) async {
-    await _noteUseCases
+    final either = await _noteUseCases
         .setNoteDeletedUseCase(SetNoteDeletedParams(notes: event.notes));
+    either.fold(
+        (failure) => emit(NoteModifiedState(failure.message)),
+        (success) =>
+            emit(const NoteModifiedState(StringConstants.onRemoveNoteMessage)));
+    emit(Loaded(event.notes));
   }
 
   void _onToggleAllNotesSelectEvent(
@@ -110,19 +130,5 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   void _onInsertSortEvent(
       InsertSortEvent event, Emitter<NoteState> emit) async {
     await _sortUseCases.insertSortUseCase(NoParams());
-  }
-
-  //Functions
-
-  void _transmitMessage(either, emit, failureMessage, successMessage) {
-    either.fold(
-        (failure) => emit(
-              const NoteModifiedState('Ooops! Something went wrong.'),
-            ), (_) {
-      emit(
-        const NoteModifiedState('Note successfully added!'),
-      );
-    });
-    emit(const Loading());
   }
 }

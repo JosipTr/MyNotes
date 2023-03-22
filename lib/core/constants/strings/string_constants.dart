@@ -1,5 +1,8 @@
 class StringConstants {
   static const onFailureMessage = 'Ooops! Something went wrong.';
+  static const emptyListMessage = 'No notes added!';
+  static const emptyTrashMessage = 'Trash is empty!';
+  static const emptyFavoriteMessage = 'You have no favorite notes!';
   static const onUpdateNoteMessage = 'Note successfully updated!';
   static const onInsertNoteMessage = 'Note successfully added!';
   static const onRemoveNoteMessage = 'Note successfully removed!';
