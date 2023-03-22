@@ -4,16 +4,16 @@ import 'package:floor/floor.dart';
 class Note {
   @PrimaryKey(autoGenerate: true)
   final int? id;
-  final String? title;
-  final String? content;
-  final String? date;
-  final bool? isSelected;
-  final bool? isDeleted;
-  final bool? isFavorite;
+  String title;
+  String description;
+  String date;
+  bool isSelected;
+  bool isDeleted;
+  bool isFavorite;
   Note({
     this.id,
     required this.title,
-    required this.content,
+    required this.description,
     required this.date,
     this.isSelected = false,
     this.isDeleted = false,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
+import '../widgets/empty_list.dart';
+import '../widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/strings/string.dart';
@@ -36,13 +34,7 @@ class FavoriteNotePage extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
-                onTap: () {
-                  context.read<NoteBloc>().add(const UpdateNotesEvent(
-                      criteria: UpdateNotesCriteria.sortType,
-                      sortType: 'title'));
-                  context.read<NoteBloc>().add(
-                      const GetNotesEvent(criteria: GetNotesCriteria.favorite));
-                },
+                onTap: () {},
               ),
               PopupMenuItem(
                 child: Row(
@@ -51,13 +43,7 @@ class FavoriteNotePage extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
-                onTap: () {
-                  context.read<NoteBloc>().add(const UpdateNotesEvent(
-                      criteria: UpdateNotesCriteria.sortType,
-                      sortType: 'date'));
-                  context.read<NoteBloc>().add(
-                      const GetNotesEvent(criteria: GetNotesCriteria.favorite));
-                },
+                onTap: () {},
               ),
             ],
           ),
@@ -65,12 +51,7 @@ class FavoriteNotePage extends StatelessWidget {
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: const Text('Select all'),
-                onTap: () {
-                  context.read<NoteBloc>().add(const UpdateNotesEvent(
-                      criteria: UpdateNotesCriteria.selectAll));
-                  context.read<NoteBloc>().add(const GetNotesEvent(
-                      criteria: GetNotesCriteria.selectedFavorite));
-                },
+                onTap: () {},
               ),
             ],
           ),
@@ -91,22 +72,17 @@ class FavoriteNotePage extends StatelessWidget {
                   return Card(
                     margin: const EdgeInsets.all(8),
                     elevation: 5,
-                    color: state.notes[index].isSelected!
+                    color: state.notes[index].isSelected
                         ? Colors.blueGrey[200]
                         : Theme.of(context).cardColor,
                     child: ListTile(
-                      onLongPress: () {
-                        context.read<NoteBloc>().add(UpdateNotesEvent(
-                            criteria: UpdateNotesCriteria.select,
-                            id: state.notes[index].id));
-                        context.read<NoteBloc>().add(const GetNotesEvent(
-                            criteria: GetNotesCriteria.selectedFavorite));
-                      },
+                      onLongPress: () {},
                       onTap: () {
-                        context.go('/addNote', extra: state.notes[index]);
+                        context.go(updateNotePageRoute,
+                            extra: state.notes[index]);
                       },
                       title: Text(
-                        state.notes[index].title!,
+                        state.notes[index].title,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
@@ -114,42 +90,28 @@ class FavoriteNotePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            state.notes[index].content!,
+                            state.notes[index].description,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                           Text(
-                            state.notes[index].date!,
+                            state.notes[index].date,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                         ],
                       ),
-                      trailing: state.notes[index].isSelected!
+                      trailing: state.notes[index].isSelected
                           ? IconButton(
-                              onPressed: () {
-                                context.read<NoteBloc>().add(
-                                    const UpdateNotesEvent(
-                                        criteria: UpdateNotesCriteria.delete));
-                                context.read<NoteBloc>().add(
-                                    const GetNotesEvent(
-                                        criteria: GetNotesCriteria.favorite));
-                              },
+                              onPressed: () {},
                               icon: Icon(
                                 Icons.delete,
                                 color: Theme.of(context).iconTheme.color,
                               ),
                             )
                           : IconButton(
-                              onPressed: () {
-                                context.read<NoteBloc>().add(UpdateNotesEvent(
-                                    criteria: UpdateNotesCriteria.favorite,
-                                    id: state.notes[index].id));
-                                context.read<NoteBloc>().add(
-                                    const GetNotesEvent(
-                                        criteria: GetNotesCriteria.favorite));
-                              },
-                              icon: state.notes[index].isFavorite!
+                              onPressed: () {},
+                              icon: state.notes[index].isFavorite
                                   ? Icon(
                                       Icons.star,
                                       color:
@@ -166,8 +128,8 @@ class FavoriteNotePage extends StatelessWidget {
                 },
               );
             } else if (state is Empty) {
-              return const EmptyList(
-                message: 'You have no favorite notes!',
+              return EmptyList(
+                message: state.message,
                 iconPath: 'assets/images/favorite.png',
               );
             } else {

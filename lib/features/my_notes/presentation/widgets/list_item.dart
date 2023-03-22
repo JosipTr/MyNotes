@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
+import 'package:flutter_notes/core/strings/string.dart';
+import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/note_bloc.dart';
-import '../bloc/note_event.dart';
 import '../bloc/note_state.dart';
 
 class ListItem extends StatelessWidget {
@@ -23,22 +22,24 @@ class ListItem extends StatelessWidget {
         return Card(
           margin: const EdgeInsets.all(8),
           elevation: 5,
-          color: state.notes[index].isSelected!
+          color: state.notes[index].isSelected
               ? Colors.blueGrey[200]
               : Theme.of(context).cardColor,
           child: ListTile(
             onLongPress: () {
-              context.read<NoteBloc>().add(UpdateNotesEvent(
-                  criteria: UpdateNotesCriteria.select,
-                  id: state.notes[index].id));
-              context.read<NoteBloc>().add(
-                  const GetNotesEvent(criteria: GetNotesCriteria.selected));
+              context
+                  .read<NoteBloc>()
+                  .add(ToggleNoteSelectEvent(note: state.notes[index]));
+              context.read<NoteBloc>().add(const GetSelectedNotesEvent());
             },
             onTap: () {
-              context.go('/addNote', extra: state.notes[index]);
+              context
+                  .read<NoteBloc>()
+                  .add(SetAllNotesUnselectedEvent(notes: state.notes));
+              context.go(updateNotePageRoute, extra: state.notes[index]);
             },
             title: Text(
-              state.notes[index].title!,
+              state.notes[index].title,
               maxLines: 1,
               style: Theme.of(context).textTheme.labelLarge,
             ),
@@ -46,22 +47,26 @@ class ListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  state.notes[index].content!,
+                  state.notes[index].description,
                   maxLines: 1,
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 Text(
-                  state.notes[index].date!,
+                  state.notes[index].date,
                   maxLines: 1,
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],
             ),
-            trailing: state.notes[index].isSelected!
+            trailing: state.notes[index].isSelected
                 ? IconButton(
                     onPressed: () {
-                      context.read<NoteBloc>().add(const UpdateNotesEvent(
-                          criteria: UpdateNotesCriteria.delete));
+                      context
+                          .read<NoteBloc>()
+                          .add(SetNoteDeletedEvent(notes: state.notes));
+                      context
+                          .read<NoteBloc>()
+                          .add(SetAllNotesUnselectedEvent(notes: state.notes));
                       context.read<NoteBloc>().add(const GetNotesEvent());
                     },
                     icon: Icon(
@@ -70,13 +75,8 @@ class ListItem extends StatelessWidget {
                     ),
                   )
                 : IconButton(
-                    onPressed: () {
-                      context.read<NoteBloc>().add(UpdateNotesEvent(
-                          criteria: UpdateNotesCriteria.favorite,
-                          id: state.notes[index].id));
-                      context.read<NoteBloc>().add(const GetNotesEvent());
-                    },
-                    icon: state.notes[index].isFavorite!
+                    onPressed: () {},
+                    icon: state.notes[index].isFavorite
                         ? Icon(
                             Icons.star,
                             color: Theme.of(context).colorScheme.primary,

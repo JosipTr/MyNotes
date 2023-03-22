@@ -9,6 +9,6 @@ abstract class SortDao {
   @insert
   Future<void> insertSort(Sort sort);
 
-  @Query('UPDATE Sort SET sortType=:sortType WHERE id=1')
-  Future<void> updateSortType(String sortType);
+  @update
+  Future<void> updateSort(Sort sort);
 }

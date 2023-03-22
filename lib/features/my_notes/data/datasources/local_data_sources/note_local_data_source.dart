@@ -1,42 +1,24 @@
-import 'package:flutter_notes/core/errors/exception.dart';
+import '../../../../../core/errors/exception.dart';
 
 import '../../models/note_model.dart';
 import '../../models/sort_model.dart';
 import 'database/database.dart';
 
 abstract class NoteLocalDataSource {
-  Future<List<NoteModel>> getNotes(String sortType);
+  Future<List<NoteModel>> getNotes();
 
-  Future<List<NoteModel>> getDeletedNotes(String sortType);
+  Future<void> insertNote(NoteModel noteModel);
 
-  Future<List<NoteModel>> getSearchedNotes(String searchValue);
+  Future<void> updateNote(NoteModel noteModel);
 
-  Future<List<NoteModel>> getFavoriteNotes(String sortType);
-
-  Future<void> selectAllNotes();
-
-  Future<void> unselectAllNotes();
-
-  Future<void> selectNote(int id);
-
-  Future<void> setNoteDeleted();
-
-  Future<void> setNoteUndeleted();
-
-  Future<void> insertNote(NoteModel noteMode);
-
-  Future<void> updateNoteContent(NoteModel noteModel);
-
-  Future<void> removeNotes();
-
-  Future<void> selectFavoriteNote(int id);
+  Future<void> removeNote(NoteModel noteModel);
 
   //SortDao
   Future<String?> getSortType();
 
   Future<void> insertSort(SortModel sortModel);
 
-  Future<void> updateSortType(String sortType);
+  Future<void> updateSort(SortModel sortModel);
 }
 
 class NoteLocalDataSourceImpl implements NoteLocalDataSource {
@@ -45,42 +27,12 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   const NoteLocalDataSourceImpl(this._appDatabase);
 
   @override
-  Future<List<NoteModel>> getNotes(String sortType) async {
+  Future<List<NoteModel>> getNotes() async {
     try {
-      final notes = await _appDatabase.noteDao.getNotes(sortType);
+      final notes = await _appDatabase.noteDao.getNotes();
       return notes.map((note) => NoteModel.fromNote(note)).toList();
     } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<List<NoteModel>> getDeletedNotes(String sortType) async {
-    try {
-      final notes = await _appDatabase.noteDao.getDeletedNotes(sortType);
-      return notes.map((note) => NoteModel.fromNote(note)).toList();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<List<NoteModel>> getSearchedNotes(String searchValue) async {
-    try {
-      final notes = await _appDatabase.noteDao.getSearchedNotes(searchValue);
-      return notes.map((note) => NoteModel.fromNote(note)).toList();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<List<NoteModel>> getFavoriteNotes(String sortType) async {
-    try {
-      final notes = await _appDatabase.noteDao.getFavoriteNotes(sortType);
-      return notes.map((note) => NoteModel.fromNote(note)).toList();
-    } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 
@@ -89,81 +41,29 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     try {
       return await _appDatabase.noteDao.insertNote(noteModel);
     } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 
   @override
-  Future<void> updateNoteContent(NoteModel noteModel) async {
+  Future<void> updateNote(NoteModel noteModel) async {
     try {
-      return await _appDatabase.noteDao.updateNoteContent(noteModel);
+      return await _appDatabase.noteDao.updateNote(noteModel);
     } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 
   @override
-  Future<void> updateSortType(String sortType) async {
+  Future<void> removeNote(NoteModel noteModel) async {
     try {
-      return await _appDatabase.sortDao.updateSortType(sortType);
+      return await _appDatabase.noteDao.removeNote(noteModel);
     } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 
-  @override
-  Future<void> removeNotes() async {
-    try {
-      return await _appDatabase.noteDao.removeNotes();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<void> selectAllNotes() async {
-    try {
-      return await _appDatabase.noteDao.selectAllNotes();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<void> selectNote(int id) async {
-    try {
-      return await _appDatabase.noteDao.selectNote(id);
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<void> setNoteDeleted() async {
-    try {
-      return await _appDatabase.noteDao.setNoteDeleted();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<void> setNoteUndeleted() async {
-    try {
-      return await _appDatabase.noteDao.setNoteUndeleted();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
-
-  @override
-  Future<void> unselectAllNotes() async {
-    try {
-      return await _appDatabase.noteDao.unselectAllNotes();
-    } catch (e) {
-      throw DatabaseException();
-    }
-  }
+  //Sort
 
   @override
   Future<String?> getSortType() async {
@@ -175,7 +75,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
         return await _appDatabase.sortDao.getSortType();
       }
     } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 
@@ -184,16 +84,16 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
     try {
       return await _appDatabase.sortDao.insertSort(sortModel);
     } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 
   @override
-  Future<void> selectFavoriteNote(int id) async {
+  Future<void> updateSort(SortModel sortModel) async {
     try {
-      return await _appDatabase.noteDao.selectFavoriteNote(id);
+      return await _appDatabase.sortDao.updateSort(sortModel);
     } catch (e) {
-      throw DatabaseException();
+      throw const DatabaseException();
     }
   }
 }

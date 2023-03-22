@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/strings/string.dart';
@@ -8,6 +7,7 @@ import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 import '../widgets/empty_list.dart';
 import '../widgets/list_item.dart';
+import '../widgets/menu.dart';
 import '../widgets/select_menu.dart';
 import '../widgets/sort_menu.dart';
 

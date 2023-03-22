@@ -1,34 +1,71 @@
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
-
 import '../../domain/entities/note.dart';
 
 abstract class NoteEvent {
   const NoteEvent();
 }
 
+class GetNotesEvent extends NoteEvent {
+  const GetNotesEvent();
+}
+
+class GetDeletedNotesEvent extends NoteEvent {
+  const GetDeletedNotesEvent();
+}
+
+class GetFavoriteNotesEvent extends NoteEvent {
+  const GetFavoriteNotesEvent();
+}
+
+class GetSelectedNotesEvent extends NoteEvent {
+  const GetSelectedNotesEvent();
+}
+
 class InsertNoteEvent extends NoteEvent {
+  final String title;
+  final String description;
+
+  const InsertNoteEvent({required this.title, required this.description});
+}
+
+class UpdateNoteEvent extends NoteEvent {
+  final Note note;
+  final String title;
+  final String description;
+
+  const UpdateNoteEvent(
+      {required this.note, required this.title, required this.description});
+}
+
+class RemoveNoteEvent extends NoteEvent {
+  final List<Note> notes;
+
+  const RemoveNoteEvent({required this.notes});
+}
+
+class SetNoteDeletedEvent extends NoteEvent {
+  final List<Note> notes;
+
+  const SetNoteDeletedEvent({required this.notes});
+}
+
+class ToggleNoteSelectEvent extends NoteEvent {
   final Note note;
 
-  const InsertNoteEvent(this.note);
+  const ToggleNoteSelectEvent({required this.note});
 }
 
-class GetNotesEvent extends NoteEvent {
-  final GetNotesCriteria? criteria;
-  final String? searchValue;
+class SetAllNotesUnselectedEvent extends NoteEvent {
+  final List<Note> notes;
 
-  const GetNotesEvent({this.criteria, this.searchValue});
+  const SetAllNotesUnselectedEvent({required this.notes});
 }
 
-class UpdateNotesEvent extends NoteEvent {
-  final UpdateNotesCriteria? criteria;
-  final int? id;
-  final String? sortType;
-  final Note? note;
+//SortEvents
 
-  const UpdateNotesEvent({this.criteria, this.id, this.sortType, this.note});
+class GetSortTypeEvent extends NoteEvent {
+  const GetSortTypeEvent();
 }
 
-class RemoveNotesEvent extends NoteEvent {
-  const RemoveNotesEvent();
+class InsertSortEvent extends NoteEvent {
+  const InsertSortEvent();
 }

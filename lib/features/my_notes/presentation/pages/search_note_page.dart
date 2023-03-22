@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
-import 'package:flutter_notes/core/strings/string.dart';
-import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
+import '../../../../core/strings/string.dart';
+import '../bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/note_bloc.dart';
@@ -27,10 +25,7 @@ class SearchNotePage extends StatelessWidget {
             style: TextStyle(color: Theme.of(context).cardColor),
             autofocus: true,
             controller: searchController,
-            onChanged: (value) {
-              context.read<NoteBloc>().add(GetNotesEvent(
-                  criteria: GetNotesCriteria.searched, searchValue: value));
-            },
+            onChanged: (value) {},
             decoration: InputDecoration(
               hintText: 'Search...',
               hintStyle: TextStyle(color: Theme.of(context).hintColor),
@@ -48,19 +43,12 @@ class SearchNotePage extends StatelessWidget {
                     elevation: 5,
                     color: Theme.of(context).cardColor,
                     child: ListTile(
-                      onLongPress: () {
-                        context.read<NoteBloc>().add(UpdateNotesEvent(
-                            criteria: UpdateNotesCriteria.select,
-                            id: state.notes[index].id));
-                        context.read<NoteBloc>().add(GetNotesEvent(
-                            criteria: GetNotesCriteria.searched,
-                            searchValue: searchController.text));
-                      },
+                      onLongPress: () {},
                       onTap: () {
                         context.go(addNotePageRoute, extra: state.notes[index]);
                       },
                       title: Text(
-                        state.notes[index].title!,
+                        state.notes[index].title,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
@@ -68,12 +56,12 @@ class SearchNotePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            state.notes[index].content!,
+                            state.notes[index].description,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                           Text(
-                            state.notes[index].date!,
+                            state.notes[index].date,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),

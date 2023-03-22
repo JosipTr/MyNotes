@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/empty_list.dart';
-import 'package:flutter_notes/features/my_notes/presentation/widgets/menu.dart';
+import '../widgets/empty_list.dart';
+import '../widgets/menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
 
@@ -37,13 +35,7 @@ class TrashNotePage extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
-                onTap: () {
-                  context.read<NoteBloc>().add(const UpdateNotesEvent(
-                      criteria: UpdateNotesCriteria.sortType,
-                      sortType: 'title'));
-                  context.read<NoteBloc>().add(
-                      const GetNotesEvent(criteria: GetNotesCriteria.deleted));
-                },
+                onTap: () {},
               ),
               PopupMenuItem(
                 child: Row(
@@ -52,13 +44,7 @@ class TrashNotePage extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
-                onTap: () {
-                  context.read<NoteBloc>().add(const UpdateNotesEvent(
-                      criteria: UpdateNotesCriteria.sortType,
-                      sortType: 'date'));
-                  context.read<NoteBloc>().add(
-                      const GetNotesEvent(criteria: GetNotesCriteria.deleted));
-                },
+                onTap: () {},
               ),
             ],
           ),
@@ -66,9 +52,7 @@ class TrashNotePage extends StatelessWidget {
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: const Text('Empty Trash'),
-                onTap: () {
-                  context.read<NoteBloc>().add(const RemoveNotesEvent());
-                },
+                onTap: () {},
               ),
             ],
           ),
@@ -89,22 +73,22 @@ class TrashNotePage extends StatelessWidget {
                   return Card(
                     margin: const EdgeInsets.all(8),
                     elevation: 5,
-                    color: state.notes[index].isSelected!
+                    color: state.notes[index].isSelected
                         ? Colors.blueGrey[200]
                         : Theme.of(context).cardColor,
                     child: ListTile(
                       onLongPress: () {
-                        context.read<NoteBloc>().add(UpdateNotesEvent(
-                            criteria: UpdateNotesCriteria.select,
-                            id: state.notes[index].id));
-                        context.read<NoteBloc>().add(const GetNotesEvent(
-                            criteria: GetNotesCriteria.selectedDeleted));
+                        context.read<NoteBloc>().add(
+                            ToggleNoteSelectEvent(note: state.notes[index]));
+                        context
+                            .read<NoteBloc>()
+                            .add(const GetDeletedNotesEvent());
                       },
                       onTap: () {
-                        context.go('/addNote', extra: state.notes[index]);
+                        context.go(addNotePageRoute, extra: state.notes[index]);
                       },
                       title: Text(
-                        state.notes[index].title!,
+                        state.notes[index].title,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
@@ -112,26 +96,20 @@ class TrashNotePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            state.notes[index].content!,
+                            state.notes[index].description,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                           Text(
-                            state.notes[index].date!,
+                            state.notes[index].date,
                             maxLines: 1,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                         ],
                       ),
                       trailing: IconButton(
-                        onPressed: () {
-                          context
-                              .read<NoteBloc>()
-                              .add(const RemoveNotesEvent());
-                          context.read<NoteBloc>().add(const GetNotesEvent(
-                              criteria: GetNotesCriteria.deleted));
-                        },
-                        icon: state.notes[index].isSelected!
+                        onPressed: () {},
+                        icon: state.notes[index].isSelected
                             ? Icon(
                                 Icons.delete,
                                 color: Theme.of(context).iconTheme.color,
@@ -143,8 +121,8 @@ class TrashNotePage extends StatelessWidget {
                 },
               );
             } else if (state is Empty) {
-              return const EmptyList(
-                message: 'Trash is empty!',
+              return EmptyList(
+                message: state.message,
                 iconPath: 'assets/images/recycle-bin.png',
               );
             } else {

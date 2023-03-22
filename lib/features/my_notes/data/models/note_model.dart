@@ -4,7 +4,7 @@ class NoteModel extends Note {
   NoteModel(
       {super.id,
       required super.title,
-      required super.content,
+      required super.description,
       required super.date,
       required super.isSelected,
       required super.isDeleted,
@@ -14,7 +14,7 @@ class NoteModel extends Note {
     return NoteModel(
       id: note.id,
       title: note.title,
-      content: note.content,
+      description: note.description,
       date: note.date,
       isSelected: note.isSelected,
       isDeleted: note.isDeleted,
@@ -26,7 +26,7 @@ class NoteModel extends Note {
     return Note(
       id: id,
       title: title,
-      content: content,
+      description: description,
       date: date,
       isSelected: isSelected,
       isDeleted: isDeleted,

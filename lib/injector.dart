@@ -1,13 +1,24 @@
+import 'package:flutter_notes/features/my_notes/domain/usecases/get_selected_notes_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/get_sort_type_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/insert_sort_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/set_all_notes_unselected_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/sort_usecases.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_select_usecase.dart';
+
+import 'features/my_notes/domain/usecases/get_deleted_notes_usecase.dart';
+import 'features/my_notes/domain/usecases/get_favorite_notes_usecase.dart';
+import 'features/my_notes/domain/usecases/note_usecases.dart';
+import 'features/my_notes/domain/usecases/set_note_deleted_usecase.dart';
 import 'package:get_it/get_it.dart';
 
-import './features/my_notes/data/datasources/local_data_sources/database/database.dart';
+import 'features/my_notes/data/datasources/local_data_sources/database/database.dart';
 import 'features/my_notes/data/datasources/local_data_sources/note_local_data_source.dart';
 import 'features/my_notes/data/repositories/note_repository_impl.dart';
 import 'features/my_notes/domain/repositories/note_repository.dart';
-import 'features/my_notes/domain/usecases/get_notes.dart';
-import 'features/my_notes/domain/usecases/insert_note.dart';
-import 'features/my_notes/domain/usecases/remove_notes.dart';
-import 'features/my_notes/domain/usecases/update_notes.dart';
+import 'features/my_notes/domain/usecases/get_notes_usecase.dart';
+import 'features/my_notes/domain/usecases/insert_note_usecase.dart';
+import 'features/my_notes/domain/usecases/remove_note_usecase.dart';
+import 'features/my_notes/domain/usecases/update_note_usecase.dart';
 import 'features/my_notes/presentation/bloc/note_bloc.dart';
 
 final di = GetIt.instance;
@@ -19,13 +30,25 @@ Future<void> init() async {
   di.registerSingleton(database);
 
   //Bloc
-  di.registerFactory(() => NoteBloc(di(), di(), di(), di()));
+  di.registerFactory(() => NoteBloc(di(), di()));
 
   //UseCases
-  di.registerLazySingleton(() => UpdateNotes(di()));
-  di.registerLazySingleton(() => GetNotes(di()));
-  di.registerLazySingleton(() => InsertNote(di()));
-  di.registerLazySingleton(() => RemoveNotes(di()));
+  di.registerLazySingleton(() => UpdateNoteUseCase(di()));
+  di.registerLazySingleton(() => GetNotesUseCase(di()));
+  di.registerLazySingleton(() => InsertNoteUseCase(di()));
+  di.registerLazySingleton(() => RemoveNoteUseCase(di()));
+  di.registerLazySingleton(() => GetFavoriteNotesUsecase(di()));
+  di.registerLazySingleton(() => GetDeletedNotesUseCase(di()));
+  di.registerLazySingleton(() => SetNoteDeletedUseCase(di()));
+  di.registerLazySingleton(() => ToggleNoteSelectUseCase(di()));
+  di.registerLazySingleton(() => SetAllNotesUnselectedUseCase(di()));
+  di.registerLazySingleton(() => GetSelectedNotesUseCase(di()));
+  di.registerLazySingleton(() =>
+      NoteUseCases(di(), di(), di(), di(), di(), di(), di(), di(), di(), di()));
+
+  di.registerLazySingleton(() => GetSortTypeUseCase(di()));
+  di.registerLazySingleton(() => InsertSortUseCase(di()));
+  di.registerLazySingleton(() => SortUseCases(di(), di()));
 
   //Repository
   di.registerLazySingleton<NoteRepository>(() => NoteRepositoryImpl(di()));

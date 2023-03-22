@@ -21,10 +21,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<NoteBloc>(
-          create: (_) => di()
-            ..add(
-              const GetNotesEvent(),
-            ),
+            create: (_) => di()..add(const InsertSortEvent())),
+        BlocProvider<NoteBloc>(
+          create: (_) => di()..add(const GetNotesEvent()),
         ),
       ],
       child: MaterialApp.router(

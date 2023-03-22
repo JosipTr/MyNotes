@@ -4,6 +4,7 @@ const onInsertNoteMessage = 'Note successfully added!';
 const onRemoveNoteMessage = 'Note successfully removed!';
 const addNotePageRoute = '/addNote';
 const searchNotePageRoute = '/searchNote';
+const updateNotePageRoute = '/updateNote';
 const homePageRoute = '/';
 
 const selectAll = 'Select all';

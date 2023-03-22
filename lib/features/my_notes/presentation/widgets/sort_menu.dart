@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/enums/update_notes_criteria.dart';
-
-import '../bloc/note_bloc.dart';
-import '../bloc/note_event.dart';
 
 class SortMenu extends StatelessWidget {
   const SortMenu({
@@ -21,11 +16,7 @@ class SortMenu extends StatelessWidget {
               Text('By title', style: Theme.of(context).textTheme.labelMedium!),
             ],
           ),
-          onTap: () {
-            context.read<NoteBloc>().add(const UpdateNotesEvent(
-                criteria: UpdateNotesCriteria.sortType, sortType: 'title'));
-            context.read<NoteBloc>().add(const GetNotesEvent());
-          },
+          onTap: () {},
         ),
         PopupMenuItem(
           child: Row(
@@ -33,11 +24,7 @@ class SortMenu extends StatelessWidget {
               Text('By date', style: Theme.of(context).textTheme.labelMedium!),
             ],
           ),
-          onTap: () {
-            context.read<NoteBloc>().add(const UpdateNotesEvent(
-                criteria: UpdateNotesCriteria.sortType, sortType: 'date'));
-            context.read<NoteBloc>().add(const GetNotesEvent());
-          },
+          onTap: () {},
         ),
       ],
     );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/colors/generate_material_color.dart';
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/features/my_notes/presentation/bloc/note_bloc.dart';
-import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
+import '../../../../core/colors/generate_material_color.dart';
+import '../bloc/note_bloc.dart';
+import '../bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
 class Menu extends StatelessWidget {
@@ -53,8 +52,7 @@ class Menu extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
-                context.read<NoteBloc>().add(
-                    const GetNotesEvent(criteria: GetNotesCriteria.deleted));
+                context.read<NoteBloc>().add(const GetDeletedNotesEvent());
                 Navigator.of(context).pop();
                 context.go('/trashNote');
               },
@@ -69,8 +67,7 @@ class Menu extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
-                context.read<NoteBloc>().add(
-                    const GetNotesEvent(criteria: GetNotesCriteria.favorite));
+                context.read<NoteBloc>().add(const GetFavoriteNotesEvent());
                 Navigator.of(context).pop();
                 context.go('/favoriteNote');
               },

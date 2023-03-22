@@ -1,29 +1,47 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_notes/core/enums/get_notes_criteria.dart';
-import 'package:flutter_notes/core/errors/failure.dart';
 
 import '../../features/my_notes/domain/entities/note.dart';
-import '../enums/update_notes_criteria.dart';
+import '../errors/failure.dart';
 
 abstract class UseCase<Type, Params> {
-  Future<Either<Failure, Type>> call();
+  Future<Either<Failure, Type>> call(Params params);
 }
 
 class NoParams {}
 
-class Params {
-  final Note? note;
-  final String? searchText;
-  final GetNotesCriteria? getNotesCriteria;
-  final String? sortType;
-  final UpdateNotesCriteria? updateNotesCriteria;
-  final int? id;
-  const Params({
-    this.note,
-    this.searchText,
-    this.getNotesCriteria,
-    this.sortType,
-    this.updateNotesCriteria,
-    this.id,
-  });
+class InsertNoteParams {
+  final String title;
+  final String description;
+  const InsertNoteParams({required this.title, required this.description});
+}
+
+class SetNoteDeletedParams {
+  final List<Note> notes;
+  const SetNoteDeletedParams({required this.notes});
+}
+
+class UpdateNoteParams {
+  final Note note;
+  final String title;
+  final String description;
+  const UpdateNoteParams(
+      {required this.note, required this.title, required this.description});
+}
+
+class RemoveNoteParams {
+  final List<Note> notes;
+
+  const RemoveNoteParams({required this.notes});
+}
+
+class ToggleNoteSelectParams {
+  final Note note;
+
+  const ToggleNoteSelectParams({required this.note});
+}
+
+class SetAllNotesUnselectedParams {
+  final List<Note> notes;
+
+  const SetAllNotesUnselectedParams({required this.notes});
 }

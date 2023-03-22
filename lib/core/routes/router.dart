@@ -1,8 +1,9 @@
-import 'package:flutter_notes/core/strings/string.dart';
-import 'package:flutter_notes/features/my_notes/presentation/pages/add_modify_note_page.dart';
-import 'package:flutter_notes/features/my_notes/presentation/pages/favorite_note_page.dart';
-import 'package:flutter_notes/features/my_notes/presentation/pages/search_note_page.dart';
-import 'package:flutter_notes/features/my_notes/presentation/pages/trash_note_page.dart';
+import '../../features/my_notes/presentation/pages/update_note_page.dart';
+import '../strings/string.dart';
+import '../../features/my_notes/presentation/pages/add_note_page.dart';
+import '../../features/my_notes/presentation/pages/favorite_note_page.dart';
+import '../../features/my_notes/presentation/pages/search_note_page.dart';
+import '../../features/my_notes/presentation/pages/trash_note_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/my_notes/domain/entities/note.dart';
@@ -22,13 +23,21 @@ final router = GoRouter(
       ),
       routes: [
         GoRoute(
+          path: 'updateNote',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+            context: context,
+            state: state,
+            child: UpdateNotePage(
+              state.extra as Note,
+            ),
+          ),
+        ),
+        GoRoute(
           path: 'addNote',
           pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
             context: context,
             state: state,
-            child: AddModifyNotePage(
-              note: state.extra as Note?,
-            ),
+            child: const AddNotePage(),
           ),
         ),
         GoRoute(
