@@ -1,6 +1,5 @@
 import 'package:floor/floor.dart';
 
-@entity
 class Note {
   @PrimaryKey(autoGenerate: true)
   final int? id;

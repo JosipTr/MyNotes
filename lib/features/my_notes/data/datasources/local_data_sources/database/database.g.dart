@@ -87,7 +87,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `date` TEXT NOT NULL, `isSelected` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `NoteModel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `date` TEXT NOT NULL, `isSelected` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Sort` (`id` INTEGER NOT NULL, `sortType` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
@@ -113,10 +113,10 @@ class _$NoteDao extends NoteDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _noteInsertionAdapter = InsertionAdapter(
+        _noteModelInsertionAdapter = InsertionAdapter(
             database,
-            'Note',
-            (Note item) => <String, Object?>{
+            'NoteModel',
+            (NoteModel item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
@@ -125,11 +125,11 @@ class _$NoteDao extends NoteDao {
                   'isDeleted': item.isDeleted ? 1 : 0,
                   'isFavorite': item.isFavorite ? 1 : 0
                 }),
-        _noteUpdateAdapter = UpdateAdapter(
+        _noteModelUpdateAdapter = UpdateAdapter(
             database,
-            'Note',
+            'NoteModel',
             ['id'],
-            (Note item) => <String, Object?>{
+            (NoteModel item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
@@ -138,11 +138,11 @@ class _$NoteDao extends NoteDao {
                   'isDeleted': item.isDeleted ? 1 : 0,
                   'isFavorite': item.isFavorite ? 1 : 0
                 }),
-        _noteDeletionAdapter = DeletionAdapter(
+        _noteModelDeletionAdapter = DeletionAdapter(
             database,
-            'Note',
+            'NoteModel',
             ['id'],
-            (Note item) => <String, Object?>{
+            (NoteModel item) => <String, Object?>{
                   'id': item.id,
                   'title': item.title,
                   'description': item.description,
@@ -158,16 +158,16 @@ class _$NoteDao extends NoteDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Note> _noteInsertionAdapter;
+  final InsertionAdapter<NoteModel> _noteModelInsertionAdapter;
 
-  final UpdateAdapter<Note> _noteUpdateAdapter;
+  final UpdateAdapter<NoteModel> _noteModelUpdateAdapter;
 
-  final DeletionAdapter<Note> _noteDeletionAdapter;
+  final DeletionAdapter<NoteModel> _noteModelDeletionAdapter;
 
   @override
-  Future<List<Note>> getNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM Note',
-        mapper: (Map<String, Object?> row) => Note(
+  Future<List<NoteModel>> getNotes() async {
+    return _queryAdapter.queryList('SELECT * FROM NoteModel',
+        mapper: (Map<String, Object?> row) => NoteModel(
             id: row['id'] as int?,
             title: row['title'] as String,
             description: row['description'] as String,
@@ -178,18 +178,19 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
-  Future<void> insertNote(Note note) async {
-    await _noteInsertionAdapter.insert(note, OnConflictStrategy.abort);
+  Future<void> insertNote(NoteModel noteModel) async {
+    await _noteModelInsertionAdapter.insert(
+        noteModel, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateNote(Note note) async {
-    await _noteUpdateAdapter.update(note, OnConflictStrategy.abort);
+  Future<void> updateNote(NoteModel noteModel) async {
+    await _noteModelUpdateAdapter.update(noteModel, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> removeNote(Note note) async {
-    await _noteDeletionAdapter.delete(note);
+  Future<void> removeNote(NoteModel noteModel) async {
+    await _noteModelDeletionAdapter.delete(noteModel);
   }
 }
 

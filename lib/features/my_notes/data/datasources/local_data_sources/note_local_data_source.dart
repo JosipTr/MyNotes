@@ -32,7 +32,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   Future<List<NoteModel>> getNotes() async {
     try {
       final notes = await _appDatabase.noteDao.getNotes();
-      return notes.map((note) => NoteModel.fromNote(note)).toList();
+      return notes;
     } catch (error) {
       log(error.toString());
       throw const DatabaseException();

@@ -1,14 +1,16 @@
 import '../../domain/entities/note.dart';
+import 'package:floor/floor.dart';
 
+@entity
 class NoteModel extends Note {
   NoteModel(
       {super.id,
       required super.title,
       required super.description,
       required super.date,
-      required super.isSelected,
-      required super.isDeleted,
-      required super.isFavorite});
+      super.isSelected,
+      super.isDeleted,
+      super.isFavorite});
 
   factory NoteModel.fromNote(Note note) {
     return NoteModel(

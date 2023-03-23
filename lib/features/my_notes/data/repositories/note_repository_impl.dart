@@ -18,7 +18,8 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Either<Failure, List<Note>>> getNotes() async {
     try {
-      final notes = await _noteLocalDataSource.getNotes();
+      final noteModels = await _noteLocalDataSource.getNotes();
+      final notes = noteModels.map((noteModel) => noteModel.toNote()).toList();
       return Right(notes);
     } on DatabaseException catch (error) {
       return Left(DatabaseFailure(error.message));
