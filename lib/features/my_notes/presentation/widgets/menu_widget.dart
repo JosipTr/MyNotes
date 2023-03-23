@@ -5,8 +5,8 @@ import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
 import 'package:go_router/go_router.dart';
 
-class Menu extends StatelessWidget {
-  const Menu({super.key});
+class MenuWidget extends StatelessWidget {
+  const MenuWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

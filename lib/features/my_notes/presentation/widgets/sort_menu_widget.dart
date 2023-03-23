@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SortMenu extends StatelessWidget {
-  const SortMenu({
+class SortMenuWidget extends StatelessWidget {
+  const SortMenuWidget({
     super.key,
   });
 

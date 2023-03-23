@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EmptyList extends StatelessWidget {
+class EmptyListWidget extends StatelessWidget {
   final String message;
   final String iconPath;
-  const EmptyList({super.key, required this.message, required this.iconPath});
+  const EmptyListWidget(
+      {super.key, required this.message, required this.iconPath});
 
   @override
   Widget build(BuildContext context) {

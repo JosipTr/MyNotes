@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/empty_list.dart';
-import '../widgets/menu.dart';
+import '../widgets/empty_list_widget.dart';
+import '../widgets/menu_widget.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/strings/string_constants.dart';
@@ -16,7 +16,7 @@ class FavoriteNotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Text(StringConstants.appbarFavoriteTitle),
         actions: [
           IconButton(
               onPressed: () {
@@ -30,7 +30,7 @@ class FavoriteNotePage extends StatelessWidget {
               PopupMenuItem(
                 child: Row(
                   children: [
-                    Text('By title',
+                    Text(StringConstants.byTitle,
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
@@ -39,7 +39,7 @@ class FavoriteNotePage extends StatelessWidget {
               PopupMenuItem(
                 child: Row(
                   children: [
-                    Text('By date',
+                    Text(StringConstants.byDate,
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
@@ -50,14 +50,14 @@ class FavoriteNotePage extends StatelessWidget {
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: const Text('Select all'),
+                child: const Text(StringConstants.selectAll),
                 onTap: () {},
               ),
             ],
           ),
         ],
       ),
-      drawer: const Menu(),
+      drawer: const MenuWidget(),
       body: WillPopScope(
         onWillPop: () async {
           context.read<NoteBloc>().add(const GetNotesEvent());
@@ -128,9 +128,9 @@ class FavoriteNotePage extends StatelessWidget {
                 },
               );
             } else if (state is Empty) {
-              return EmptyList(
+              return EmptyListWidget(
                 message: state.message,
-                iconPath: 'assets/images/favorite.png',
+                iconPath: StringConstants.imageFavoriteEmpty,
               );
             } else {
               return const SizedBox();

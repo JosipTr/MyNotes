@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_notes/core/constants/strings/string_constants.dart';
 import '../../../../core/errors/success.dart';
 import '../../../../core/functions/get_datetime.dart';
 import '../entities/note.dart';
@@ -15,7 +16,7 @@ class InsertNoteUseCase implements UseCase<Success, InsertNoteParams> {
   @override
   Future<Either<Failure, Success>> call(InsertNoteParams params) async {
     if (params.title.isEmpty && params.description.isEmpty) {
-      final failure = InputFailure("Note is not added!");
+      final failure = InputFailure(StringConstants.onInsertNoteFailure);
       return Left(failure);
     } else {
       final date = getDateTime();

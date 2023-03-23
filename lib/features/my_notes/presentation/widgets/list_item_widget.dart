@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 
-class ListItem extends StatelessWidget {
+class ListItemWidget extends StatelessWidget {
   final Loaded state;
-  const ListItem({
+  const ListItemWidget({
     super.key,
     required this.state,
   });

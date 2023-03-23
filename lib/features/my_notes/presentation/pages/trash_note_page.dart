@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/empty_list.dart';
-import '../widgets/menu.dart';
+import '../widgets/empty_list_widget.dart';
+import '../widgets/menu_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
 
@@ -31,7 +31,7 @@ class TrashNotePage extends StatelessWidget {
               PopupMenuItem(
                 child: Row(
                   children: [
-                    Text('By title',
+                    Text(StringConstants.byTitle,
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
@@ -40,7 +40,7 @@ class TrashNotePage extends StatelessWidget {
               PopupMenuItem(
                 child: Row(
                   children: [
-                    Text('By date',
+                    Text(StringConstants.byDate,
                         style: Theme.of(context).textTheme.labelMedium!),
                   ],
                 ),
@@ -51,14 +51,14 @@ class TrashNotePage extends StatelessWidget {
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: const Text('Empty Trash'),
+                child: const Text(StringConstants.emptyTrash),
                 onTap: () {},
               ),
             ],
           ),
         ],
       ),
-      drawer: const Menu(),
+      drawer: const MenuWidget(),
       body: WillPopScope(
         onWillPop: () async {
           context.read<NoteBloc>().add(const GetNotesEvent());
@@ -126,9 +126,9 @@ class TrashNotePage extends StatelessWidget {
                 },
               );
             } else if (state is Empty) {
-              return EmptyList(
+              return EmptyListWidget(
                 message: state.message,
-                iconPath: 'assets/images/recycle-bin.png',
+                iconPath: StringConstants.imageTrashEmpty,
               );
             } else {
               return const SizedBox();

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/menu.dart';
+import 'package:flutter_notes/features/my_notes/presentation/widgets/toggle_select_widget.dart';
+import '../widgets/add_note_widget.dart';
+import '../widgets/menu_widget.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
-import '../widgets/empty_list.dart';
-import '../widgets/list_item.dart';
-import '../widgets/select_menu.dart';
-import '../widgets/sort_menu.dart';
+import '../widgets/empty_list_widget.dart';
+import '../widgets/list_item_widget.dart';
+import '../widgets/select_menu_widget.dart';
+import '../widgets/sort_menu_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,24 +19,16 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Menu(),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: FloatingActionButton(
-          child: const Icon(
-            Icons.note_add,
-          ),
-          onPressed: () => context.go(StringConstants.addNotePageRoute),
-        ),
-      ),
+      drawer: const MenuWidget(),
+      floatingActionButton: const AddNoteWidget(),
       appBar: AppBar(
-        title: const Text(StringConstants.appbarTitle),
+        title: const Text(StringConstants.appbarHomeTitle),
         actions: [
           IconButton(
               onPressed: () => context.go(StringConstants.searchNotePageRoute),
               icon: const Icon(Icons.search)),
-          const SortMenu(),
-          const SelectMenu(),
+          const SortMenuWidget(),
+          const ToggleSelectWidget(),
         ],
       ),
       body: BlocConsumer<NoteBloc, NoteState>(
@@ -46,10 +40,10 @@ class HomePage extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is Loaded) {
-            return ListItem(state: state);
+            return ListItemWidget(state: state);
           }
           if (state is Empty) {
-            return EmptyList(
+            return EmptyListWidget(
                 message: state.message,
                 iconPath: StringConstants.imageNotesEmpty);
           }

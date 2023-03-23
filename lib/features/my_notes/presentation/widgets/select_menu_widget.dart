@@ -5,8 +5,8 @@ import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 
-class SelectMenu extends StatelessWidget {
-  const SelectMenu({
+class SelectMenuWidget extends StatelessWidget {
+  const SelectMenuWidget({
     super.key,
   });
 

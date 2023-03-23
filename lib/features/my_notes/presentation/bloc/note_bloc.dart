@@ -92,7 +92,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         (failure) => emit(NoteModifiedState(failure.message)),
         (success) =>
             emit(const NoteModifiedState(StringConstants.onRemoveNoteMessage)));
-    emit(Loaded(event.notes));
   }
 
   void _onToggleNoteSelectEvent(
@@ -110,7 +109,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         (failure) => emit(NoteModifiedState(failure.message)),
         (success) =>
             emit(const NoteModifiedState(StringConstants.onRemoveNoteMessage)));
-    emit(Loaded(event.notes));
   }
 
   void _onToggleAllNotesSelectEvent(
