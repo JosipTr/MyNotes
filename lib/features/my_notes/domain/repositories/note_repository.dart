@@ -12,7 +12,7 @@ abstract class NoteRepository {
   Future<Either<Failure, Success>> updateNote(Note note);
 
   //Sort
-  Future<Either<Failure, Success>> updateSort(Sort sort);
+  Future<Either<Failure, Success>> updateSort(String sortType);
   Future<Either<Failure, Success>> insertSort(Sort sort);
   Future<Either<Failure, String?>> getSortType();
 }

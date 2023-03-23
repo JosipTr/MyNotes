@@ -57,6 +57,12 @@ class ToggleAllNotesSelectEvent extends NoteEvent {
   const ToggleAllNotesSelectEvent({required this.notes});
 }
 
+class RemoveAllNotesEvent extends NoteEvent {
+  final List<Note> notes;
+
+  const RemoveAllNotesEvent({required this.notes});
+}
+
 //SortEvents
 
 class GetSortTypeEvent extends NoteEvent {
@@ -65,4 +71,10 @@ class GetSortTypeEvent extends NoteEvent {
 
 class InsertSortEvent extends NoteEvent {
   const InsertSortEvent();
+}
+
+class UpdateSortEvent extends NoteEvent {
+  final List<Note> notes;
+  final String sortType;
+  const UpdateSortEvent({required this.sortType, required this.notes});
 }

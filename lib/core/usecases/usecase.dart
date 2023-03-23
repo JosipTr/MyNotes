@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../features/my_notes/domain/entities/note.dart';
+import '../../features/my_notes/domain/entities/sort.dart';
 import '../errors/failure.dart';
 
 abstract class UseCase<Type, Params> {
@@ -50,4 +51,17 @@ class GetSelectedNotesParams {
   final List<Note> notes;
 
   const GetSelectedNotesParams({required this.notes});
+}
+
+class RemoveAllNotesParams {
+  final List<Note> notes;
+
+  const RemoveAllNotesParams({required this.notes});
+}
+
+class UpdateSortParams {
+  final List<Note> notes;
+  final String sortType;
+
+  const UpdateSortParams({required this.sortType, required this.notes});
 }

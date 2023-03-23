@@ -6,8 +6,8 @@ import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 
-class ToggleSelectWidget extends StatelessWidget {
-  const ToggleSelectWidget({
+class ToggleSelectPopUpWidget extends StatelessWidget {
+  const ToggleSelectPopUpWidget({
     super.key,
   });
 
@@ -19,7 +19,9 @@ class ToggleSelectWidget extends StatelessWidget {
           return PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: const Text(StringConstants.selectAll),
+                child: state.notes.every((note) => note.isSelected == true)
+                    ? const Text(StringConstants.unSelectAll)
+                    : const Text(StringConstants.selectAll),
                 onTap: () {
                   context
                       .read<NoteBloc>()

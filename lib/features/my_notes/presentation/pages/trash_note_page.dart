@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/presentation/widgets/sort_popup_widget.dart';
 import '../widgets/empty_list_widget.dart';
+import '../widgets/empty_trash_popup_widget.dart';
 import '../widgets/menu_widget.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nil/nil.dart';
@@ -25,37 +27,8 @@ class TrashNotePage extends StatelessWidget {
                 context.go(StringConstants.searchNotePageRoute);
               },
               icon: const Icon(Icons.search)),
-          PopupMenuButton(
-            icon: const Icon(Icons.sort),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Text(StringConstants.byTitle,
-                        style: Theme.of(context).textTheme.labelMedium!),
-                  ],
-                ),
-                onTap: () {},
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Text(StringConstants.byDate,
-                        style: Theme.of(context).textTheme.labelMedium!),
-                  ],
-                ),
-                onTap: () {},
-              ),
-            ],
-          ),
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: const Text(StringConstants.emptyTrash),
-                onTap: () {},
-              ),
-            ],
-          ),
+          const SortPopUpWidget(),
+          const EmptyTrashPopUpWidget()
         ],
       ),
       drawer: const MenuWidget(),

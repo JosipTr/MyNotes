@@ -20,7 +20,7 @@ abstract class NoteLocalDataSource {
 
   Future<void> insertSort(SortModel sortModel);
 
-  Future<void> updateSort(SortModel sortModel);
+  Future<void> updateSort(String sortType);
 }
 
 class NoteLocalDataSourceImpl implements NoteLocalDataSource {
@@ -97,9 +97,9 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   }
 
   @override
-  Future<void> updateSort(SortModel sortModel) async {
+  Future<void> updateSort(String sortType) async {
     try {
-      return await _appDatabase.sortDao.updateSort(sortModel);
+      return await _appDatabase.sortDao.updateSort(sortType);
     } catch (error) {
       log(error.toString());
       throw const DatabaseException();

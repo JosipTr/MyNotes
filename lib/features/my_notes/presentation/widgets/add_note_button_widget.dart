@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/strings/string_constants.dart';
 
-class AddNoteWidget extends StatelessWidget {
-  const AddNoteWidget({
+class AddNoteButtonWidget extends StatelessWidget {
+  const AddNoteButtonWidget({
     super.key,
   });
 

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 
 import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_state.dart';
 
-class SelectMenuWidget extends StatelessWidget {
-  const SelectMenuWidget({
+class EmptyTrashPopUpWidget extends StatelessWidget {
+  const EmptyTrashPopUpWidget({
     super.key,
   });
 
@@ -17,8 +18,13 @@ class SelectMenuWidget extends StatelessWidget {
         return PopupMenuButton(
           itemBuilder: (context) => [
             PopupMenuItem(
-              child: const Text(StringConstants.selectAll),
-              onTap: () {},
+              child: const Text(StringConstants.emptyTrash),
+              onTap: () {
+                context
+                    .read<NoteBloc>()
+                    .add(RemoveAllNotesEvent(notes: state.notes));
+                context.read<NoteBloc>().add(const GetDeletedNotesEvent());
+              },
             ),
           ],
         );
@@ -26,7 +32,7 @@ class SelectMenuWidget extends StatelessWidget {
         return PopupMenuButton(
           itemBuilder: (context) => [
             const PopupMenuItem(
-              child: Text(StringConstants.selectAll),
+              child: Text(StringConstants.emptyTrash),
             ),
           ],
         );

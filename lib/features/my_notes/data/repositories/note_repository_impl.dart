@@ -83,10 +83,9 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
-  Future<Either<Failure, Success>> updateSort(Sort sort) async {
+  Future<Either<Failure, Success>> updateSort(String sortType) async {
     try {
-      final sortModel = SortModel.fromSort(sort);
-      await _noteLocalDataSource.updateSort(sortModel);
+      await _noteLocalDataSource.updateSort(sortType);
       return const Right(Success());
     } on DatabaseException catch (error) {
       return Left(DatabaseFailure(error.message));

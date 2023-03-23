@@ -203,12 +203,6 @@ class _$SortDao extends SortDao {
             database,
             'Sort',
             (Sort item) =>
-                <String, Object?>{'id': item.id, 'sortType': item.sortType}),
-        _sortUpdateAdapter = UpdateAdapter(
-            database,
-            'Sort',
-            ['id'],
-            (Sort item) =>
                 <String, Object?>{'id': item.id, 'sortType': item.sortType});
 
   final sqflite.DatabaseExecutor database;
@@ -219,8 +213,6 @@ class _$SortDao extends SortDao {
 
   final InsertionAdapter<Sort> _sortInsertionAdapter;
 
-  final UpdateAdapter<Sort> _sortUpdateAdapter;
-
   @override
   Future<String?> getSortType() async {
     return _queryAdapter.query('SELECT sortType FROM Sort WHERE id=1',
@@ -228,12 +220,13 @@ class _$SortDao extends SortDao {
   }
 
   @override
-  Future<void> insertSort(Sort sort) async {
-    await _sortInsertionAdapter.insert(sort, OnConflictStrategy.abort);
+  Future<void> updateSort(String sortType) async {
+    await _queryAdapter.queryNoReturn('UPDATE Sort SET sortType=?1 WHERE id=1',
+        arguments: [sortType]);
   }
 
   @override
-  Future<void> updateSort(Sort sort) async {
-    await _sortUpdateAdapter.update(sort, OnConflictStrategy.abort);
+  Future<void> insertSort(Sort sort) async {
+    await _sortInsertionAdapter.insert(sort, OnConflictStrategy.abort);
   }
 }

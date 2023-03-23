@@ -23,6 +23,8 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<GetDeletedNotesEvent>(_onGetDeletedNotesEvent);
     on<GetFavoriteNotesEvent>(_onGetFavoriteNotesEvent);
     on<ToggleAllNotesSelectEvent>(_onToggleAllNotesSelectEvent);
+    on<RemoveAllNotesEvent>(_onRemoveAllNotesEvent);
+    on<UpdateSortEvent>(_onUpdateSortEvent);
   }
 
   void _onGetNotesEvent(GetNotesEvent event, Emitter<NoteState> emit) async {
@@ -118,6 +120,16 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     emit(Loaded(event.notes));
   }
 
+  void _onRemoveAllNotesEvent(
+      RemoveAllNotesEvent event, Emitter<NoteState> emit) async {
+    final either = await _noteUseCases
+        .removeAllNotesUseCase(RemoveAllNotesParams(notes: event.notes));
+    either.fold(
+        (failure) => emit(NoteModifiedState(failure.message)),
+        (success) =>
+            emit(const NoteModifiedState(StringConstants.onRemoveNoteMessage)));
+  }
+
   //Sort
 
   void _onGetSortTypeEvent(
@@ -128,5 +140,12 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   void _onInsertSortEvent(
       InsertSortEvent event, Emitter<NoteState> emit) async {
     await _sortUseCases.insertSortUseCase(NoParams());
+  }
+
+  void _onUpdateSortEvent(
+      UpdateSortEvent event, Emitter<NoteState> emit) async {
+    await _sortUseCases.updateSortUseCase(
+        UpdateSortParams(sortType: event.sortType, notes: event.notes));
+    emit(Loaded(event.notes));
   }
 }

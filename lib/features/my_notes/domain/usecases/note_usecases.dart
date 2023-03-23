@@ -1,3 +1,4 @@
+import 'package:flutter_notes/features/my_notes/domain/usecases/remove_all_notes_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_all_notes_select_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_select_usecase.dart';
 
@@ -19,6 +20,7 @@ class NoteUseCases {
   final UpdateNoteUseCase updateNoteUseCase;
   final ToggleNoteSelectUseCase toggleNoteSelectUseCase;
   final ToggleAllNotesSelectUseCase setAllNotesUnselectedUseCase;
+  final RemoveAllNotesUseCase removeAllNotesUseCase;
 
   const NoteUseCases(
     this.getNotesUseCase,
@@ -30,5 +32,6 @@ class NoteUseCases {
     this.updateNoteUseCase,
     this.toggleNoteSelectUseCase,
     this.setAllNotesUnselectedUseCase,
+    this.removeAllNotesUseCase,
   );
 }
