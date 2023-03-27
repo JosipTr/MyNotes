@@ -17,7 +17,7 @@ class InsertNoteParams {
 }
 
 class SetNoteDeletedParams {
-  final List<Note> notes;
+  final Stream<List<Note>> notes;
   const SetNoteDeletedParams({required this.notes});
 }
 
@@ -37,8 +37,9 @@ class RemoveNoteParams {
 
 class ToggleNoteSelectParams {
   final Note note;
+  final Stream<List<Note>> notes;
 
-  const ToggleNoteSelectParams({required this.note});
+  const ToggleNoteSelectParams({required this.note, required this.notes});
 }
 
 class ToggleAllNotesSelectParams {

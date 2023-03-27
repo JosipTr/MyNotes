@@ -14,7 +14,7 @@ class SortPopUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NoteBloc, NoteState>(
       builder: (context, state) {
-        if (state is Loaded) {
+        if (state.status == NoteStatus.success) {
           return PopupMenuButton(
             icon: const Icon(Icons.sort),
             itemBuilder: (context) => [

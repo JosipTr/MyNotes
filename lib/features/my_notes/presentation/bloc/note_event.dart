@@ -1,7 +1,13 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter_notes/features/my_notes/domain/entities/note_filter.dart';
+
 import '../../domain/entities/note.dart';
 
-abstract class NoteEvent {
+abstract class NoteEvent extends Equatable {
   const NoteEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class GetNotesEvent extends NoteEvent {
@@ -21,6 +27,9 @@ class InsertNoteEvent extends NoteEvent {
   final String description;
 
   const InsertNoteEvent({required this.title, required this.description});
+
+  @override
+  List<Object> get props => [title, description];
 }
 
 class UpdateNoteEvent extends NoteEvent {
@@ -30,37 +39,58 @@ class UpdateNoteEvent extends NoteEvent {
 
   const UpdateNoteEvent(
       {required this.note, required this.title, required this.description});
+
+  @override
+  List<Object> get props => [note, title, description];
 }
 
 class RemoveNoteEvent extends NoteEvent {
   final List<Note> notes;
 
   const RemoveNoteEvent({required this.notes});
+
+  @override
+  List<Object> get props => [notes];
 }
 
 class SetNoteDeletedEvent extends NoteEvent {
-  final List<Note> notes;
-
-  const SetNoteDeletedEvent({required this.notes});
+  const SetNoteDeletedEvent();
 }
 
 class ToggleNoteSelectEvent extends NoteEvent {
-  final List<Note> notes;
   final Note note;
 
-  const ToggleNoteSelectEvent({required this.note, required this.notes});
+  const ToggleNoteSelectEvent({required this.note});
+
+  @override
+  List<Object> get props => [note];
 }
 
 class ToggleAllNotesSelectEvent extends NoteEvent {
   final List<Note> notes;
 
   const ToggleAllNotesSelectEvent({required this.notes});
+
+  @override
+  List<Object> get props => [notes];
 }
 
 class RemoveAllNotesEvent extends NoteEvent {
   final List<Note> notes;
 
   const RemoveAllNotesEvent({required this.notes});
+
+  @override
+  List<Object> get props => [notes];
+}
+
+class NoteFilterChanged extends NoteEvent {
+  final NoteViewFilter filter;
+
+  const NoteFilterChanged(this.filter);
+
+  @override
+  List<Object> get props => [filter];
 }
 
 //SortEvents
@@ -77,4 +107,7 @@ class UpdateSortEvent extends NoteEvent {
   final List<Note> notes;
   final String sortType;
   const UpdateSortEvent({required this.sortType, required this.notes});
+
+  @override
+  List<Object> get props => [notes, sortType];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/domain/entities/note_filter.dart';
 import '../../../../core/colors/generate_material_color.dart';
 import '../bloc/note_bloc.dart';
 import '../bloc/note_event.dart';
@@ -37,8 +38,9 @@ class MenuWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
-                context.read<NoteBloc>().add(const GetNotesEvent());
-                context.go('/');
+                context
+                    .read<NoteBloc>()
+                    .add(const NoteFilterChanged(NoteViewFilter.all));
                 Navigator.of(context).pop();
               },
             ),
@@ -52,9 +54,10 @@ class MenuWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
-                context.read<NoteBloc>().add(const GetDeletedNotesEvent());
+                context
+                    .read<NoteBloc>()
+                    .add(const NoteFilterChanged(NoteViewFilter.deletedOnly));
                 Navigator.of(context).pop();
-                context.go('/trashNote');
               },
             ),
             ListTile(

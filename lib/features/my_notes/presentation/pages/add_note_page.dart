@@ -25,7 +25,6 @@ class AddNotePage extends StatelessWidget {
           action.add(InsertNoteEvent(
               title: titleController.text,
               description: descriptionController.text));
-          action.add(const GetNotesEvent());
           context.pop();
         },
       ),
@@ -34,7 +33,6 @@ class AddNotePage extends StatelessWidget {
           action.add(InsertNoteEvent(
               title: titleController.text,
               description: descriptionController.text));
-          action.add(const GetNotesEvent());
           return true;
         },
         child: Container(

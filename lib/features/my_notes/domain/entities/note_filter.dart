@@ -6,7 +6,7 @@ extension NoteViewFilterX on NoteViewFilter {
   bool apply(Note note) {
     switch (this) {
       case NoteViewFilter.all:
-        return true;
+        return !note.isDeleted;
       case NoteViewFilter.deletedOnly:
         return note.isDeleted;
       case NoteViewFilter.favoriteOnly:

@@ -15,7 +15,7 @@ class ToggleSelectPopUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NoteBloc, NoteState>(
       builder: (context, state) {
-        if (state is Loaded) {
+        if (state.status == NoteStatus.success) {
           return PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(

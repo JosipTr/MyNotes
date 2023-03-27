@@ -30,30 +30,25 @@ class HomePage extends StatelessWidget {
           const ToggleSelectPopUpWidget(),
         ],
       ),
-      body: BlocConsumer<NoteBloc, NoteState>(
-        listener: (context, state) {
-          if (state is NoteModifiedState) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message)));
-          }
-        },
+      body: BlocBuilder<NoteBloc, NoteState>(
         builder: (context, state) {
-          if (state is Loaded) {
-            return ListItemWidget(state: state);
+          if (state.status == NoteStatus.success) {
+            if (state.notes.isEmpty) {
+              return const EmptyListWidget(
+                  message: 'Empty', iconPath: StringConstants.imageNotesEmpty);
+            } else {
+              return ListItemWidget(state: state);
+            }
           }
-          if (state is Empty) {
-            return EmptyListWidget(
-                message: state.message,
-                iconPath: StringConstants.imageNotesEmpty);
-          }
-          if (state is Loading) {
+
+          if (state.status == NoteStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is Error) {
-            return Center(
-              child: Text(state.message),
+          if (state.status == NoteStatus.failure) {
+            return const Center(
+              child: Text("Fail"),
             );
           } else {
             return const SizedBox();

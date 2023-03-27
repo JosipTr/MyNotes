@@ -14,7 +14,7 @@ class EmptyTrashPopUpWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
-      if (state is Loaded) {
+      if (state.status == NoteStatus.success) {
         return PopupMenuButton(
           itemBuilder: (context) => [
             PopupMenuItem(
@@ -23,7 +23,6 @@ class EmptyTrashPopUpWidget extends StatelessWidget {
                 context
                     .read<NoteBloc>()
                     .add(RemoveAllNotesEvent(notes: state.notes));
-                context.read<NoteBloc>().add(const GetDeletedNotesEvent());
               },
             ),
           ],

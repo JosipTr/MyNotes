@@ -220,13 +220,14 @@ class _$SortDao extends SortDao {
 
   @override
   Future<String?> getSortType() async {
-    return _queryAdapter.query('SELECT sortType FROM Sort WHERE id=1',
+    return _queryAdapter.query('SELECT sortType FROM SortModel WHERE id=1',
         mapper: (Map<String, Object?> row) => row.values.first as String);
   }
 
   @override
   Future<void> updateSort(String sortType) async {
-    await _queryAdapter.queryNoReturn('UPDATE Sort SET sortType=?1 WHERE id=1',
+    await _queryAdapter.queryNoReturn(
+        'UPDATE SortModel SET sortType=?1 WHERE id=1',
         arguments: [sortType]);
   }
 

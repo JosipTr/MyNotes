@@ -1,41 +1,30 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter_notes/features/my_notes/domain/entities/note_filter.dart';
+
 import '../../domain/entities/note.dart';
 
-abstract class NoteState {
-  const NoteState();
-}
+enum NoteStatus { initial, loading, success, failure }
 
-class InitialState extends NoteState {
-  const InitialState();
-}
-
-class Empty extends NoteState {
-  final String message;
-  const Empty(this.message);
-}
-
-class Loading extends NoteState {
-  const Loading();
-}
-
-class Loaded extends NoteState {
+class NoteState extends Equatable {
+  final NoteStatus status;
   final List<Note> notes;
+  final NoteViewFilter filter;
+  const NoteState({
+    this.status = NoteStatus.initial,
+    this.notes = const [],
+    this.filter = NoteViewFilter.all,
+  });
 
-  const Loaded(this.notes);
-}
+  Iterable<Note> get filteredNotes => filter.applyAll(notes);
 
-class Error extends NoteState {
-  final String message;
+  NoteState copyWith(
+      {NoteStatus? status, List<Note>? notes, NoteViewFilter? filter}) {
+    return NoteState(
+        status: status ?? this.status,
+        notes: notes ?? this.notes,
+        filter: filter ?? this.filter);
+  }
 
-  const Error(this.message);
-}
-
-class NoteModifiedState extends NoteState {
-  final String message;
-  const NoteModifiedState(this.message);
-}
-
-class SearchNoteLoaded extends NoteState {
-  final List<Note> notes;
-
-  const SearchNoteLoaded(this.notes);
+  @override
+  List<Object> get props => [status, notes, filter];
 }

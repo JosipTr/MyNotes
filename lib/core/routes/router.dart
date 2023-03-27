@@ -40,33 +40,33 @@ final router = GoRouter(
             child: const AddNotePage(),
           ),
         ),
-        GoRoute(
-          path: 'searchNote',
-          builder: (context, state) => const SearchNotePage(),
-          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-            context: context,
-            state: state,
-            child: const SearchNotePage(),
-          ),
-        ),
-        GoRoute(
-          path: 'trashNote',
-          builder: (context, state) => const TrashNotePage(),
-          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-            context: context,
-            state: state,
-            child: const TrashNotePage(),
-          ),
-        ),
-        GoRoute(
-          path: 'favoriteNote',
-          builder: (context, state) => const FavoriteNotePage(),
-          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-            context: context,
-            state: state,
-            child: const FavoriteNotePage(),
-          ),
-        ),
+        // GoRoute(
+        //   path: 'searchNote',
+        //   builder: (context, state) => const SearchNotePage(),
+        //   pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+        //     context: context,
+        //     state: state,
+        //     child: const SearchNotePage(),
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: 'trashNote',
+        //   builder: (context, state) => const TrashNotePage(),
+        //   pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+        //     context: context,
+        //     state: state,
+        //     child: const TrashNotePage(),
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: 'favoriteNote',
+        //   builder: (context, state) => const FavoriteNotePage(),
+        //   pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+        //     context: context,
+        //     state: state,
+        //     child: const FavoriteNotePage(),
+        //   ),
+        // ),
       ],
     ),
   ],

@@ -38,14 +38,14 @@ Future<void> init() async {
   di.registerLazySingleton(() => GetNotesUseCase(di()));
   di.registerLazySingleton(() => InsertNoteUseCase(di()));
   di.registerLazySingleton(() => RemoveNoteUseCase(di()));
-  di.registerLazySingleton(() => GetFavoriteNotesUsecase(di()));
-  di.registerLazySingleton(() => GetDeletedNotesUseCase(di()));
+  // di.registerLazySingleton(() => GetFavoriteNotesUsecase(di()));
+  // di.registerLazySingleton(() => GetDeletedNotesUseCase(di()));
   di.registerLazySingleton(() => SetNoteDeletedUseCase(di()));
-  di.registerLazySingleton(() => const ToggleNoteSelectUseCase());
+  di.registerLazySingleton(() => ToggleNoteSelectUseCase(di()));
   di.registerLazySingleton(() => const ToggleAllNotesSelectUseCase());
   di.registerLazySingleton(() => RemoveAllNotesUseCase(di()));
-  di.registerLazySingleton(() =>
-      NoteUseCases(di(), di(), di(), di(), di(), di(), di(), di(), di(), di()));
+  di.registerLazySingleton(
+      () => NoteUseCases(di(), di(), di(), di(), di(), di(), di(), di()));
 
   di.registerLazySingleton(() => GetSortTypeUseCase(di()));
   di.registerLazySingleton(() => InsertSortUseCase(di()));

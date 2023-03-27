@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/exception.dart';
@@ -13,14 +15,17 @@ import '../models/sort_model.dart';
 class NoteRepositoryImpl implements NoteRepository {
   final NoteLocalDataSource _noteLocalDataSource;
 
-  const NoteRepositoryImpl(this._noteLocalDataSource);
+  NoteRepositoryImpl(this._noteLocalDataSource);
 
   @override
   Future<Either<Failure, Stream<List<Note>>>> getNotes() async {
     try {
-      final noteModels = _noteLocalDataSource.getNotes();
-      final notes = noteModels.map((noteModel) => noteModel.toNote()).toList();
-      return Right(notes);
+      final noteModelStream = _noteLocalDataSource.getNotes();
+      final noteStream = noteModelStream
+          .map((List<NoteModel> noteModels) =>
+              noteModels.map((noteModel) => noteModel.toNote()).toList())
+          .asBroadcastStream();
+      return Right(noteStream);
     } on DatabaseException catch (error) {
       return Left(DatabaseFailure(error.message));
     }
