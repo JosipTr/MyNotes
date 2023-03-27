@@ -13,11 +13,10 @@ class SetNoteDeletedUseCase implements UseCase<Success, SetNoteDeletedParams> {
 
   @override
   Future<Either<Failure, Success>> call(SetNoteDeletedParams params) async {
-    for (var note in params.notes) {
+    for (final note in params.notes) {
       if (note.isSelected == true) {
-        note.isDeleted = true;
-        note.isSelected = false;
-        await _noteRepository.updateNote(note);
+        final newNote = note.copyWith(isDeleted: true, isSelected: false);
+        await _noteRepository.updateNote(newNote);
       }
     }
     return const Right(Success());

@@ -12,7 +12,7 @@ class InsertSortUseCase implements UseCase<Success, NoParams> {
 
   @override
   Future<Either<Failure, Success>> call(NoParams params) async {
-    const sort = Sort(id: 1, sortType: 'title');
+    final sort = Sort(id: 1, sortType: 'title');
     try {
       return await _noteRepository.insertSort(sort);
     } catch (e) {

@@ -10,7 +10,7 @@ class ToggleNoteSelectUseCase
 
   @override
   Future<Either<Failure, Success>> call(ToggleNoteSelectParams params) async {
-    params.note.isSelected = !params.note.isSelected;
+    // params.note.isSelected = !params.note.isSelected;
     return const Right(Success());
   }
 }

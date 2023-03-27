@@ -7,7 +7,7 @@ import '../../models/sort_model.dart';
 import 'database/database.dart';
 
 abstract class NoteLocalDataSource {
-  Future<List<NoteModel>> getNotes();
+  Stream<List<NoteModel>> getNotes();
 
   Future<void> insertNote(NoteModel noteModel);
 
@@ -29,9 +29,9 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
   const NoteLocalDataSourceImpl(this._appDatabase);
 
   @override
-  Future<List<NoteModel>> getNotes() async {
+  Stream<List<NoteModel>> getNotes() {
     try {
-      final notes = await _appDatabase.noteDao.getNotes();
+      final notes = _appDatabase.noteDao.getNotes();
       return notes;
     } catch (error) {
       log(error.toString());

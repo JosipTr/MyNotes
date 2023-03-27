@@ -5,7 +5,7 @@ import '../../../models/note_model.dart';
 @dao
 abstract class NoteDao {
   @Query('SELECT * FROM NoteModel')
-  Future<List<NoteModel>> getNotes();
+  Stream<List<NoteModel>> getNotes();
 
   // @Query(
   //     'SELECT * FROM Note WHERE isDeleted=0 AND (title LIKE :searchValue OR content LIKE :searchValue)')

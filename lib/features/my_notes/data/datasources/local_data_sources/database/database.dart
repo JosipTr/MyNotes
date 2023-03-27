@@ -8,11 +8,12 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../../../../domain/entities/sort.dart';
 import '../../../models/note_model.dart';
+import '../../../models/sort_model.dart';
 import 'note_dao.dart';
 
 part 'database.g.dart'; // the generated code will be there
 
-@Database(version: 1, entities: [NoteModel, Sort])
+@Database(version: 1, entities: [NoteModel, SortModel])
 abstract class AppDatabase extends FloorDatabase {
   NoteDao get noteDao;
   SortDao get sortDao;

@@ -16,9 +16,9 @@ class NoteRepositoryImpl implements NoteRepository {
   const NoteRepositoryImpl(this._noteLocalDataSource);
 
   @override
-  Future<Either<Failure, List<Note>>> getNotes() async {
+  Future<Either<Failure, Stream<List<Note>>>> getNotes() async {
     try {
-      final noteModels = await _noteLocalDataSource.getNotes();
+      final noteModels = _noteLocalDataSource.getNotes();
       final notes = noteModels.map((noteModel) => noteModel.toNote()).toList();
       return Right(notes);
     } on DatabaseException catch (error) {

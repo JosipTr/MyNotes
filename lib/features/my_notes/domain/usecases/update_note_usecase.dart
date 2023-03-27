@@ -11,9 +11,9 @@ class UpdateNoteUseCase implements UseCase<Success, UpdateNoteParams> {
 
   @override
   Future<Either<Failure, Success>> call(UpdateNoteParams params) async {
-    params.note.title = params.title;
-    params.note.description = params.description;
-    params.note.date = getDateTime();
-    return await _noteRepository.updateNote(params.note);
+    final date = getDateTime();
+    final newNote = params.note.copyWith(
+        title: params.title, description: params.description, date: date);
+    return await _noteRepository.updateNote(newNote);
   }
 }

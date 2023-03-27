@@ -89,7 +89,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `NoteModel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `date` TEXT NOT NULL, `isSelected` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isFavorite` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Sort` (`id` INTEGER NOT NULL, `sortType` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `SortModel` (`id` INTEGER NOT NULL, `sortType` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -112,7 +112,7 @@ class _$NoteDao extends NoteDao {
   _$NoteDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _noteModelInsertionAdapter = InsertionAdapter(
             database,
             'NoteModel',
@@ -124,7 +124,8 @@ class _$NoteDao extends NoteDao {
                   'isSelected': item.isSelected ? 1 : 0,
                   'isDeleted': item.isDeleted ? 1 : 0,
                   'isFavorite': item.isFavorite ? 1 : 0
-                }),
+                },
+            changeListener),
         _noteModelUpdateAdapter = UpdateAdapter(
             database,
             'NoteModel',
@@ -137,7 +138,8 @@ class _$NoteDao extends NoteDao {
                   'isSelected': item.isSelected ? 1 : 0,
                   'isDeleted': item.isDeleted ? 1 : 0,
                   'isFavorite': item.isFavorite ? 1 : 0
-                }),
+                },
+            changeListener),
         _noteModelDeletionAdapter = DeletionAdapter(
             database,
             'NoteModel',
@@ -150,7 +152,8 @@ class _$NoteDao extends NoteDao {
                   'isSelected': item.isSelected ? 1 : 0,
                   'isDeleted': item.isDeleted ? 1 : 0,
                   'isFavorite': item.isFavorite ? 1 : 0
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -165,8 +168,8 @@ class _$NoteDao extends NoteDao {
   final DeletionAdapter<NoteModel> _noteModelDeletionAdapter;
 
   @override
-  Future<List<NoteModel>> getNotes() async {
-    return _queryAdapter.queryList('SELECT * FROM NoteModel',
+  Stream<List<NoteModel>> getNotes() {
+    return _queryAdapter.queryListStream('SELECT * FROM NoteModel',
         mapper: (Map<String, Object?> row) => NoteModel(
             id: row['id'] as int?,
             title: row['title'] as String,
@@ -174,7 +177,9 @@ class _$NoteDao extends NoteDao {
             date: row['date'] as String,
             isSelected: (row['isSelected'] as int) != 0,
             isDeleted: (row['isDeleted'] as int) != 0,
-            isFavorite: (row['isFavorite'] as int) != 0));
+            isFavorite: (row['isFavorite'] as int) != 0),
+        queryableName: 'NoteModel',
+        isView: false);
   }
 
   @override
@@ -199,10 +204,10 @@ class _$SortDao extends SortDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _sortInsertionAdapter = InsertionAdapter(
+        _sortModelInsertionAdapter = InsertionAdapter(
             database,
-            'Sort',
-            (Sort item) =>
+            'SortModel',
+            (SortModel item) =>
                 <String, Object?>{'id': item.id, 'sortType': item.sortType});
 
   final sqflite.DatabaseExecutor database;
@@ -211,7 +216,7 @@ class _$SortDao extends SortDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Sort> _sortInsertionAdapter;
+  final InsertionAdapter<SortModel> _sortModelInsertionAdapter;
 
   @override
   Future<String?> getSortType() async {
@@ -226,7 +231,7 @@ class _$SortDao extends SortDao {
   }
 
   @override
-  Future<void> insertSort(Sort sort) async {
-    await _sortInsertionAdapter.insert(sort, OnConflictStrategy.abort);
+  Future<void> insertSort(SortModel sort) async {
+    await _sortModelInsertionAdapter.insert(sort, OnConflictStrategy.abort);
   }
 }

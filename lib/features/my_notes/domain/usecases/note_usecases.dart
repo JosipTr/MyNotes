@@ -12,8 +12,8 @@ import 'update_note_usecase.dart';
 
 class NoteUseCases {
   final GetNotesUseCase getNotesUseCase;
-  final GetFavoriteNotesUsecase getFavoriteNotesUsecase;
-  final GetDeletedNotesUseCase getDeletedNotesUseCase;
+  // final GetFavoriteNotesUsecase getFavoriteNotesUsecase;
+  // final GetDeletedNotesUseCase getDeletedNotesUseCase;
   final InsertNoteUseCase insertNoteUseCase;
   final RemoveNoteUseCase removeNoteUseCase;
   final SetNoteDeletedUseCase setNoteDeletedUseCase;
@@ -24,8 +24,8 @@ class NoteUseCases {
 
   const NoteUseCases(
     this.getNotesUseCase,
-    this.getFavoriteNotesUsecase,
-    this.getDeletedNotesUseCase,
+    // this.getFavoriteNotesUsecase,
+    // this.getDeletedNotesUseCase,
     this.insertNoteUseCase,
     this.removeNoteUseCase,
     this.setNoteDeletedUseCase,

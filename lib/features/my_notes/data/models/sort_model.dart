@@ -1,5 +1,8 @@
+import 'package:floor/floor.dart';
+
 import '../../domain/entities/sort.dart';
 
+@entity
 class SortModel extends Sort {
   SortModel({required super.id, required super.sortType});
 
