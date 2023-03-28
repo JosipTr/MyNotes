@@ -23,9 +23,7 @@ class ToggleSelectPopUpWidget extends StatelessWidget {
                     ? const Text(StringConstants.unSelectAll)
                     : const Text(StringConstants.selectAll),
                 onTap: () {
-                  context
-                      .read<NoteBloc>()
-                      .add(ToggleAllNotesSelectEvent(notes: state.notes));
+                  context.read<NoteBloc>().add(ToggleAllNotesSelectEvent());
                 },
               ),
             ],

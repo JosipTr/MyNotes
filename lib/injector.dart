@@ -42,7 +42,7 @@ Future<void> init() async {
   // di.registerLazySingleton(() => GetDeletedNotesUseCase(di()));
   di.registerLazySingleton(() => SetNoteDeletedUseCase(di()));
   di.registerLazySingleton(() => ToggleNoteSelectUseCase(di()));
-  di.registerLazySingleton(() => const ToggleAllNotesSelectUseCase());
+  di.registerLazySingleton(() => ToggleAllNotesSelectUseCase(di()));
   di.registerLazySingleton(() => RemoveAllNotesUseCase(di()));
   di.registerLazySingleton(
       () => NoteUseCases(di(), di(), di(), di(), di(), di(), di(), di()));

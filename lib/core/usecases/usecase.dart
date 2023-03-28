@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../features/my_notes/domain/entities/note.dart';
 import '../../features/my_notes/domain/entities/sort.dart';
@@ -17,7 +18,7 @@ class InsertNoteParams {
 }
 
 class SetNoteDeletedParams {
-  final Stream<List<Note>> notes;
+  final List<Note> notes;
   const SetNoteDeletedParams({required this.notes});
 }
 
@@ -37,7 +38,7 @@ class RemoveNoteParams {
 
 class ToggleNoteSelectParams {
   final Note note;
-  final Stream<List<Note>> notes;
+  final List<Note> notes;
 
   const ToggleNoteSelectParams({required this.note, required this.notes});
 }

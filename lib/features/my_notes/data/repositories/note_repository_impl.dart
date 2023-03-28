@@ -21,10 +21,8 @@ class NoteRepositoryImpl implements NoteRepository {
   Future<Either<Failure, Stream<List<Note>>>> getNotes() async {
     try {
       final noteModelStream = _noteLocalDataSource.getNotes();
-      final noteStream = noteModelStream
-          .map((List<NoteModel> noteModels) =>
-              noteModels.map((noteModel) => noteModel.toNote()).toList())
-          .asBroadcastStream();
+      final noteStream = noteModelStream.map((List<NoteModel> noteModels) =>
+          noteModels.map((noteModel) => noteModel.toNote()).toList());
       return Right(noteStream);
     } on DatabaseException catch (error) {
       return Left(DatabaseFailure(error.message));

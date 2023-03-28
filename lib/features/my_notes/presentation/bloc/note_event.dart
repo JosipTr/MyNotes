@@ -67,12 +67,10 @@ class ToggleNoteSelectEvent extends NoteEvent {
 }
 
 class ToggleAllNotesSelectEvent extends NoteEvent {
-  final List<Note> notes;
-
-  const ToggleAllNotesSelectEvent({required this.notes});
+  const ToggleAllNotesSelectEvent();
 
   @override
-  List<Object> get props => [notes];
+  List<Object> get props => [];
 }
 
 class RemoveAllNotesEvent extends NoteEvent {
