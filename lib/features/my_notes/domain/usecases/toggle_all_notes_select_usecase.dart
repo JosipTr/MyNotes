@@ -13,8 +13,9 @@ class ToggleAllNotesSelectUseCase
   @override
   Future<Either<Failure, Success>> call(
       ToggleAllNotesSelectParams params) async {
+    final areAllCompleted = params.notes.every((note) => note.isSelected);
     for (final note in params.notes) {
-      final newNote = note.copyWith(isSelected: true);
+      final newNote = note.copyWith(isSelected: !areAllCompleted);
       await _noteRepository.updateNote(newNote);
     }
     return const Right(Success());
