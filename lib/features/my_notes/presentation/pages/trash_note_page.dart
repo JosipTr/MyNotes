@@ -6,7 +6,6 @@ import '../widgets/empty_list_widget.dart';
 import '../widgets/empty_trash_popup_widget.dart';
 import '../widgets/menu_widget.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nil/nil.dart';
 
 import '../../../../core/constants/strings/string_constants.dart';
 import '../bloc/note_bloc.dart';

@@ -1,15 +1,12 @@
-import 'package:flutter_notes/core/usecases/usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/get_sort_type_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/insert_sort_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/remove_all_notes_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_all_notes_select_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/sort_usecases.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_favorite_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_select_usecase.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/unselect_all_notes.dart';
+import 'features/my_notes/domain/usecases/get_sort_type_usecase.dart';
+import 'features/my_notes/domain/usecases/insert_sort_usecase.dart';
+import 'features/my_notes/domain/usecases/remove_all_notes_usecase.dart';
+import 'features/my_notes/domain/usecases/toggle_all_notes_select_usecase.dart';
+import 'features/my_notes/domain/usecases/sort_usecases.dart';
+import 'features/my_notes/domain/usecases/toggle_note_favorite_usecase.dart';
+import 'features/my_notes/domain/usecases/toggle_note_select_usecase.dart';
+import 'features/my_notes/domain/usecases/unselect_all_notes.dart';
 
-import 'features/my_notes/domain/usecases/get_deleted_notes_usecase.dart';
-import 'features/my_notes/domain/usecases/get_favorite_notes_usecase.dart';
 import 'features/my_notes/domain/usecases/note_usecases.dart';
 import 'features/my_notes/domain/usecases/set_note_deleted_usecase.dart';
 import 'package:get_it/get_it.dart';
@@ -41,8 +38,6 @@ Future<void> init() async {
   di.registerLazySingleton(() => GetNotesUseCase(di()));
   di.registerLazySingleton(() => InsertNoteUseCase(di()));
   di.registerLazySingleton(() => RemoveNoteUseCase(di()));
-  // di.registerLazySingleton(() => GetFavoriteNotesUsecase(di()));
-  // di.registerLazySingleton(() => GetDeletedNotesUseCase(di()));
   di.registerLazySingleton(() => SetNoteDeletedUseCase(di()));
   di.registerLazySingleton(() => ToggleNoteSelectUseCase(di()));
   di.registerLazySingleton(() => ToggleAllNotesSelectUseCase(di()));

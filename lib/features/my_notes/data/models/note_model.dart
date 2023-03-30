@@ -3,7 +3,7 @@ import 'package:floor/floor.dart';
 
 @entity
 class NoteModel extends Note {
-  NoteModel(
+  const NoteModel(
       {super.id,
       required super.title,
       required super.description,

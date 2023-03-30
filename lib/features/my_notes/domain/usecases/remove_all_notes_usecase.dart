@@ -17,6 +17,7 @@ class RemoveAllNotesUseCase implements UseCase<Success, RemoveAllNotesParams> {
         await _noteRepository.removeNote(note);
       }
     }
+    params.notes.where((note) => note.isDeleted);
     return const Right(Success());
   }
 }

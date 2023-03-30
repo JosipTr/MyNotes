@@ -14,7 +14,7 @@ extension NoteViewFilterX on NoteViewFilter {
     }
   }
 
-  Iterable<Note> applyAll(Iterable<Note> notes) {
-    return notes.where(apply);
+  List<Note> applyAll(List<Note> notes) {
+    return notes.where(apply).toList();
   }
 }

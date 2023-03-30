@@ -76,6 +76,10 @@ class ListItemWidget extends StatelessWidget {
                       )
                     : IconButton(
                         onPressed: () {
+                          if (state.filter == NoteViewFilter.deletedOnly) {
+                            context.read<NoteBloc>().add(
+                                RemoveNoteEvent(notes: state.filteredNotes));
+                          }
                           context
                               .read<NoteBloc>()
                               .add(const SetNoteDeletedEvent());

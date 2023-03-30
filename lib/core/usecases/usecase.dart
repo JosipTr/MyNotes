@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../features/my_notes/domain/entities/note.dart';
-import '../../features/my_notes/domain/entities/sort.dart';
 import '../errors/failure.dart';
 
 abstract class UseCase<Type, Params> {

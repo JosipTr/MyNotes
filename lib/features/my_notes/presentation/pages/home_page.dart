@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/features/my_notes/domain/usecases/unselect_all_notes.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/toggle_select_popup_widget.dart';
 import '../widgets/add_note_button_widget.dart';
@@ -41,9 +40,10 @@ class HomePage extends StatelessWidget {
         },
         builder: (context, state) {
           if (state.status == NoteStatus.success) {
-            if (state.notes.isEmpty) {
+            if (state.filteredNotes.isEmpty) {
               return const EmptyListWidget(
-                  message: 'Empty', iconPath: StringConstants.imageNotesEmpty);
+                  message: 'You don\'t have any notes!',
+                  iconPath: StringConstants.imageNotesEmpty);
             } else {
               return ListItemWidget(state: state);
             }

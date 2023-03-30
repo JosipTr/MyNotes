@@ -7,7 +7,7 @@ class Sort extends Equatable {
   final int id;
   final String sortType;
 
-  Sort({required this.id, required this.sortType});
+  const Sort({required this.id, required this.sortType});
 
   Sort copyWith({int? id, String? sortType}) {
     return Sort(id: id ?? this.id, sortType: sortType ?? this.sortType);

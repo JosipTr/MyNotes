@@ -1,5 +1,3 @@
-import 'package:rxdart/rxdart.dart';
-
 import '../../../../core/errors/failure.dart';
 
 import 'package:dartz/dartz.dart';

@@ -77,7 +77,7 @@ class NoteLocalDataSourceImpl implements NoteLocalDataSource {
       if (await _appDatabase.sortDao.getSortType() != null) {
         return _appDatabase.sortDao.getSortType();
       } else {
-        insertSort(SortModel(id: 1, sortType: 'title'));
+        insertSort(const SortModel(id: 1, sortType: 'title'));
         return await _appDatabase.sortDao.getSortType();
       }
     } catch (error) {

@@ -15,8 +15,7 @@ class NoteState extends Equatable {
     this.filter = NoteViewFilter.all,
   });
 
-  Iterable<Note> get filteredNotes => filter.applyAll(notes);
-
+  List<Note> get filteredNotes => filter.applyAll(notes);
   NoteState copyWith(
       {NoteStatus? status, List<Note>? notes, NoteViewFilter? filter}) {
     return NoteState(

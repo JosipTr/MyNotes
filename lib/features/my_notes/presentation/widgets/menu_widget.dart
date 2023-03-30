@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/constants/strings/string_constants.dart';
 import 'package:flutter_notes/features/my_notes/domain/entities/note_filter.dart';
 import '../../../../core/colors/generate_material_color.dart';
 import '../bloc/note_bloc.dart';
@@ -39,9 +38,11 @@ class MenuWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               onTap: () {
+                context.go('/');
                 context
                     .read<NoteBloc>()
                     .add(const NoteFilterChanged(NoteViewFilter.all));
+
                 Navigator.of(context).pop();
               },
             ),

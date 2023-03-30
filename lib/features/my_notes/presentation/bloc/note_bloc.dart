@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_notes/core/constants/strings/string_constants.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/sort_usecases.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -127,11 +126,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   }
 
   //Sort
-
-  void _onGetSortTypeEvent(
-      GetSortTypeEvent event, Emitter<NoteState> emit) async {
-    await _sortUseCases.getSortTypeUseCase(NoParams());
-  }
 
   void _onInsertSortEvent(
       InsertSortEvent event, Emitter<NoteState> emit) async {

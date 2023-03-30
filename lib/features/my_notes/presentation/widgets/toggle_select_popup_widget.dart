@@ -13,32 +13,19 @@ class ToggleSelectPopUpWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NoteBloc, NoteState>(
-      builder: (context, state) {
-        if (state.status == NoteStatus.success) {
-          return PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: state.notes.every((note) => note.isSelected == true)
-                    ? const Text(StringConstants.unSelectAll)
-                    : const Text(StringConstants.selectAll),
-                onTap: () {
-                  context.read<NoteBloc>().add(ToggleAllNotesSelectEvent());
-                },
-              ),
-            ],
-          );
-        } else {
-          return PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: const Text(StringConstants.selectAll),
-                onTap: () {},
-              ),
-            ],
-          );
-        }
-      },
-    );
+    return BlocBuilder<NoteBloc, NoteState>(builder: (context, state) {
+      return PopupMenuButton(
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            child: state.filteredNotes.every((note) => note.isSelected == true)
+                ? const Text(StringConstants.unSelectAll)
+                : const Text(StringConstants.selectAll),
+            onTap: () {
+              context.read<NoteBloc>().add(const ToggleAllNotesSelectEvent());
+            },
+          ),
+        ],
+      );
+    });
   }
 }

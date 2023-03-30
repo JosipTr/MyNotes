@@ -4,7 +4,7 @@ import '../../domain/entities/sort.dart';
 
 @entity
 class SortModel extends Sort {
-  SortModel({required super.id, required super.sortType});
+  const SortModel({required super.id, required super.sortType});
 
   factory SortModel.fromSort(Sort sort) {
     return SortModel(
