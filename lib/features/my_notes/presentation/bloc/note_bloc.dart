@@ -27,6 +27,8 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<RemoveAllNotesEvent>(_onRemoveAllNotesEvent);
     on<UpdateSortEvent>(_onUpdateSortEvent);
     on<NoteFilterChanged>(_onFilterChanged);
+    on<NoteAllUnselectEvent>(_onUnselectAllNotesEvent);
+    on<ToggleNoteFaovoriteEvent>(_onToggleNoteFavorite);
   }
 
   // Stream<List<Note>> noteStream = const Stream.empty();
@@ -118,6 +120,12 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         .removeAllNotesUseCase(RemoveAllNotesParams(notes: event.notes));
   }
 
+  void _onToggleNoteFavorite(
+      ToggleNoteFaovoriteEvent event, Emitter<NoteState> emit) async {
+    await _noteUseCases
+        .toggleNoteFavorite(ToggleNoteFavoriteParams(note: event.note));
+  }
+
   //Sort
 
   void _onGetSortTypeEvent(
@@ -134,5 +142,10 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       UpdateSortEvent event, Emitter<NoteState> emit) async {
     await _sortUseCases.updateSortUseCase(
         UpdateSortParams(sortType: event.sortType, notes: event.notes));
+  }
+
+  void _onUnselectAllNotesEvent(
+      NoteAllUnselectEvent event, Emitter<NoteState> emit) async {
+    await _noteUseCases.unselectAllNotes(UnselectAllParams(notes: state.notes));
   }
 }

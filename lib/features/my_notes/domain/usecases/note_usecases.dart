@@ -1,6 +1,8 @@
 import 'package:flutter_notes/features/my_notes/domain/usecases/remove_all_notes_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_favorite_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_all_notes_select_usecase.dart';
 import 'package:flutter_notes/features/my_notes/domain/usecases/toggle_note_select_usecase.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/unselect_all_notes.dart';
 
 import 'get_deleted_notes_usecase.dart';
 import 'get_favorite_notes_usecase.dart';
@@ -21,6 +23,8 @@ class NoteUseCases {
   final ToggleNoteSelectUseCase toggleNoteSelectUseCase;
   final ToggleAllNotesSelectUseCase setAllNotesUnselectedUseCase;
   final RemoveAllNotesUseCase removeAllNotesUseCase;
+  final UnselectAllNotes unselectAllNotes;
+  final ToggleNoteFavoriteUsecase toggleNoteFavorite;
 
   const NoteUseCases(
     this.getNotesUseCase,
@@ -33,5 +37,7 @@ class NoteUseCases {
     this.toggleNoteSelectUseCase,
     this.setAllNotesUnselectedUseCase,
     this.removeAllNotesUseCase,
+    this.unselectAllNotes,
+    this.toggleNoteFavorite,
   );
 }

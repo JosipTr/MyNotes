@@ -67,3 +67,15 @@ class UpdateSortParams {
 
   const UpdateSortParams({required this.sortType, required this.notes});
 }
+
+class UnselectAllParams {
+  final List<Note> notes;
+
+  const UnselectAllParams({required this.notes});
+}
+
+class ToggleNoteFavoriteParams {
+  final Note note;
+
+  const ToggleNoteFavoriteParams({required this.note});
+}

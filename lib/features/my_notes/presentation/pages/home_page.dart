@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_notes/features/my_notes/domain/usecases/unselect_all_notes.dart';
 import 'package:flutter_notes/features/my_notes/presentation/bloc/note_event.dart';
 import 'package:flutter_notes/features/my_notes/presentation/widgets/toggle_select_popup_widget.dart';
 import '../widgets/add_note_button_widget.dart';
@@ -36,7 +37,7 @@ class HomePage extends StatelessWidget {
             previous.status != current.status ||
             previous.filter != current.filter,
         listener: (context, state) {
-          context.read<NoteBloc>().add(const ToggleAllNotesSelectEvent());
+          context.read<NoteBloc>().add(const NoteAllUnselectEvent());
         },
         builder: (context, state) {
           if (state.status == NoteStatus.success) {

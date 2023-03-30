@@ -49,24 +49,25 @@ final router = GoRouter(
         //     child: const SearchNotePage(),
         //   ),
         // ),
-        // GoRoute(
-        //   path: 'trashNote',
-        //   builder: (context, state) => const TrashNotePage(),
-        //   pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-        //     context: context,
-        //     state: state,
-        //     child: const TrashNotePage(),
-        //   ),
         // ),
-        // GoRoute(
-        //   path: 'favoriteNote',
-        //   builder: (context, state) => const FavoriteNotePage(),
-        //   pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-        //     context: context,
-        //     state: state,
-        //     child: const FavoriteNotePage(),
-        //   ),
-        // ),
+        GoRoute(
+          path: 'favoriteNote',
+          builder: (context, state) => const FavoriteNotePage(),
+          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+            context: context,
+            state: state,
+            child: const FavoriteNotePage(),
+          ),
+        ),
+        GoRoute(
+          path: 'trashNote',
+          builder: (context, state) => const TrashNotePage(),
+          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+            context: context,
+            state: state,
+            child: const TrashNotePage(),
+          ),
+        )
       ],
     ),
   ],

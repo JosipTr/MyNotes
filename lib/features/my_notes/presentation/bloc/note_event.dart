@@ -91,6 +91,16 @@ class NoteFilterChanged extends NoteEvent {
   List<Object> get props => [filter];
 }
 
+class NoteAllUnselectEvent extends NoteEvent {
+  const NoteAllUnselectEvent();
+}
+
+class ToggleNoteFaovoriteEvent extends NoteEvent {
+  final Note note;
+
+  const ToggleNoteFaovoriteEvent(this.note);
+}
+
 //SortEvents
 
 class GetSortTypeEvent extends NoteEvent {
